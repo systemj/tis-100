@@ -1,0 +1,52 @@
+
+
+<div class="node" id="node-1">
+  <div class="node-arrows">
+    <span class="node-arrow node-arrow-up">↑</span>
+    <span class="node-arrow node-arrow-right">→</span>
+    <span class="node-arrow node-arrow-down">↓</span>
+    <span class="node-arrow node-arrow-left">←</span>
+  </div>
+  <div class="node-main">
+    <div class="node-code-area node-1-code">
+      <!-- Code lines go here -->
+      MOV NIL DOWN<br>
+      Z:MOV UP ACC<br>
+      JLZ K<br>
+      MOV ACC LEFT<br>
+      JEZ A<br>
+      JMP Z<br>
+      A:MOV LEFT RIGHT<br>
+      MOV -1 LEFT<br>
+      B:MOV RIGHT ACC<br>
+      JLZ T<br>
+      MOV ACC LEFT<br>
+      JEZ A<br>
+      JMP B<br>
+      K:MOV ACC RIGHT<br>
+      T:MOV DOWN NIL
+    </div>
+    <div class="node-status">
+      <div class="node-status-box node-1-acc">
+        <div class="node-status-label">ACC</div>
+        <div class="node-status-value">0</div>
+      </div>
+      <div class="node-status-box node-1-bak">
+        <div class="node-status-label">BAK</div>
+        <div class="node-status-value">(0)</div>
+      </div>
+      <div class="node-status-box node-1-last">
+        <div class="node-status-label">LAST</div>
+        <div class="node-status-value">N/A</div>
+      </div>
+      <div class="node-status-box node-1-mode">
+        <div class="node-status-label">MODE</div>
+        <div class="node-status-value">IDLE</div>
+      </div>
+      <div class="node-status-box node-1-idle">
+        <div class="node-status-label">IDLE</div>
+        <div class="node-status-value">0%</div>
+      </div>
+    </div>
+  </div>
+</div>
