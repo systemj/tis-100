@@ -9,6 +9,26 @@ body, * {
   font-family: 'PerfectDOS', monospace !important;
 }
 
+#node-1 {
+  left: 100px;
+  top: 100px;
+}
+
+#node-2 {
+  left: 420px;
+  top: 100px;
+}
+
+#node-3 {
+  left: 100px;
+  top: 400px;
+}
+
+#node-4 {
+  left: 420px;
+  top: 400px;
+}
+
 
 .node {
   display: inline-block;
@@ -18,7 +38,7 @@ body, * {
   border: 1px solid #fff;
   padding: 2px 2px;
   margin: 0px;
-  position: relative;
+  position: absolute;
   min-width: 250px;
   left: 100px;
   top: 100px;
@@ -43,8 +63,8 @@ body, * {
 
 .node-arrow-up    { left: -40px; top: -8px; }
 .node-arrow-down  { left: 10px; top: 294px; }
-.node-arrow-left  { left: -164px; top: 164px; }
-.node-arrow-right { left: 140px; top: 120px; }
+.node-arrow-left  { left: -170px; top: 164px; }
+.node-arrow-right { left: 150px; top: 120px; }
 
 .node-output-value {
   position: absolute;
@@ -54,9 +74,9 @@ body, * {
 }
 
 .node-output-up    { left: -76px; top: 4px; text-align: right; }
-.node-output-down  { left: 32px; top: 300px; text-align: left; }
-.node-output-left  { left: -178px; top: 160px; text-align: right;}
-.node-output-right { left: 142px; top: 116px; text-align: left; }
+.node-output-down  { left: 32px; top: 303px; text-align: left; }
+.node-output-left  { left: -178px; top: 160px; text-align: center;}
+.node-output-right { left: 142px; top: 116px; text-align: center; }
 
 .node-main {
   display: flex;
