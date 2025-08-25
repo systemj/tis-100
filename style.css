@@ -20,6 +20,8 @@ body, * {
   margin: 0px;
   position: relative;
   min-width: 250px;
+  left: 100px;
+  top: 100px;
 }
 .node-arrows {
   position: absolute;
@@ -31,14 +33,30 @@ body, * {
 }
 .node-arrow {
   position: absolute;
-  font-size: 22px;
-  color: #fff;
-  opacity: 0.7;
+  font-size: 30px;
+  color: #555;
 }
-.node-arrow-up    { left: -10px; top: -24px; }
-.node-arrow-down  { left: -10px; top: 220px; }
-.node-arrow-left  { left: -48px; top: 98px; }
-.node-arrow-right { left: 28px; top: 98px; }
+
+.node-arrow-active {
+  color: #fff;
+}
+
+.node-arrow-up    { left: -40px; top: -8px; }
+.node-arrow-down  { left: 10px; top: 294px; }
+.node-arrow-left  { left: -164px; top: 164px; }
+.node-arrow-right { left: 140px; top: 120px; }
+
+.node-output-value {
+  position: absolute;
+  color: #fff;
+  font-size: 16px;
+  width: 40px;
+}
+
+.node-output-up    { left: -76px; top: 4px; text-align: right; }
+.node-output-down  { left: 32px; top: 300px; text-align: left; }
+.node-output-left  { left: -178px; top: 160px; text-align: right;}
+.node-output-right { left: 142px; top: 116px; text-align: left; }
 
 .node-main {
   display: flex;
@@ -97,7 +115,12 @@ body, * {
     width: 100%;
 }
 
-.node-line-highlight {
+.node-line-execute {
+  color: #000;
+  background-color: #fff;
+}
+
+.node-line-blocked {
   color: #000;
   background-color: #aaa;
 }
