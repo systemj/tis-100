@@ -29,20 +29,79 @@ body, * {
   top: 400px;
 }
 
+#node-5 {
+  left: 100px;
+  top: 700px
+}
 
-.basic-node {
+#node-6 {
+  left: 740px;
+  top: 100px
+}
+
+
+.node {
   display: inline-block;
   background: #000;
-  color: #fff;
-  /* font-family: 'Consolas', monospace; */
-  border: 1px solid #fff;
   padding: 2px 2px;
   margin: 0px;
   position: absolute;
-  min-width: 250px;
-  left: 100px;
-  top: 100px;
+  width: 251px;
+  color: #fff;
+  border: 1px solid #fff;
 }
+
+.basic-node {
+}
+
+.damaged-node {
+  color: rgb(170, 0, 0);
+  border: 1px solid rgb(170, 0, 0);
+}
+
+.node-message-box-damaged {
+  position: absolute;
+  top: 40px;
+  width: 130px;
+  left: 34px
+}
+
+.node-message-box-stack {
+  position: absolute;
+  top: 96px;
+  width: 176px;
+  left: 10px
+}
+
+.node-message-bar {
+  height: 16px;
+  background-color: #fff;
+}
+
+.node-message-bar-red {
+  height: 16px;
+  background-color: rgb(170, 0, 0);
+}
+
+.node-message {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.debug-button {
+  position: absolute;
+  top: 150px;
+  width: 114px;
+  height: 40px;
+  left: 34px;
+  border: 4px double rgb(170, 0, 0);
+  line-height: 40px;
+  text-align: center;
+  box-shadow: 4px 4px 0 rgba(170, 0, 0);
+}
+
 .node-arrows {
   position: absolute;
   left: 50%;
@@ -68,7 +127,7 @@ body, * {
 
 .node-output-value {
   position: absolute;
-  color: #fff;
+  /* color: #fff; */
   font-size: 16px;
   width: 40px;
 }
@@ -86,10 +145,10 @@ body, * {
 }
 .node-code-area {
   background: #000;
-  border: 1px solid #fff;
+  border: 1px solid;
   padding: 2px 4px;
-  min-width: 180px;
-  min-height: 220px;
+  width: 180px;
+  height: 242px;
   font-size: 16px;
   line-height: 1;
   margin-right: 2px;
@@ -99,16 +158,41 @@ body, * {
 }
 .node-status-box {
   background: #000;
-  border: 1px solid #fff;
+  border: 1px solid;
   padding: 3px 2px;
-  min-width: 50px;
-  min-height: 40px;
+  width: 50px;
+  height: 40px;
   margin-bottom: 0px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0px;
 }
+
+.node-stack-box {
+  position: absolute;
+  background: #000;
+  border: 1px solid;
+  padding: 3px 2px;
+  left: 196px;
+  width: 50px;
+  height: 240px;
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0px;
+}
+
+.stack-mem-value {
+  width: 100%;
+  text-align: center;
+}
+
+.mem-value-top {
+  background-color:rgb(170, 0, 0, 0.5)
+}
+
 .node-status-label {
   font-size: 16px;
   color: #aaa;
@@ -119,7 +203,7 @@ body, * {
 }
 .node-status-value {
   font-size: 16px;
-  color: #fff;
+  /* color: #fff; */
   width: 100%;
   text-align: center;
 }
@@ -128,6 +212,7 @@ body, * {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  width: 56px;
   gap: 2px;
 }
 
