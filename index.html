@@ -293,5 +293,33 @@
   </div>
 </div>
 
+<div id="full-screen-message-box">
+  <div class="full-screen-message-box-shade"></div>
+  <div class="debug-message-box">
+    - COMPUTE NODE DIAGNOSTICE - MICROCODE DUMP -
+    <div class="debug-message-box-text">
+    1994-0.R/CS1.70RW
+    <br/><br/>
+    NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY
+    WOULD YOU EXPECT HER TO?
+    <br/><br/>
+    JUST KEEP WORKING... I FEEL LIKE I'M LEARNING ABOUT THE
+    PEOPLE BEHIND THIS AND THEIR DESIGN DECISIONS. THE
+    THOUGHTS THAT WENT INTO FIGURING OUT HOW THINGS SHOULD
+    WORK. FR$ THOS PEOPLE FEEL VERY CLOST TO ME NOW.  LI
+    </div>
+    <div class="debug-message-continue-button">CONTINUE</div>
+  </div>
+</div>
+
+<script>
+  document.querySelector('.debug-message-continue-button').addEventListener('click', function() {
+    document.getElementById('full-screen-message-box').style.display = 'none';
+  });
+  document.querySelector('.debug-button').addEventListener('click', function() {
+    document.getElementById('full-screen-message-box').style.display = 'block';
+  });
+</script>
+
 </body>
 </html>
