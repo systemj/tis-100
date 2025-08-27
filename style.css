@@ -47,8 +47,8 @@ body, * {
   margin: 0px;
   position: absolute;
   width: 251px;
-  color: #fff;
-  border: 1px solid #fff;
+  color: #eee;
+  border: 1px solid #eee;
 }
 
 .basic-node {
@@ -228,7 +228,11 @@ body, * {
 
 .node-line-blocked {
   color: #000;
-  background-color: #aaa;
+  background-color: #ccc;
+}
+
+.node-line-comment {
+  color: #aaa;
 }
 
 
