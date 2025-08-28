@@ -293,6 +293,29 @@
   </div>
 </div>
 
+<div class="control-button" id="stop-button">
+  <div class="stop-button-symbol"></div>
+  <div class="control-button-text">STOP</div>
+</div>
+
+<div class="control-button" id="step-button">
+  <div class="arrow-button-symbol run-button-symbol"></div>
+  <div class="pause-button-symbol">||</div>
+  <div class="control-button-text">STEP</div>
+</div>
+
+<div class="control-button" id="run-button">
+  <div class="arrow-button-symbol run-button-symbol"></div>
+  <div class="control-button-text">RUN</div>
+</div>
+
+<div class="control-button" id="fast-button">
+  <div class="arrow-button-symbol fast-arrow-1"></div>
+  <div class="arrow-button-symbol fast-arrow-2"></div>
+  <div class="arrow-button-symbol fast-arrow-3"></div>
+  <div class="control-button-text">FAST</div>
+</div>
+
 <div id="full-screen-message-box">
   <div class="full-screen-message-box-shade"></div>
   <div class="debug-message-box">
@@ -314,6 +337,9 @@
 
 <script>
   document.querySelector('.debug-message-continue-button').addEventListener('click', function() {
+    document.getElementById('full-screen-message-box').style.display = 'none';
+  });
+  document.querySelector('.full-screen-message-box-shade').addEventListener('click', function() {
     document.getElementById('full-screen-message-box').style.display = 'none';
   });
   document.querySelector('.debug-button').addEventListener('click', function() {

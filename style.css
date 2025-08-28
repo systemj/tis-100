@@ -292,3 +292,87 @@ body, * {
   text-align: left;
 }
 
+.control-button {
+  position: fixed;
+  width: 80px;
+  height: 70px;
+  border: 4px double #eee;
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  background-color: #000;
+  color: #eee;
+  z-index: 100;
+}
+
+.control-button-text {
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+#stop-button {
+  bottom: 40px;
+  left: 20px;
+}
+
+.stop-button-symbol {
+  width: 25px;
+  height: 25px;
+  background-color: #eee;
+  position: absolute;
+  left: 27px;
+  top: 10px;
+}
+
+#step-button {
+  bottom: 40px;
+  left: 130px;
+}
+
+.pause-button-symbol {
+  position: absolute;
+  left: 44px;
+  top: 30px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#run-button {
+  bottom: 40px;
+  left: 240px;
+}
+
+.arrow-button-symbol {
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-left: 24px solid #eee;
+  position: absolute;
+}
+
+.run-button-symbol {
+  left: 30px;
+  top: 10px;
+}
+
+#fast-button {
+  bottom: 40px;
+  left: 350px;
+}
+
+.fast-arrow-1 {
+  left: 20px;
+  top: 10px;
+}
+
+.fast-arrow-2 {
+  left: 30px;
+  top: 10px;
+}
+
+.fast-arrow-3 {
+  left: 40px;
+  top: 10px;
+}
