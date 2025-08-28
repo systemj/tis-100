@@ -5,8 +5,16 @@
   font-style: normal;
 }
 
+@font-face {
+    font-family: 'DejaVu Sans';
+    src: url('../fonts/dejavu-sans-webfont.ttf') format('truetype'); /* Safari, Android, iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body, * {
-  font-family: 'PerfectDOS', monospace !important;
+  font-family: 'PerfectDOS', monospace;
 }
 
 #node-1 {
@@ -113,6 +121,7 @@ body, * {
 }
 .node-arrow {
   position: absolute;
+  font-family: 'DejaVu Sans';
   font-size: 30px;
   color: #555;
 }
