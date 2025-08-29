@@ -17,34 +17,105 @@ body, * {
   font-family: 'PerfectDOS', monospace;
 }
 
+.title-message {
+  position: fixed;
+  top: 40px;
+  left: 30px;
+  width: 380px;
+  height: 30px;
+  background-color: #000;
+  color: #aaa;
+  z-index: 100;
+  text-align: center;
+}
+
+.main-message-box {
+  position: fixed;
+  top: 70px;
+  left: 30px;
+  width: 380px;
+  height: 200px;
+  border: 4px double #eee;
+  background-color: #000;
+  color: #eee;
+  z-index: 100;
+  padding: 0;
+}
+
+.main-message-text {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+}
+
+.hide-ports-left {
+  background-color: #000;
+  z-index: 10;
+  position: fixed;
+  width: 50px;
+  height: 860px;
+  left: 408px;
+  top: 90px;
+}
+
+.hide-ports-right {
+  background-color: #000;
+  z-index: 10;
+  position: fixed;
+  width: 50px;
+  height: 860px;
+  left: 1680px;
+  top: 90px;
+}
+
+.hide-ports-top {
+  background-color: #000;
+  z-index: 10;
+  position: fixed;
+  width: 1200px;
+  height: 50px;
+  left: 470px;
+  top: 38px;
+}
+
+.hide-ports-bottom {
+  background-color: #000;
+  z-index: 10;
+  position: fixed;
+  width: 1200px;
+  height: 50px;
+  left: 470px;
+  top: 948px;
+}
+
 #node-1 {
-  left: 100px;
-  top: 100px;
+  left: 460px;
+  top: 90px;
 }
 
 #node-2 {
-  left: 420px;
-  top: 100px;
+  left: 780px;
+  top: 90px;
 }
 
 #node-3 {
-  left: 100px;
-  top: 400px;
+  left: 460px;
+  top: 390px;
 }
 
 #node-4 {
-  left: 420px;
-  top: 400px;
+  left: 1420px;
+  top: 90px;
 }
 
 #node-5 {
-  left: 100px;
-  top: 700px
+  left: 460px;
+  top: 690px;
 }
 
 #node-6 {
-  left: 740px;
-  top: 100px
+  left: 1100px;
+  top: 90px;
 }
 
 
@@ -303,8 +374,8 @@ body, * {
 
 .control-button {
   position: fixed;
-  width: 80px;
-  height: 70px;
+  width: 70px;
+  height: 65px;
   border: 4px double #eee;
   box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.5);
   cursor: pointer;
@@ -315,14 +386,14 @@ body, * {
 
 .control-button-text {
   position: absolute;
-  bottom: 10px;
+  bottom: 4px;
   text-align: center;
   width: 100%;
 }
 
 #stop-button {
-  bottom: 40px;
-  left: 20px;
+  top: 920px;
+  left: 30px;
 }
 
 .stop-button-symbol {
@@ -330,26 +401,26 @@ body, * {
   height: 25px;
   background-color: #eee;
   position: absolute;
-  left: 27px;
+  left: 22px;
   top: 10px;
 }
 
 #step-button {
-  bottom: 40px;
-  left: 130px;
+  top: 920px;
+  left: 125px;
 }
 
 .pause-button-symbol {
   position: absolute;
-  left: 44px;
+  left: 38px;
   top: 30px;
   font-size: 12px;
   font-weight: bold;
 }
 
 #run-button {
-  bottom: 40px;
-  left: 240px;
+  top: 920px;
+  left: 220px;
 }
 
 .arrow-button-symbol {
@@ -362,26 +433,27 @@ body, * {
 }
 
 .run-button-symbol {
-  left: 30px;
+  left: 24px;
   top: 10px;
 }
 
 #fast-button {
-  bottom: 40px;
-  left: 350px;
+  top: 920px;
+  left: 315px;
 }
 
 .fast-arrow-1 {
-  left: 20px;
+  left: 15px;
   top: 10px;
 }
 
 .fast-arrow-2 {
-  left: 30px;
+  left: 25px;
   top: 10px;
 }
 
 .fast-arrow-3 {
-  left: 40px;
+  left: 35px;
   top: 10px;
 }
+
