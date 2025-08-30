@@ -124,8 +124,43 @@ function populateNodes() {
     });
 }
 
+function findEditTarget(nodeId, clickedLineIndex) {
+    const node = puzzle.nodes.find(n => n.id === nodeId);
+    if (!node || !node.program) {
+        return 0;
+    }
+
+    let allFollowingEmpty = true;
+    for (let i = clickedLineIndex; i < 15; i++) {
+        if (node.program[i] && node.program[i].trim() !== '') {
+            allFollowingEmpty = false;
+            break;
+        }
+    }
+
+    if (!allFollowingEmpty) {
+        return clickedLineIndex;
+    }
+
+    for (let i = 14; i >= 0; i--) {
+        if (node.program[i] && node.program[i].trim() !== '') {
+            return i + 1 < 15 ? i + 1 : i;
+        }
+    }
+
+    return 0;
+}
+
 function makeLineEditable(lineElement, nodeId, lineIndex) {
     lineElement.addEventListener('click', function() {
+        const targetLineIndex = findEditTarget(nodeId, lineIndex);
+        if (targetLineIndex !== lineIndex) {
+            const targetLineElement = document.getElementById(`node-line-${targetLineIndex}-node-${nodeId}`);
+            if (targetLineElement) {
+                startEditing(targetLineElement, nodeId, targetLineIndex);
+                return;
+            }
+        }
         startEditing(lineElement, nodeId, lineIndex);
     });
 }
@@ -136,9 +171,11 @@ function startEditing(lineElement, nodeId, lineIndex) {
     const currentText = lineElement.textContent;
     const input = document.createElement('input');
     input.type = 'text';
-    input.value = currentText;
+    input.value = currentText.toUpperCase();
     input.maxLength = 20;
     input.style.width = '100%';
+    input.style.margin = '0';
+    input.style.padding = '0';
     input.style.background = 'transparent';
     input.style.border = 'none';
     input.style.color = 'inherit';
@@ -148,10 +185,10 @@ function startEditing(lineElement, nodeId, lineIndex) {
     lineElement.innerHTML = '';
     lineElement.appendChild(input);
     input.focus();
-    input.select();
+    // input.select();
 
     function finishEditing(saveChanges = true) {
-        const newText = saveChanges ? input.value : currentText;
+        const newText = saveChanges ? input.value.trimEnd() : currentText;
         lineElement.textContent = newText;
 
         if (saveChanges && newText !== currentText) {
@@ -166,8 +203,10 @@ function startEditing(lineElement, nodeId, lineIndex) {
         switch(e.key) {
             case 'Enter':
                 e.preventDefault();
-                finishEditing(true);
-                navigateToLine(nodeId, lineIndex + 1);
+                if (lineIndex < 14) {
+                    finishEditing(true);
+                    navigateToLine(nodeId, lineIndex + 1);
+                }
                 break;
             case 'ArrowUp':
                 e.preventDefault();
@@ -191,7 +230,9 @@ function startEditing(lineElement, nodeId, lineIndex) {
     });
 
     input.addEventListener('input', function(e) {
-        e.target.value = e.target.value.replace(/\n/g, '');
+        const cursorPos = e.target.selectionStart;
+        e.target.value = e.target.value.replace(/\n/g, '').toUpperCase();
+        e.target.setSelectionRange(cursorPos, cursorPos);
     });
 }
 
