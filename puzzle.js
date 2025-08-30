@@ -20,6 +20,7 @@ var puzzle = {
         type: "basic",
         program: [
             "# TEST",
+            "",
             "MOV UP ACC",
             "ADD 1 ACC"
         ]
@@ -32,21 +33,27 @@ var puzzle = {
     {
         id: 3,
         type: "basic",
-        program: []
+        program: [
+            "# COMMENT",
+            "",
+            "HCF"
+        ]
     },
     {
         id: 4,
         type: "damaged",
+        debugMessage: ""
     },
     /* row 2 */
     {
         id: 5,
-        type: "damaged",
-        debugMessage: "NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY\nWOULD YOU EXPECT HER TO?",
+        type: "stackmem"
     },
     {
         id: 6,
-        type: "stackmem"
+        type: "damaged",
+        debugMessage: "NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY\nWOULD YOU EXPECT HER TO?",
+
     },
     {
         id: 7,
