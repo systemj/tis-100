@@ -18,7 +18,11 @@ var puzzle = {
     {
         id: 1,
         type: "basic",
-        program: []
+        program: [
+            "# TEST",
+            "MOV UP ACC",
+            "ADD 1 ACC"
+        ]
     },
     {
         id: 2,
