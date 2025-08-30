@@ -172,6 +172,7 @@ function startEditing(lineElement, nodeId, lineIndex) {
     const input = document.createElement('input');
     input.type = 'text';
     input.value = currentText.toUpperCase();
+    input.spellcheck = false;
     input.maxLength = 20;
     input.style.width = '100%';
     input.style.margin = '0';
@@ -220,6 +221,13 @@ function startEditing(lineElement, nodeId, lineIndex) {
                 if (lineIndex < 14) {
                     finishEditing(true);
                     navigateToLine(nodeId, lineIndex + 1);
+                }
+                break;
+            case 'Backspace':
+                if (input.selectionStart === 0 && input.selectionEnd === 0 && lineIndex > 0) {
+                    e.preventDefault();
+                    finishEditing(true);
+                    navigateToLine(nodeId, lineIndex - 1);
                 }
                 break;
             case 'Escape':
