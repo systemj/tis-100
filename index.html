@@ -10,15 +10,60 @@
   </style>
 </head>
 <body>
-<div class="title-message">- SELF-TEST DIAGNOSTIC -</div>
-<div class="main-message-box">
-  <div class="main-message-text">
-    > READ A VALUE FROM IN.X AND<br/>
-      WRITE THE VALUE TO OUT.X<br/>
-    > READ A VALUE FROM IN.A AND<br/>
-      WRITE THE VALUE TO OUT.A
+
+<!-- full screen message box -->
+<div id="full-screen-message-box">
+  <div class="full-screen-message-box-shade"></div>
+  <div class="debug-message-box">
+    - COMPUTE NODE DIAGNOSTICE - MICROCODE DUMP -
+    <div class="debug-message-box-text">
+    1994-0.R/CS1.70RW
+    <br/><br/>
+    NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY
+    WOULD YOU EXPECT HER TO?
+    <br/><br/>
+    JUST KEEP WORKING... I FEEL LIKE I'M LEARNING ABOUT THE
+    PEOPLE BEHIND THIS AND THEIR DESIGN DECISIONS. THE
+    THOUGHTS THAT WENT INTO FIGURING OUT HOW THINGS SHOULD
+    WORK. FR$ THOS PEOPLE FEEL VERY CLOST TO ME NOW.  LI
+    </div>
+    <div class="debug-message-continue-button">CONTINUE</div>
   </div>
 </div>
+
+<!-- left panel-->
+<div class="left-panel">
+  <div class="title-message">- SELF-TEST DIAGNOSTIC -</div>
+  <div class="main-message-box">
+    <div class="main-message-text">
+      > READ A VALUE FROM IN.X AND<br/>
+        WRITE THE VALUE TO OUT.X<br/>
+      > READ A VALUE FROM IN.A AND<br/>
+        WRITE THE VALUE TO OUT.A
+    </div>
+  </div>
+  <div class="control-button" id="stop-button">
+    <div class="stop-button-symbol"></div>
+    <div class="control-button-text">STOP</div>
+  </div>
+  <div class="control-button" id="step-button">
+    <div class="arrow-button-symbol run-button-symbol"></div>
+    <div class="pause-button-symbol">||</div>
+    <div class="control-button-text">STEP</div>
+  </div>
+  <div class="control-button" id="run-button">
+    <div class="arrow-button-symbol run-button-symbol"></div>
+    <div class="control-button-text">RUN</div>
+  </div>
+  <div class="control-button" id="fast-button">
+    <div class="arrow-button-symbol fast-arrow-1"></div>
+    <div class="arrow-button-symbol fast-arrow-2"></div>
+    <div class="arrow-button-symbol fast-arrow-3"></div>
+    <div class="control-button-text">FAST</div>
+  </div>
+</div>
+
+<!-- hide ports -->
 <div class="hide-ports-left"></div>
 <div class="hide-ports-right"></div>
 <div class="hide-ports-top"></div>
@@ -27,6 +72,7 @@
 <div class="hide-ports-bottom" id="hide-ports-bottom-c"></div>
 <div class="hide-ports-bottom" id="hide-ports-bottom-d"></div>
 
+<!-- input ports (top) -->
 <div class="input-port" id="input-a">
   <div class="input-port-label">IN.A</div>
   <div class="input-port-arrow input-port-arrow-active">⬇</div>
@@ -51,604 +97,564 @@
   <div class="input-port-value">42</div>
 </div>
 
+<!-- output ports (bottom) -->
 <div class="output-port-label" id="output-a">OUT.A</div>
 <div class="output-port-label" id="output-b">OUT.B</div>
 <div class="output-port-label" id="output-c">OUT.C</div>
 <div class="output-port-label" id="output-d">OUT.D</div>
 
 
-<!-- Nodes Row 1 -->
-<div class="node basic-node" id="node-1">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">69</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-execute">MOV -999 DOWN</div>
-    <div class="node-line node-line-2">Z:MOV UP ACC</div>
-    <div class="node-line node-line-3">JLZ K</div>
-    <div class="node-line node-line-4">MOV ACC LEFT</div>
-    <div class="node-line node-line-5">JEZ A</div>
-    <div class="node-line node-line-6">JMP Z</div>
-    <div class="node-line node-line-7">A:MOV LEFT RIGHT</div>
-    <div class="node-line node-line-8">MOV -1 LEFT</div>
-    <div class="node-line node-line-9">B:MOV RIGHT ACC</div>
-    <div class="node-line node-line-10">JLZ T</div>
-    <div class="node-line node-line-11">MOV ACC LEFT</div>
-    <div class="node-line node-line-12">JEZ A</div>
-    <div class="node-line node-line-13">JMP B</div>
-    <div class="node-line node-line-14">K:MOV ACC RIGHT</div>
-    <div class="node-line node-line-15">12345678901234567890</div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">0</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+<!-- node grid -->
+<div class="node-grid">
+  <!-- Nodes Row 1 -->
+  <div class="node basic-node" id="node-1">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">69</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-execute">MOV -999 DOWN</div>
+      <div class="node-line node-line-2">Z:MOV UP ACC</div>
+      <div class="node-line node-line-3">JLZ K</div>
+      <div class="node-line node-line-4">MOV ACC LEFT</div>
+      <div class="node-line node-line-5">JEZ A</div>
+      <div class="node-line node-line-6">JMP Z</div>
+      <div class="node-line node-line-7">A:MOV LEFT RIGHT</div>
+      <div class="node-line node-line-8">MOV -1 LEFT</div>
+      <div class="node-line node-line-9">B:MOV RIGHT ACC</div>
+      <div class="node-line node-line-10">JLZ T</div>
+      <div class="node-line node-line-11">MOV ACC LEFT</div>
+      <div class="node-line node-line-12">JEZ A</div>
+      <div class="node-line node-line-13">JMP B</div>
+      <div class="node-line node-line-14">K:MOV ACC RIGHT</div>
+      <div class="node-line node-line-15">12345678901234567890</div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">0</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="node basic-node" id="node-2">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">42</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-blocked">MOV 123 LEFT</div>
-    <div class="node-line node-line-2 node-line-comment"># TODO FIX</div>
-    <div class="node-line node-line-3">JLZ K</div>
-    <div class="node-line node-line-4">MOV ACC LEFT</div>
-    <div class="node-line node-line-5">JEZ A</div>
-    <div class="node-line node-line-6">JMP Z</div>
-    <div class="node-line node-line-7">A:MOV LEFT RIGHT</div>
-    <div class="node-line node-line-8">MOV -1 LEFT</div>
-    <div class="node-line node-line-9">B:MOV RIGHT ACC</div>
-    <div class="node-line node-line-10">JLZ T</div>
-    <div class="node-line node-line-11">MOV ACC LEFT</div>
-    <div class="node-line node-line-12">JEZ A</div>
-    <div class="node-line node-line-13">JMP B</div>
-    <div class="node-line node-line-14">K:MOV ACC RIGHT</div>
-    <div class="node-line node-line-15">12345678901234567890</div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">123</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+  <div class="node basic-node" id="node-2">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">42</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-blocked">MOV 123 LEFT</div>
+      <div class="node-line node-line-2"></div>
+      <div class="node-line node-line-3 node-line-comment"># COMMENT</div>
+      <div class="node-line node-line-4"></div>
+      <div class="node-line node-line-5 node-line-syntax-error">MOV UP LOL</div>
+      <div class="node-line node-line-6">JMP Z</div>
+      <div class="node-line node-line-7">A:MOV LEFT RIGHT</div>
+      <div class="node-line node-line-8">MOV -1 LEFT</div>
+      <div class="node-line node-line-9">B:MOV RIGHT ACC</div>
+      <div class="node-line node-line-10">JLZ T</div>
+      <div class="node-line node-line-11">MOV ACC LEFT</div>
+      <div class="node-line node-line-12">JEZ A</div>
+      <div class="node-line node-line-13">JMP B</div>
+      <div class="node-line node-line-14">K:MOV ACC RIGHT</div>
+      <div class="node-line node-line-15">12345678901234567890</div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">123</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="node basic-node" id="node-3">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-execute"></div>
-    <div class="node-line node-line-2"></div>
-    <div class="node-line node-line-3"></div>
-    <div class="node-line node-line-4"></div>
-    <div class="node-line node-line-5"></div>
-    <div class="node-line node-line-6"></div>
-    <div class="node-line node-line-7"></div>
-    <div class="node-line node-line-8"></div>
-    <div class="node-line node-line-9"></div>
-    <div class="node-line node-line-10"></div>
-    <div class="node-line node-line-11"></div>
-    <div class="node-line node-line-12"></div>
-    <div class="node-line node-line-13"></div>
-    <div class="node-line node-line-14"></div>
-    <div class="node-line node-line-15"></div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">0</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+  <div class="node basic-node" id="node-3">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-execute"></div>
+      <div class="node-line node-line-2"></div>
+      <div class="node-line node-line-3"></div>
+      <div class="node-line node-line-4"></div>
+      <div class="node-line node-line-5"></div>
+      <div class="node-line node-line-6"></div>
+      <div class="node-line node-line-7"></div>
+      <div class="node-line node-line-8"></div>
+      <div class="node-line node-line-9"></div>
+      <div class="node-line node-line-10"></div>
+      <div class="node-line node-line-11"></div>
+      <div class="node-line node-line-12"></div>
+      <div class="node-line node-line-13"></div>
+      <div class="node-line node-line-14"></div>
+      <div class="node-line node-line-15"></div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">0</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-
-<!-- Nodes Row 2 -->
-<div class="node damaged-node" id="node-4">
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-message-box-damaged">
-      <div class="node-message-bar-red"></div>
-      <div class="node-message">COMMUNICATION<br>FAILURE</div>
-      <div class="node-message-bar-red"></div>
+  <div class="node damaged-node" id="node-4">
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-message-box-damaged">
+        <div class="node-message-bar-red"></div>
+        <div class="node-message">COMMUNICATION<br>FAILURE</div>
+        <div class="node-message-bar-red"></div>
+      </div>
+      <!-- <div class="debug-button">DEBUG</div> -->
     </div>
-    <!-- <div class="debug-button">DEBUG</div> -->
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-      </div>
-      <div class="node-status-box node-bak">
-      </div>
-      <div class="node-status-box node-last">
-      </div>
-      <div class="node-status-box node-mode">
-      </div>
-      <div class="node-status-box node-idle">
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+        </div>
+        <div class="node-status-box node-bak">
+        </div>
+        <div class="node-status-box node-last">
+        </div>
+        <div class="node-status-box node-mode">
+        </div>
+        <div class="node-status-box node-idle">
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="node damaged-node" id="node-5">
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-message-box-damaged">
-      <div class="node-message-bar-red"></div>
-      <div class="node-message">COMMUNICATION<br>FAILURE</div>
-      <div class="node-message-bar-red"></div>
+  <!-- Nodes Row 2 -->
+  <div class="node damaged-node" id="node-5">
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-message-box-damaged">
+        <div class="node-message-bar-red"></div>
+        <div class="node-message">COMMUNICATION<br>FAILURE</div>
+        <div class="node-message-bar-red"></div>
+      </div>
+      <div class="debug-button">DEBUG</div>
     </div>
-    <div class="debug-button">DEBUG</div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-      </div>
-      <div class="node-status-box node-bak">
-      </div>
-      <div class="node-status-box node-last">
-      </div>
-      <div class="node-status-box node-mode">
-      </div>
-      <div class="node-status-box node-idle">
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="node stack-memory" id="node-6">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-message-box-stack">
-      <div class="node-message-bar"></div>
-      <div class="node-message">STACK MEMORY NODE</div>
-      <div class="node-message-bar"></div>
-    </div>
-  </div>
-    <div class="node-stack-box">
-    <div class="stack-mem-value mem-value-1">1</div>
-    <div class="stack-mem-value mem-value-2">2</div>
-    <div class="stack-mem-value mem-value-3">3</div>
-    <div class="stack-mem-value mem-value-4">4</div>
-    <div class="stack-mem-value mem-value-5">5</div>
-    <div class="stack-mem-value mem-value-6">60</div>
-    <div class="stack-mem-value mem-value-7">70</div>
-    <div class="stack-mem-value mem-value-8">80</div>
-    <div class="stack-mem-value mem-value-9">90</div>
-    <div class="stack-mem-value mem-value-10">100</div>
-    <div class="stack-mem-value mem-value-11">-999</div>
-    <div class="stack-mem-value mem-value-12 mem-value-top">42</div>
-    <div class="stack-mem-value mem-value-13"></div>
-    <div class="stack-mem-value mem-value-14"></div>
-    <div class="stack-mem-value mem-value-15"></div>
-  </div>
-  </div>
-</div>
-
-<div class="node basic-node" id="node-7">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-execute">MOV -999 DOWN</div>
-    <div class="node-line node-line-2">Z:MOV UP ACC</div>
-    <div class="node-line node-line-3">JLZ K</div>
-    <div class="node-line node-line-4">MOV ACC LEFT</div>
-    <div class="node-line node-line-5">JEZ A</div>
-    <div class="node-line node-line-6">JMP Z</div>
-    <div class="node-line node-line-7">A:MOV LEFT RIGHT</div>
-    <div class="node-line node-line-8">MOV -1 LEFT</div>
-    <div class="node-line node-line-9">B:MOV RIGHT ACC</div>
-    <div class="node-line node-line-10">JLZ T</div>
-    <div class="node-line node-line-11">MOV ACC LEFT</div>
-    <div class="node-line node-line-12">JEZ A</div>
-    <div class="node-line node-line-13">JMP B</div>
-    <div class="node-line node-line-14">K:MOV ACC RIGHT</div>
-    <div class="node-line node-line-15">12345678901234567890</div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">0</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+        </div>
+        <div class="node-status-box node-bak">
+        </div>
+        <div class="node-status-box node-last">
+        </div>
+        <div class="node-status-box node-mode">
+        </div>
+        <div class="node-status-box node-idle">
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="node stack-memory" id="node-8">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-message-box-stack">
-      <div class="node-message-bar"></div>
-      <div class="node-message">STACK MEMORY NODE</div>
-      <div class="node-message-bar"></div>
+  <div class="node stack-memory" id="node-6">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
     </div>
-  </div>
-    <div class="node-stack-box">
-    <div class="stack-mem-value mem-value-1"></div>
-    <div class="stack-mem-value mem-value-2"></div>
-    <div class="stack-mem-value mem-value-3"></div>
-    <div class="stack-mem-value mem-value-4"></div>
-    <div class="stack-mem-value mem-value-5"></div>
-    <div class="stack-mem-value mem-value-6"></div>
-    <div class="stack-mem-value mem-value-7"></div>
-    <div class="stack-mem-value mem-value-8"></div>
-    <div class="stack-mem-value mem-value-9"></div>
-    <div class="stack-mem-value mem-value-10"></div>
-    <div class="stack-mem-value mem-value-11"></div>
-    <div class="stack-mem-value mem-value-12"></div>
-    <div class="stack-mem-value mem-value-13"></div>
-    <div class="stack-mem-value mem-value-14"></div>
-    <div class="stack-mem-value mem-value-15"></div>
-  </div>
-  </div>
-</div>
-
-<!-- Node Row 3-->
-<div class="node basic-node" id="node-9">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-execute"></div>
-    <div class="node-line node-line-2"></div>
-    <div class="node-line node-line-3"></div>
-    <div class="node-line node-line-4"></div>
-    <div class="node-line node-line-5"></div>
-    <div class="node-line node-line-6"></div>
-    <div class="node-line node-line-7"></div>
-    <div class="node-line node-line-8"></div>
-    <div class="node-line node-line-9"></div>
-    <div class="node-line node-line-10"></div>
-    <div class="node-line node-line-11"></div>
-    <div class="node-line node-line-12"></div>
-    <div class="node-line node-line-13"></div>
-    <div class="node-line node-line-14"></div>
-    <div class="node-line node-line-15"></div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">0</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-message-box-stack">
+        <div class="node-message-bar"></div>
+        <div class="node-message">STACK MEMORY NODE</div>
+        <div class="node-message-bar"></div>
       </div>
     </div>
+      <div class="node-stack-box">
+      <div class="stack-mem-value mem-value-1">1</div>
+      <div class="stack-mem-value mem-value-2">2</div>
+      <div class="stack-mem-value mem-value-3">3</div>
+      <div class="stack-mem-value mem-value-4">4</div>
+      <div class="stack-mem-value mem-value-5">5</div>
+      <div class="stack-mem-value mem-value-6">60</div>
+      <div class="stack-mem-value mem-value-7">70</div>
+      <div class="stack-mem-value mem-value-8">80</div>
+      <div class="stack-mem-value mem-value-9">90</div>
+      <div class="stack-mem-value mem-value-10">100</div>
+      <div class="stack-mem-value mem-value-11">-999</div>
+      <div class="stack-mem-value mem-value-12 mem-value-top">42</div>
+      <div class="stack-mem-value mem-value-13"></div>
+      <div class="stack-mem-value mem-value-14"></div>
+      <div class="stack-mem-value mem-value-15"></div>
+    </div>
+    </div>
   </div>
-</div>
 
-<div class="node basic-node" id="node-10">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-execute"></div>
-    <div class="node-line node-line-2"></div>
-    <div class="node-line node-line-3"></div>
-    <div class="node-line node-line-4"></div>
-    <div class="node-line node-line-5"></div>
-    <div class="node-line node-line-6"></div>
-    <div class="node-line node-line-7"></div>
-    <div class="node-line node-line-8"></div>
-    <div class="node-line node-line-9"></div>
-    <div class="node-line node-line-10"></div>
-    <div class="node-line node-line-11"></div>
-    <div class="node-line node-line-12"></div>
-    <div class="node-line node-line-13"></div>
-    <div class="node-line node-line-14"></div>
-    <div class="node-line node-line-15"></div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">0</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+  <div class="node basic-node" id="node-7">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-execute">MOV -999 DOWN</div>
+      <div class="node-line node-line-2">Z:MOV UP ACC</div>
+      <div class="node-line node-line-3">JLZ K</div>
+      <div class="node-line node-line-4">MOV ACC LEFT</div>
+      <div class="node-line node-line-5">JEZ A</div>
+      <div class="node-line node-line-6">JMP Z</div>
+      <div class="node-line node-line-7">A:MOV LEFT RIGHT</div>
+      <div class="node-line node-line-8">MOV -1 LEFT</div>
+      <div class="node-line node-line-9">B:MOV RIGHT ACC</div>
+      <div class="node-line node-line-10">JLZ T</div>
+      <div class="node-line node-line-11">MOV ACC LEFT</div>
+      <div class="node-line node-line-12">JEZ A</div>
+      <div class="node-line node-line-13">JMP B</div>
+      <div class="node-line node-line-14">K:MOV ACC RIGHT</div>
+      <div class="node-line node-line-15">12345678901234567890</div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">0</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="node basic-node" id="node-11">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
+  <div class="node stack-memory" id="node-8">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-message-box-stack">
+        <div class="node-message-bar"></div>
+        <div class="node-message">STACK MEMORY NODE</div>
+        <div class="node-message-bar"></div>
+      </div>
+    </div>
+      <div class="node-stack-box">
+      <div class="stack-mem-value mem-value-1"></div>
+      <div class="stack-mem-value mem-value-2"></div>
+      <div class="stack-mem-value mem-value-3"></div>
+      <div class="stack-mem-value mem-value-4"></div>
+      <div class="stack-mem-value mem-value-5"></div>
+      <div class="stack-mem-value mem-value-6"></div>
+      <div class="stack-mem-value mem-value-7"></div>
+      <div class="stack-mem-value mem-value-8"></div>
+      <div class="stack-mem-value mem-value-9"></div>
+      <div class="stack-mem-value mem-value-10"></div>
+      <div class="stack-mem-value mem-value-11"></div>
+      <div class="stack-mem-value mem-value-12"></div>
+      <div class="stack-mem-value mem-value-13"></div>
+      <div class="stack-mem-value mem-value-14"></div>
+      <div class="stack-mem-value mem-value-15"></div>
+    </div>
+    </div>
   </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-execute"></div>
-    <div class="node-line node-line-2"></div>
-    <div class="node-line node-line-3"></div>
-    <div class="node-line node-line-4"></div>
-    <div class="node-line node-line-5"></div>
-    <div class="node-line node-line-6"></div>
-    <div class="node-line node-line-7"></div>
-    <div class="node-line node-line-8"></div>
-    <div class="node-line node-line-9"></div>
-    <div class="node-line node-line-10"></div>
-    <div class="node-line node-line-11"></div>
-    <div class="node-line node-line-12"></div>
-    <div class="node-line node-line-13"></div>
-    <div class="node-line node-line-14"></div>
-    <div class="node-line node-line-15"></div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">0</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+
+  <!-- Node Row 3-->
+  <div class="node basic-node" id="node-9">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-execute"></div>
+      <div class="node-line node-line-2"></div>
+      <div class="node-line node-line-3"></div>
+      <div class="node-line node-line-4"></div>
+      <div class="node-line node-line-5"></div>
+      <div class="node-line node-line-6"></div>
+      <div class="node-line node-line-7"></div>
+      <div class="node-line node-line-8"></div>
+      <div class="node-line node-line-9"></div>
+      <div class="node-line node-line-10"></div>
+      <div class="node-line node-line-11"></div>
+      <div class="node-line node-line-12"></div>
+      <div class="node-line node-line-13"></div>
+      <div class="node-line node-line-14"></div>
+      <div class="node-line node-line-15"></div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">0</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="node basic-node" id="node-12">
-  <div class="node-arrows">
-    <span class="node-arrow node-arrow-up">⬆</span>
-    <span class="node-output-value node-output-up">-999</span>
-    <span class="node-arrow node-arrow-right">➡</span>
-    <span class="node-output-value node-output-right">-999</span>
-    <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
-    <span class="node-output-value node-output-down">-999</span>
-    <span class="node-arrow node-arrow-left">⬅</span>
-    <span class="node-output-value node-output-left">-999</span>
-  </div>
-  <div class="node-main"><div class="node-code-area">
-    <div class="node-line node-line-1 node-line-execute"></div>
-    <div class="node-line node-line-2"></div>
-    <div class="node-line node-line-3"></div>
-    <div class="node-line node-line-4"></div>
-    <div class="node-line node-line-5"></div>
-    <div class="node-line node-line-6"></div>
-    <div class="node-line node-line-7"></div>
-    <div class="node-line node-line-8"></div>
-    <div class="node-line node-line-9"></div>
-    <div class="node-line node-line-10"></div>
-    <div class="node-line node-line-11"></div>
-    <div class="node-line node-line-12"></div>
-    <div class="node-line node-line-13"></div>
-    <div class="node-line node-line-14"></div>
-    <div class="node-line node-line-15"></div>
-  </div>
-    <div class="node-status">
-      <div class="node-status-box node-acc">
-        <div class="node-status-label">ACC</div>
-        <div class="node-status-value">0</div>
-      </div>
-      <div class="node-status-box node-bak">
-        <div class="node-status-label">BAK</div>
-        <div class="node-status-value">(0)</div>
-      </div>
-      <div class="node-status-box node-last">
-        <div class="node-status-label">LAST</div>
-        <div class="node-status-value">N/A</div>
-      </div>
-      <div class="node-status-box node-mode">
-        <div class="node-status-label">MODE</div>
-        <div class="node-status-value">IDLE</div>
-      </div>
-      <div class="node-status-box node-idle">
-        <div class="node-status-label">IDLE</div>
-        <div class="node-status-value">0%</div>
+  <div class="node basic-node" id="node-10">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-execute"></div>
+      <div class="node-line node-line-2"></div>
+      <div class="node-line node-line-3"></div>
+      <div class="node-line node-line-4"></div>
+      <div class="node-line node-line-5"></div>
+      <div class="node-line node-line-6"></div>
+      <div class="node-line node-line-7"></div>
+      <div class="node-line node-line-8"></div>
+      <div class="node-line node-line-9"></div>
+      <div class="node-line node-line-10"></div>
+      <div class="node-line node-line-11"></div>
+      <div class="node-line node-line-12"></div>
+      <div class="node-line node-line-13"></div>
+      <div class="node-line node-line-14"></div>
+      <div class="node-line node-line-15"></div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">0</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-
-<div class="control-button" id="stop-button">
-  <div class="stop-button-symbol"></div>
-  <div class="control-button-text">STOP</div>
-</div>
-
-<div class="control-button" id="step-button">
-  <div class="arrow-button-symbol run-button-symbol"></div>
-  <div class="pause-button-symbol">||</div>
-  <div class="control-button-text">STEP</div>
-</div>
-
-<div class="control-button" id="run-button">
-  <div class="arrow-button-symbol run-button-symbol"></div>
-  <div class="control-button-text">RUN</div>
-</div>
-
-<div class="control-button" id="fast-button">
-  <div class="arrow-button-symbol fast-arrow-1"></div>
-  <div class="arrow-button-symbol fast-arrow-2"></div>
-  <div class="arrow-button-symbol fast-arrow-3"></div>
-  <div class="control-button-text">FAST</div>
-</div>
-
-<div id="full-screen-message-box">
-  <div class="full-screen-message-box-shade"></div>
-  <div class="debug-message-box">
-    - COMPUTE NODE DIAGNOSTICE - MICROCODE DUMP -
-    <div class="debug-message-box-text">
-    1994-0.R/CS1.70RW
-    <br/><br/>
-    NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY
-    WOULD YOU EXPECT HER TO?
-    <br/><br/>
-    JUST KEEP WORKING... I FEEL LIKE I'M LEARNING ABOUT THE
-    PEOPLE BEHIND THIS AND THEIR DESIGN DECISIONS. THE
-    THOUGHTS THAT WENT INTO FIGURING OUT HOW THINGS SHOULD
-    WORK. FR$ THOS PEOPLE FEEL VERY CLOST TO ME NOW.  LI
+  <div class="node basic-node" id="node-11">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
     </div>
-    <div class="debug-message-continue-button">CONTINUE</div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-execute"></div>
+      <div class="node-line node-line-2"></div>
+      <div class="node-line node-line-3"></div>
+      <div class="node-line node-line-4"></div>
+      <div class="node-line node-line-5"></div>
+      <div class="node-line node-line-6"></div>
+      <div class="node-line node-line-7"></div>
+      <div class="node-line node-line-8"></div>
+      <div class="node-line node-line-9"></div>
+      <div class="node-line node-line-10"></div>
+      <div class="node-line node-line-11"></div>
+      <div class="node-line node-line-12"></div>
+      <div class="node-line node-line-13"></div>
+      <div class="node-line node-line-14"></div>
+      <div class="node-line node-line-15"></div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">0</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node basic-node" id="node-12">
+    <div class="node-arrows">
+      <span class="node-arrow node-arrow-up">⬆</span>
+      <span class="node-output-value node-output-up">-999</span>
+      <span class="node-arrow node-arrow-right">➡</span>
+      <span class="node-output-value node-output-right">-999</span>
+      <span class="node-arrow node-arrow-down node-arrow-active">⬇</span>
+      <span class="node-output-value node-output-down">-999</span>
+      <span class="node-arrow node-arrow-left">⬅</span>
+      <span class="node-output-value node-output-left">-999</span>
+    </div>
+    <div class="node-main"><div class="node-code-area">
+      <div class="node-line node-line-1 node-line-execute"></div>
+      <div class="node-line node-line-2"></div>
+      <div class="node-line node-line-3"></div>
+      <div class="node-line node-line-4"></div>
+      <div class="node-line node-line-5"></div>
+      <div class="node-line node-line-6"></div>
+      <div class="node-line node-line-7"></div>
+      <div class="node-line node-line-8"></div>
+      <div class="node-line node-line-9"></div>
+      <div class="node-line node-line-10"></div>
+      <div class="node-line node-line-11"></div>
+      <div class="node-line node-line-12"></div>
+      <div class="node-line node-line-13"></div>
+      <div class="node-line node-line-14"></div>
+      <div class="node-line node-line-15"></div>
+    </div>
+      <div class="node-status">
+        <div class="node-status-box node-acc">
+          <div class="node-status-label">ACC</div>
+          <div class="node-status-value">0</div>
+        </div>
+        <div class="node-status-box node-bak">
+          <div class="node-status-label">BAK</div>
+          <div class="node-status-value">(0)</div>
+        </div>
+        <div class="node-status-box node-last">
+          <div class="node-status-label">LAST</div>
+          <div class="node-status-value">N/A</div>
+        </div>
+        <div class="node-status-box node-mode">
+          <div class="node-status-label">MODE</div>
+          <div class="node-status-value">IDLE</div>
+        </div>
+        <div class="node-status-box node-idle">
+          <div class="node-status-label">IDLE</div>
+          <div class="node-status-value">0%</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -1,3 +1,4 @@
+/* font for all text */
 @font-face {
   font-family: 'PerfectDOS';
   src: url('fonts/Perfect_DOS_VGA_437.ttf') format('truetype');
@@ -5,6 +6,7 @@
   font-style: normal;
 }
 
+/* font for input/output arrows only */
 @font-face {
     font-family: 'DejaVu Sans';
     src: url('../fonts/dejavu-sans-webfont.ttf') format('truetype'); /* Safari, Android, iOS */
@@ -12,28 +14,96 @@
     font-style: normal;
 }
 
-
 body, * {
   font-family: 'PerfectDOS', monospace;
 }
 
-.title-message {
+/* message box overlays all other content */
+#full-screen-message-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: none;
+}
+
+/* dim all content */
+.full-screen-message-box-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1001;
+}
+
+.debug-message-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #000;
+  border: 4px solid rgb(170, 0, 0);
+  padding: 20px;
+  color: rgb(170, 0, 0);
+  z-index: 1002;
+  width: 540px;
+  height: 300px;
+  text-align: center;
+}
+
+.debug-message-continue-button {
+  position: absolute;
+  top: 250px;
+  width: 250px;
+  height: 40px;
+  left: 135px;
+  border: 4px double rgb(170, 0, 0);
+  line-height: 40px;
+  text-align: center;
+  box-shadow: 4px 4px 0 rgba(170, 0, 0);
+  cursor: pointer;
+}
+
+.debug-message-box-text {
+  position: absolute;
+  width: 510px;
+  top: 52px;
+  left: 40px;
+  text-align: left;
+}
+
+/* left panel */
+.left-panel {
   position: fixed;
   top: 40px;
   left: 30px;
   width: 380px;
+  height: 940px;
+  background-color: #000;
+  color: #eee;
+  z-index: 100;
+}
+
+.title-message {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  width: 380px;
   height: 30px;
   background-color: #000;
   color: #aaa;
-  z-index: 100;
   text-align: center;
 }
 
 .main-message-box {
-  position: fixed;
-  top: 70px;
-  left: 30px;
-  width: 380px;
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  width: 370px;
   height: 200px;
   border: 4px double #eee;
   background-color: #000;
@@ -48,6 +118,93 @@ body, * {
   left: 12px;
 }
 
+/* control buttons */
+.control-button {
+  position: absolute;
+  width: 70px;
+  height: 65px;
+  border: 4px double #eee;
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  background-color: #000;
+  color: #eee;
+  z-index: 100;
+}
+
+.control-button-text {
+  position: absolute;
+  bottom: 4px;
+  text-align: center;
+  width: 100%;
+}
+
+#stop-button {
+  bottom: 0px;
+  left: 10px;
+}
+
+.stop-button-symbol {
+  width: 25px;
+  height: 25px;
+  background-color: #eee;
+  position: absolute;
+  left: 22px;
+  top: 10px;
+}
+
+#step-button {
+  bottom: 0px;
+  left: 105px;
+}
+
+.pause-button-symbol {
+  position: absolute;
+  left: 38px;
+  top: 30px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#run-button {
+  bottom: 0px;
+  left: 200px;
+}
+
+.arrow-button-symbol {
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-left: 24px solid #eee;
+  position: absolute;
+}
+
+.run-button-symbol {
+  left: 24px;
+  top: 10px;
+}
+
+#fast-button {
+  bottom: 0px;
+  left: 295px;
+}
+
+.fast-arrow-1 {
+  left: 15px;
+  top: 10px;
+}
+
+.fast-arrow-2 {
+  left: 25px;
+  top: 10px;
+}
+
+.fast-arrow-3 {
+  left: 35px;
+  top: 10px;
+}
+
+/* hide ports */
 .hide-ports-left {
   background-color: #000;
   z-index: 10;
@@ -87,6 +244,7 @@ body, * {
   display: none;
 }
 
+/* the bottom ports are hidden individually since the arrows are part of the nodes */
 #hide-ports-bottom-a {
   left: 600px;
   top: 948px;
@@ -107,6 +265,7 @@ body, * {
   top: 948px;
 }
 
+/* input ports (top) */
 .input-port {
   background-color: #000;
   z-index: 20;
@@ -165,6 +324,7 @@ body, * {
   top: 55px;
 }
 
+/* output ports (bottom... just labels */
 .output-port-label {
   background-color: #000;
   z-index: 20;
@@ -198,71 +358,78 @@ body, * {
   top: 960px;
 }
 
-
-/* Node row 1 */
-#node-1 {
+/* container for nodes */
+.node-grid {
+  position: fixed;
   left: 460px;
   top: 90px;
 }
 
+/* Node row 1 */
+#node-1 {
+  left: 0px;
+  top: 0px;
+}
+
 #node-2 {
-  left: 780px;
-  top: 90px;
+  left: 320px;
+  top: 0px;
 }
 
 #node-3 {
-  left: 1100px;
-  top: 90px;
+  left: 640px;
+  top: 0px;
 }
 
 #node-4 {
-  left: 1420px;
-  top: 90px;
+  left: 960px;
+  top: 0px;
 }
 
 /* Node row 2 */
 #node-5 {
-  left: 460px;
-  top: 390px;
+  left: 0px;
+  top: 300px;
 }
 
 #node-6 {
-  left: 780px;
-  top: 390px;
+  left: 320px;
+  top: 300px;
 }
 
 #node-7 {
-  left: 1100px;
-  top: 390px;
+  left: 640px;
+  top: 300px;
 }
 
 #node-8 {
-  left: 1420px;
-  top: 390px;
+  left: 960px;
+  top: 300px;
 }
 
 /* Node row 3 */
 #node-9 {
-  left: 460px;
-  top: 690px;
+  left: 0px;
+  top: 600px;
 }
 
 #node-10 {
-  left: 780px;
-  top: 690px;
+  left: 320px;
+  top: 600px;
 }
 
 #node-11 {
-  left: 1100px;
-  top: 690px;
+  left: 640px;
+  top: 600px;
 }
 
 #node-12 {
-  left: 1420px;
-  top: 690px;
+  left: 960px;
+  top: 600px;
 }
 
 
+/* node general */
 .node {
   display: inline-block;
   background: #000;
@@ -274,58 +441,14 @@ body, * {
   border: 1px solid #eee;
 }
 
-.basic-node {
+.node-main {
+  display: flex;
+  flex-direction: row;
+  padding: 1px;
+  gap: 1px;
 }
 
-.damaged-node {
-  color: rgb(170, 0, 0);
-  border: 1px solid rgb(170, 0, 0);
-}
-
-.node-message-box-damaged {
-  position: absolute;
-  top: 40px;
-  width: 130px;
-  left: 34px
-}
-
-.node-message-box-stack {
-  position: absolute;
-  top: 96px;
-  width: 176px;
-  left: 10px
-}
-
-.node-message-bar {
-  height: 16px;
-  background-color: #fff;
-}
-
-.node-message-bar-red {
-  height: 16px;
-  background-color: rgb(170, 0, 0);
-}
-
-.node-message {
-  margin-top: 4px;
-  margin-bottom: 4px;
-  text-align: center;
-  line-height: 20px;
-}
-
-.debug-button {
-  position: absolute;
-  top: 150px;
-  width: 114px;
-  height: 40px;
-  left: 34px;
-  border: 4px double rgb(170, 0, 0);
-  line-height: 40px;
-  text-align: center;
-  box-shadow: 4px 4px 0 rgba(170, 0, 0);
-  cursor: pointer;
-}
-
+/* node arrows - all but damaged node */
 .node-arrows {
   position: absolute;
   left: 50%;
@@ -362,12 +485,7 @@ body, * {
 .node-output-left  { left: -178px; top: 160px; text-align: center;}
 .node-output-right { left: 142px; top: 116px; text-align: center; }
 
-.node-main {
-  display: flex;
-  flex-direction: row;
-  padding: 1px;
-  gap: 1px;
-}
+/* basic node */
 .node-code-area {
   background: #000;
   border: 1px solid;
@@ -381,6 +499,45 @@ body, * {
   flex-direction: column;
   gap: 0px;
 }
+
+/* individual program line */
+.node-line {
+    width: 100%;
+    height: 20px;
+}
+
+/* highlight when executing */
+.node-line-execute {
+  color: #000;
+  background-color: #fff;
+}
+
+/* highlight when read/write blocked */
+.node-line-blocked {
+  color: #000;
+  background-color: #ccc;
+}
+
+/* comment text color */
+.node-line-comment {
+  color: #aaa;
+}
+
+/* syntax error text color */
+.node-line-syntax-error {
+  color: rgb(170, 0, 0);
+}
+
+/* node status container */
+.node-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 56px;
+  gap: 2px;
+}
+
+/* node status box */
 .node-status-box {
   background: #000;
   border: 1px solid;
@@ -392,6 +549,73 @@ body, * {
   flex-direction: column;
   align-items: flex-end;
   gap: 0px;
+}
+
+.node-status-label {
+  font-size: 16px;
+  color: #aaa;
+  margin-bottom: 1px;
+  margin-top: 4px;
+  width: 100%;
+  text-align: center;
+}
+.node-status-value {
+  font-size: 16px;
+  /* color: #fff; */
+  width: 100%;
+  text-align: center;
+}
+
+/* damaged (red) node */
+.damaged-node {
+  color: rgb(170, 0, 0);
+  border: 1px solid rgb(170, 0, 0);
+}
+
+.node-message-box-damaged {
+  position: absolute;
+  top: 40px;
+  width: 130px;
+  left: 34px
+}
+
+.node-message-bar-red {
+  height: 16px;
+  background-color: rgb(170, 0, 0);
+}
+
+/* damaged node debug button */
+.debug-button {
+  position: absolute;
+  top: 150px;
+  width: 114px;
+  height: 40px;
+  left: 34px;
+  border: 4px double rgb(170, 0, 0);
+  line-height: 40px;
+  text-align: center;
+  box-shadow: 4px 4px 0 rgba(170, 0, 0);
+  cursor: pointer;
+}
+
+/* stack memory node */
+.node-message-box-stack {
+  position: absolute;
+  top: 96px;
+  width: 176px;
+  left: 10px
+}
+
+.node-message-bar {
+  height: 16px;
+  background-color: #fff;
+}
+
+.node-message {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  text-align: center;
+  line-height: 20px;
 }
 
 .node-stack-box {
@@ -417,187 +641,3 @@ body, * {
 .mem-value-top {
   background-color:rgb(170, 0, 0, 0.5)
 }
-
-.node-status-label {
-  font-size: 16px;
-  color: #aaa;
-  margin-bottom: 1px;
-  margin-top: 4px;
-  width: 100%;
-  text-align: center;
-}
-.node-status-value {
-  font-size: 16px;
-  /* color: #fff; */
-  width: 100%;
-  text-align: center;
-}
-
-.node-status {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 56px;
-  gap: 2px;
-}
-
-.node-line {
-    width: 100%;
-}
-
-.node-line-execute {
-  color: #000;
-  background-color: #fff;
-}
-
-.node-line-blocked {
-  color: #000;
-  background-color: #ccc;
-}
-
-.node-line-comment {
-  color: #aaa;
-}
-
-
-#full-screen-message-box {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  display: none;
-}
-
-.full-screen-message-box-shade {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1001;
-}
-
-.debug-message-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #000;
-  border: 4px solid rgb(170, 0, 0);
-  padding: 20px;
-  color: rgb(170, 0, 0);
-  z-index: 1002;
-  width: 540px;
-  height: 300px;
-  text-align: center;
-}
-
-.debug-message-continue-button {
-  position: absolute;
-  top: 250px;
-  width: 250px;
-  height: 40px;
-  left: 135px;
-  border: 4px double rgb(170, 0, 0);
-  line-height: 40px;
-  text-align: center;
-  box-shadow: 4px 4px 0 rgba(170, 0, 0);
-  cursor: pointer;
-}
-
-.debug-message-box-text {
-  position: absolute;
-  width: 510px;
-  top: 52px;
-  left: 40px;
-  text-align: left;
-}
-
-.control-button {
-  position: fixed;
-  width: 70px;
-  height: 65px;
-  border: 4px double #eee;
-  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  background-color: #000;
-  color: #eee;
-  z-index: 100;
-}
-
-.control-button-text {
-  position: absolute;
-  bottom: 4px;
-  text-align: center;
-  width: 100%;
-}
-
-#stop-button {
-  top: 920px;
-  left: 30px;
-}
-
-.stop-button-symbol {
-  width: 25px;
-  height: 25px;
-  background-color: #eee;
-  position: absolute;
-  left: 22px;
-  top: 10px;
-}
-
-#step-button {
-  top: 920px;
-  left: 125px;
-}
-
-.pause-button-symbol {
-  position: absolute;
-  left: 38px;
-  top: 30px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-#run-button {
-  top: 920px;
-  left: 220px;
-}
-
-.arrow-button-symbol {
-  width: 0;
-  height: 0;
-  border-top: 14px solid transparent;
-  border-bottom: 14px solid transparent;
-  border-left: 24px solid #eee;
-  position: absolute;
-}
-
-.run-button-symbol {
-  left: 24px;
-  top: 10px;
-}
-
-#fast-button {
-  top: 920px;
-  left: 315px;
-}
-
-.fast-arrow-1 {
-  left: 15px;
-  top: 10px;
-}
-
-.fast-arrow-2 {
-  left: 25px;
-  top: 10px;
-}
-
-.fast-arrow-3 {
-  left: 35px;
-  top: 10px;
-}
-
