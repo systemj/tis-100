@@ -1,6 +1,6 @@
 var puzzle = {
   title: "- TEST PUZZLE -",
-  mainMessage: "> READ A VALUE FROM IN.A AND\n  WRITE THE VALUE TO OUT.A",
+  mainMessage: "> READ A VALUE FROM IN.X AND\n  WRITE THE VALUE TO OUT.A",
   inputs: {
     a: { label: "IN.X", values: [1, 2, 3, 4, 5, 6, 7] },
     b: {},
@@ -53,7 +53,6 @@ var puzzle = {
         id: 6,
         type: "damaged",
         debugMessage: "NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY\nWOULD YOU EXPECT HER TO?",
-
     },
     {
         id: 7,

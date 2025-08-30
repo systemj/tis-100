@@ -94,13 +94,15 @@ function populateNodes() {
         nodeElement.innerHTML = nodeHtml;
         nodeGrid.appendChild(nodeElement.firstElementChild);
 
-        if (nodeData.type === 'basic' && nodeData.program) {
-            nodeData.program.forEach((line, index) => {
+        if (nodeData.type === 'basic') {
+            for (let index = 0; index < 15; index++) {
                 const lineElement = document.getElementById(`node-line-${index}-node-${nodeData.id}`);
                 if (lineElement) {
-                    lineElement.textContent = line;
+                    const lineText = nodeData.program && nodeData.program[index] ? nodeData.program[index] : '';
+                    lineElement.textContent = lineText;
+                    makeLineEditable(lineElement, nodeData.id, index);
                 }
-            });
+            }
         }
 
         if (nodeData.type === 'damaged') {
@@ -120,5 +122,98 @@ function populateNodes() {
             }
         }
     });
+}
+
+function makeLineEditable(lineElement, nodeId, lineIndex) {
+    lineElement.addEventListener('click', function() {
+        startEditing(lineElement, nodeId, lineIndex);
+    });
+}
+
+function startEditing(lineElement, nodeId, lineIndex) {
+    if (lineElement.querySelector('input')) return;
+
+    const currentText = lineElement.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentText;
+    input.maxLength = 20;
+    input.style.width = '100%';
+    input.style.background = 'transparent';
+    input.style.border = 'none';
+    input.style.color = 'inherit';
+    input.style.font = 'inherit';
+    input.style.outline = 'none';
+
+    lineElement.innerHTML = '';
+    lineElement.appendChild(input);
+    input.focus();
+    input.select();
+
+    function finishEditing(saveChanges = true) {
+        const newText = saveChanges ? input.value : currentText;
+        lineElement.textContent = newText;
+
+        if (saveChanges && newText !== currentText) {
+            updateNodeProgram(nodeId, lineIndex, newText);
+        }
+    }
+
+    input.addEventListener('blur', () => finishEditing(true));
+    input.addEventListener('escape', () => finishEditing(false));
+
+    input.addEventListener('keydown', function(e) {
+        switch(e.key) {
+            case 'Enter':
+                e.preventDefault();
+                finishEditing(true);
+                navigateToLine(nodeId, lineIndex + 1);
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                if (lineIndex > 0) {
+                    finishEditing(true);
+                    navigateToLine(nodeId, lineIndex - 1);
+                }
+                break;
+            case 'ArrowDown':
+                e.preventDefault();
+                if (lineIndex < 14) {
+                    finishEditing(true);
+                    navigateToLine(nodeId, lineIndex + 1);
+                }
+                break;
+            case 'Escape':
+                e.preventDefault();
+                finishEditing(true);
+                break;
+        }
+    });
+
+    input.addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/\n/g, '');
+    });
+}
+
+function navigateToLine(nodeId, lineIndex) {
+    if (lineIndex < 0 || lineIndex >= 15) return;
+
+    const targetLineElement = document.getElementById(`node-line-${lineIndex}-node-${nodeId}`);
+    if (targetLineElement) {
+        startEditing(targetLineElement, nodeId, lineIndex);
+    }
+}
+
+function updateNodeProgram(nodeId, lineIndex, newText) {
+    const node = puzzle.nodes.find(n => n.id === nodeId);
+    if (node) {
+        if (!node.program) {
+            node.program = new Array(15).fill('');
+        }
+        while (node.program.length < 15) {
+            node.program.push('');
+        }
+        node.program[lineIndex] = newText;
+    }
 }
 
