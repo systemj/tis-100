@@ -1,0 +1,75 @@
+var puzzle = {
+  title: "- TEST PUZZLE -",
+  mainMessage: "> READ A VALUE FROM IN.A AND\n  WRITE THE VALUE TO OUT.A",
+  inputs: {
+    a: { label: "IN.X", values: [1, 2, 3, 4, 5, 6, 7] },
+    b: {},
+    c: { label: "IN.Y", values: [0]},
+    d: {}
+  },
+  outputs: {
+    a: {},
+    b: {},
+    c: { label: "OUT.A", values: [1, 2, 3, 4, 5, 6, 7] },
+    d: {}
+  },
+  nodes: [
+    /* row 1 */
+    {
+        id: 1,
+        type: "basic",
+        program: []
+    },
+    {
+        id: 2,
+        type: "basic",
+        program: []
+    },
+    {
+        id: 3,
+        type: "basic",
+        program: []
+    },
+    {
+        id: 4,
+        type: "damaged",
+    },
+    /* row 2 */
+    {
+        id: 5,
+        type: "damaged",
+        debugMessage: "NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY\nWOULD YOU EXPECT HER TO?",
+    },
+    {
+        id: 6,
+        type: "stackmem"
+    },
+    {
+        id: 7,
+        type: "basic",
+        program: []
+    },
+    {
+        id: 8,
+        type: "stackmem"
+    },
+    /* row 3 */
+    {
+        id: 9,
+        type: "basic",
+        program: []
+    },    {
+        id: 10,
+        type: "basic",
+        program: []
+    },    {
+        id: 11,
+        type: "basic",
+        program: []
+    },    {
+        id: 12,
+        type: "basic",
+        program: []
+    }
+  ]
+};

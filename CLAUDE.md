@@ -11,8 +11,10 @@ This is an interactive TIS-100 inspired landing page that simulates the Tessella
 The project consists of static HTML/CSS/JavaScript files with no build system:
 
 - `index.html` - Main HTML page displaying the TIS-100 node grid interface
+- `demo.html` - This is a static HTML page used for review and tweak layout and style.  It should generally not be modified and only referenced for positioning elements.
 - `style.css` - Retro DOS-style styling using Perfect DOS VGA 437 font and terminal aesthetics
 - `simulator.js` - Core simulation engine implementing TIS-100 node behavior and execution
+- `puzzle.js` - Defines a data structure that specifies the types and placement of nodes, input values, title, instructions, debug message text.
 - `ui.js` - User interface controls for play/pause, step, reset, and node interaction
 
 ## Node Structure
@@ -63,7 +65,7 @@ The landing page provides several interactive capabilities:
 - **Code Editing**: Click any node's code area to modify assembly programs
 - **Visual Data Flow**: Animated arrows show data transfer between nodes
 - **State Inspection**: Real-time display of all register values and execution states
-- **Dynamic Grid Layout**: The grid layout of nodes should be defined in a data structure and the individual nodes created dynamically so that the layout can be easily modified.
+
 
 ## Implementation Requirements
 
@@ -72,6 +74,7 @@ The landing page provides several interactive capabilities:
 - **Responsive Design**: Scales appropriately on different screen sizes
 - **Accessibility**: Keyboard shortcuts for all major functions
 - **Browser Compatibility**: Modern ES6+ features, works in Chrome/Firefox/Safari
+- **Dynamic Layout**: The grid layout of nodes and other puzzle elements such a titles, debug text, input data, etc should be defined in a json data structure and the individual nodes created dynamically so that the layout can be easily modified.
 
 ## Development
 

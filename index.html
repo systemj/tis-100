@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node Display</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #000; }
+  </style>
+</head>
+<body>
+
+<!-- full screen message box -->
+<div id="full-screen-message-box">
+  <div class="full-screen-message-box-shade"></div>
+  <div class="debug-message-box">
+    - COMPUTE NODE DIAGNOSTICE - MICROCODE DUMP -
+    <div class="debug-message-box-text">
+      PUZZLE HINT OR STORY TEXT
+    </div>
+    <div class="debug-message-continue-button">CONTINUE</div>
+  </div>
+</div>
+
+<!-- left panel-->
+<div class="left-panel">
+  <div class="title-message">- PUZZLE TITLE -</div>
+  <div class="main-message-box">
+    <div class="main-message-text">
+    </div>
+  </div>
+  <div class="control-button" id="stop-button">
+    <div class="stop-button-symbol"></div>
+    <div class="control-button-text">STOP</div>
+  </div>
+  <div class="control-button" id="step-button">
+    <div class="arrow-button-symbol run-button-symbol"></div>
+    <div class="pause-button-symbol">||</div>
+    <div class="control-button-text">STEP</div>
+  </div>
+  <div class="control-button" id="run-button">
+    <div class="arrow-button-symbol run-button-symbol"></div>
+    <div class="control-button-text">RUN</div>
+  </div>
+  <div class="control-button" id="fast-button">
+    <div class="arrow-button-symbol fast-arrow-1"></div>
+    <div class="arrow-button-symbol fast-arrow-2"></div>
+    <div class="arrow-button-symbol fast-arrow-3"></div>
+    <div class="control-button-text">FAST</div>
+  </div>
+</div>
+
+<!-- hide ports -->
+<div class="hide-ports-left"></div>
+<div class="hide-ports-right"></div>
+<div class="hide-ports-top"></div>
+<div class="hide-ports-bottom" id="hide-ports-bottom-a"></div>
+<div class="hide-ports-bottom" id="hide-ports-bottom-b"></div>
+<div class="hide-ports-bottom" id="hide-ports-bottom-c"></div>
+<div class="hide-ports-bottom" id="hide-ports-bottom-d"></div>
+
+<!-- input ports (top) -->
+<div class="input-port" id="input-a">
+  <div class="input-port-label" id="input-port-label-a">IN.A</div>
+  <div class="input-port-arrow input-port-arrow-active">⬇</div>
+  <div class="input-port-value"></div>
+</div>
+
+<div class="input-port" id="input-b">
+  <div class="input-port-label" id="input-port-label-b">IN.B</div>
+  <div class="input-port-arrow">⬇</div>
+  <div class="input-port-value"></div>
+</div>
+
+<div class="input-port" id="input-c">
+  <div class="input-port-label" id="input-port-label-c">IN.C</div>
+  <div class="input-port-arrow input-port-arrow-active">⬇</div>
+  <div class="input-port-value"></div>
+</div>
+
+<div class="input-port" id="input-d">
+  <div class="input-port-label" id="input-port-label-d">IN.D</div>
+  <div class="input-port-arrow">⬇</div>
+  <div class="input-port-value"></div>
+</div>
+
+<!-- output ports (bottom) -->
+<div class="output-port-label" id="output-a">OUT.A</div>
+<div class="output-port-label" id="output-b">OUT.B</div>
+<div class="output-port-label" id="output-c">OUT.C</div>
+<div class="output-port-label" id="output-d">OUT.D</div>
+
+
+<!-- node grid -->
+<div class="node-grid">
+  <!-- Nodes Row 1 -->
+
+  <!-- Nodes Row 2 -->
+
+  <!-- Node Row 3-->
+</div>
+
+<script src="puzzle.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
