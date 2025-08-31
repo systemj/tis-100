@@ -4,6 +4,26 @@ document.addEventListener('DOMContentLoaded', function() {
     updateOutputPorts();
     populateNodes();
 
+    /* control buttons */
+    document.getElementById('step-button').addEventListener('click', function() {
+        initializeSimulation();
+        console.log('Step button clicked - simulation initialized');
+    });
+
+    document.getElementById('run-button').addEventListener('click', function() {
+        initializeSimulation();
+        console.log('Run button clicked - simulation initialized');
+    });
+
+    document.getElementById('fast-button').addEventListener('click', function() {
+        initializeSimulation();
+        console.log('Fast button clicked - simulation initialized');
+    });
+
+    document.getElementById('stop-button').addEventListener('click', function() {
+        console.log('Stop button clicked');
+    });
+
     /* dismiss full screen message box */
     document.querySelector('.debug-message-continue-button').addEventListener('click', function() {
         document.getElementById('full-screen-message-box').style.display = 'none';
