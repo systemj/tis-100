@@ -22,7 +22,13 @@ var puzzle = {
             "# TEST",
             "",
             "MOV UP ACC",
-            "ADD 1 ACC"
+            "LOOP: ADD 1 ACC #XY",
+            "JLZ LOOP",
+            "",
+            "LOOP2:  ",
+            "",
+            "SUB 1 ACC",
+            "  # LOL WHUT"
         ]
     },
     {

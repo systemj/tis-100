@@ -1,5 +1,6 @@
 var basicNodeState = {
     program: [],
+    program_text: [],
     label_map: {}, /* maps label names to their corresponding instruction indices */
     line_map: {}, /* maps instruction to their corresponding line numbers */
     program_counter: 0,
@@ -167,13 +168,35 @@ function initializeSimulation() {
         switch(nodeConfig.type) {
             case 'basic':
                 nodeState = JSON.parse(JSON.stringify(basicNodeState));
-                // Capture live program data from DOM
+                // Capture live program data from DOM and remove comments
                 const nodeElement = document.querySelector(`#node-${nodeConfig.id}`);
                 if (nodeElement) {
                     const codeLines = nodeElement.querySelectorAll('.node-line');
-                    nodeState.program = Array.from(codeLines).map(line => line.textContent || '');
+                    nodeState.program_text = Array.from(codeLines).map(line => {
+                        let text = line.textContent || '';
+                        // Remove leading whitespace
+                        text = text.trimStart();
+                        // Remove comments (everything from # to end of line)
+                        const commentIndex = text.indexOf('#');
+                        if (commentIndex !== -1) {
+                            text = text.substring(0, commentIndex);
+                        }
+                        // Remove trailing whitespace
+                        return text.trimEnd();
+                    });
+
+                    // Create label mappings
+                    nodeState.program_text.forEach((line, lineIndex) => {
+                        if (line.includes(':')) {
+                            const colonIndex = line.indexOf(':');
+                            const labelName = line.substring(0, colonIndex).trim();
+                            if (labelName && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelName)) {
+                                nodeState.label_map[labelName] = lineIndex;
+                            }
+                        }
+                    });
                 } else {
-                    nodeState.program = [];
+                    nodeState.program_text = [];
                 }
                 break;
             case 'stackmem':
