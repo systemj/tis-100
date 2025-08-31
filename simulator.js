@@ -185,15 +185,18 @@ function initializeSimulation() {
                         return text.trimEnd();
                     });
 
-                    // Create label mappings
-                    nodeState.program_text.forEach((line, lineIndex) => {
+                    // Create label mappings and remove labels from lines
+                    nodeState.program_text = nodeState.program_text.map((line, lineIndex) => {
                         if (line.includes(':')) {
                             const colonIndex = line.indexOf(':');
                             const labelName = line.substring(0, colonIndex).trim();
                             if (labelName && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelName)) {
                                 nodeState.label_map[labelName] = lineIndex;
+                                // Remove the label from the line, keeping any instruction after the colon
+                                return line.substring(colonIndex + 1).trim();
                             }
                         }
+                        return line;
                     });
                 } else {
                     nodeState.program_text = [];
@@ -218,12 +221,12 @@ function initializeSimulation() {
     // Initialize input ports
     ['a', 'b', 'c', 'd'].forEach(port => {
         if (puzzle.inputs[port] && puzzle.inputs[port].values) {
-            current_state.nodes.push({
+            current_state.input.push({
                 values: [...puzzle.inputs[port].values],
                 output_bottom: null
             });
         } else {
-            current_state.nodes.push({
+            current_state.input.push({
                 values: [],
                 output_bottom: null
             });
