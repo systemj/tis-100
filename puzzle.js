@@ -21,7 +21,7 @@ var puzzle = {
         program: [
             "# TEST",
             "",
-            "MOV UP ACC",
+            "MOV UP, ACC",
             "LOOP: ADD 1 ACC #XY",
             "JLZ LOOP",
             "",

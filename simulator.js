@@ -155,6 +155,50 @@ neighbors = [
     },
 ]
 
+function parseCodeLines(rawLines) {
+    // Clean and process the lines
+    const cleanedLines = rawLines.map(line => {
+        let text = line || '';
+        // Remove leading whitespace
+        text = text.trimStart();
+        // Remove comments (everything from # to end of line)
+        const commentIndex = text.indexOf('#');
+        if (commentIndex !== -1) {
+            text = text.substring(0, commentIndex);
+        }
+        // Remove trailing whitespace
+        text = text.trimEnd();
+        // Remove punctuation except : and !
+        text = text.replace(/[^\w\s:!-]/g, '');
+        return text;
+    });
+
+    // Create label mappings and remove labels from lines
+    const labelMap = {};
+    const processedLines = cleanedLines.map((line, lineIndex) => {
+        if (line.includes(':')) {
+            const colonIndex = line.indexOf(':');
+            const labelName = line.substring(0, colonIndex).trim();
+            if (labelName && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelName)) {
+                labelMap[labelName] = lineIndex;
+                // Remove the label from the line, keeping any instruction after the colon
+                return line.substring(colonIndex + 1).trim();
+            }
+        }
+        return line;
+    });
+
+    // Split each line into tokens (array of strings split on whitespace)
+    const tokenizedLines = processedLines.map(line => {
+        return line ? line.split(/\s+/) : [];
+    });
+
+    return {
+        program: tokenizedLines,
+        labelMap: labelMap
+    };
+}
+
 function initializeSimulation() {
     // Clear existing state
     current_state.nodes = [];
@@ -168,38 +212,18 @@ function initializeSimulation() {
         switch(nodeConfig.type) {
             case 'basic':
                 nodeState = JSON.parse(JSON.stringify(basicNodeState));
-                // Capture live program data from DOM and remove comments
+                // Capture live program data from DOM and process it
                 const nodeElement = document.querySelector(`#node-${nodeConfig.id}`);
                 if (nodeElement) {
                     const codeLines = nodeElement.querySelectorAll('.node-line');
-                    nodeState.program_text = Array.from(codeLines).map(line => {
-                        let text = line.textContent || '';
-                        // Remove leading whitespace
-                        text = text.trimStart();
-                        // Remove comments (everything from # to end of line)
-                        const commentIndex = text.indexOf('#');
-                        if (commentIndex !== -1) {
-                            text = text.substring(0, commentIndex);
-                        }
-                        // Remove trailing whitespace
-                        return text.trimEnd();
-                    });
+                    const rawLines = Array.from(codeLines).map(line => line.textContent || '');
+                    const parseResult = parseCodeLines(rawLines);
 
-                    // Create label mappings and remove labels from lines
-                    nodeState.program_text = nodeState.program_text.map((line, lineIndex) => {
-                        if (line.includes(':')) {
-                            const colonIndex = line.indexOf(':');
-                            const labelName = line.substring(0, colonIndex).trim();
-                            if (labelName && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelName)) {
-                                nodeState.label_map[labelName] = lineIndex;
-                                // Remove the label from the line, keeping any instruction after the colon
-                                return line.substring(colonIndex + 1).trim();
-                            }
-                        }
-                        return line;
-                    });
+                    nodeState.program = parseResult.program;
+                    nodeState.label_map = parseResult.labelMap;
                 } else {
-                    nodeState.program_text = [];
+                    nodeState.program = [];
+                    nodeState.label_map = {};
                 }
                 break;
             case 'stackmem':
