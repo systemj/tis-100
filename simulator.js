@@ -3,7 +3,6 @@ var basicNodeState = {
     program: [],
     program_text: [],
     label_map: {}, /* maps label names to their corresponding instruction indices */
-    line_map: {}, /* maps instruction to their corresponding line numbers */
     program_counter: 0,
     output_top: null,
     output_bottom: null,
@@ -227,8 +226,10 @@ function initializeSimulation() {
                     const parseResult = parseCodeLines(rawLines);
 
                     nodeState.program = parseResult.program;
+                    nodeState.program_text = rawLines;
                     nodeState.label_map = parseResult.labelMap;
                 } else {
+                    nodesState.program_text = [];
                     nodeState.program = [];
                     nodeState.label_map = {};
                 }

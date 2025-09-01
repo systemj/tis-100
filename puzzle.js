@@ -39,11 +39,7 @@ var puzzle = {
     {
         id: 3,
         type: "basic",
-        program: [
-            "# COMMENT",
-            "",
-            "HCF"
-        ]
+        program: []
     },
     {
         id: 4,
