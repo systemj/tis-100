@@ -1,3 +1,4 @@
+/* basic node state */
 var basicNodeState = {
     program: [],
     program_text: [],
@@ -21,6 +22,7 @@ var basicNodeState = {
     }
 }
 
+/* stack memory node state */
 var stackMemoryNodeState = {
     stack: [],
     output_top: null,
@@ -35,6 +37,7 @@ var stackMemoryNodeState = {
     }
 }
 
+/* damaged node state; just null outputs */
 var damagedNodeState = {
     output_top: null,
     output_bottom: null,
@@ -42,30 +45,34 @@ var damagedNodeState = {
     output_right: null
 }
 
+/* input values and output state */
 var inputState = {
     values: [],
     output_bottom: null
 }
 
+/* output values state */
 var outputState =  {
     values: [],
     neighbor: null
 }
 
-
+/* current state of all inputs, outputs, and nodes */
 current_state = {
     nodes: [],
     input: [],
     output: []
 }
 
+/* next state of all inputs, outputs, and nodes - will become current state
+for the next clock cycle */
 next_state = {
     nodes: [],
     input: [],
     output: []
 }
 
-
+/* mapping of all nodes to their neighbors */
 neighbors = [
     /* row 1, node 1 */
     {
