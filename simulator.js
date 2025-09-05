@@ -161,42 +161,68 @@ neighbors = [
     },
 ]
 
+function parseSingleLine(line) {
+    let text = line || '';
+
+    // Trim leading/trailing whitespace
+    text = text.trim();
+
+    // Check for breakpoint (line begins with "!" character)
+    let breakpoint = false;
+    if (text.startsWith('!')) {
+        breakpoint = true;
+        text = text.substring(1).trim();
+    }
+
+    // Extract and remove comments (all text following a "#" character)
+    let comments = "";
+    const commentIndex = text.indexOf('#');
+    if (commentIndex !== -1) {
+        comments = text.substring(commentIndex + 1).trim();
+        text = text.substring(0, commentIndex).trim();
+    }
+
+    // Extract and remove labels (words ending with ":" character)
+    const labels = [];
+    while (text.includes(':')) {
+        const colonIndex = text.indexOf(':');
+        const labelCandidate = text.substring(0, colonIndex).trim();
+        if (labelCandidate && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelCandidate)) {
+            labels.push(labelCandidate);
+            // Remove the label from the line, keeping any instruction after the colon
+            text = text.substring(colonIndex + 1).trim();
+        } else {
+            break; // Invalid label format, stop processing
+        }
+    }
+
+    // Clean remaining punctuation except : and ! and break into statement array
+    text = text.replace(/[^\w\s:!-]/g, '');
+    const statement = text ? text.split(/\s+/) : [];
+
+    return {
+        comments: comments,
+        labels: labels,
+        statement: statement,
+        breakpoint: breakpoint
+    };
+}
+
 function parseCodeLines(rawLines) {
-    // Clean and process the lines
-    const cleanedLines = rawLines.map(line => {
-        let text = line || '';
-        // Remove leading whitespace
-        text = text.trimStart();
-        // Remove comments (everything from # to end of line)
-        const commentIndex = text.indexOf('#');
-        if (commentIndex !== -1) {
-            text = text.substring(0, commentIndex);
-        }
-        // Remove trailing whitespace
-        text = text.trimEnd();
-        // Remove punctuation except : and !
-        text = text.replace(/[^\w\s:!-]/g, '');
-        return text;
-    });
-
-    // Create label mappings and remove labels from lines
     const labelMap = {};
-    const processedLines = cleanedLines.map((line, lineIndex) => {
-        if (line.includes(':')) {
-            const colonIndex = line.indexOf(':');
-            const labelName = line.substring(0, colonIndex).trim();
-            if (labelName && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelName)) {
-                labelMap[labelName] = lineIndex;
-                // Remove the label from the line, keeping any instruction after the colon
-                return line.substring(colonIndex + 1).trim();
-            }
-        }
-        return line;
-    });
+    const tokenizedLines = [];
 
-    // Split each line into tokens (array of strings split on whitespace)
-    const tokenizedLines = processedLines.map(line => {
-        return line ? line.split(/\s+/) : [];
+    rawLines.forEach((line, lineIndex) => {
+        const parsed = parseSingleLine(line);
+
+        // Map labels to their line indices
+        parsed.labels.forEach(label => {
+            labelMap[label] = lineIndex;
+        });
+
+        // Store the statement tokens
+        // tokenizedLines.push(parsed.statement);
+        tokenizedLines.push(parsed);
     });
 
     return {
@@ -229,7 +255,7 @@ function initializeSimulation() {
                     nodeState.program_text = rawLines;
                     nodeState.label_map = parseResult.labelMap;
                 } else {
-                    nodesState.program_text = [];
+                    nodeState.program_text = [];
                     nodeState.program = [];
                     nodeState.label_map = {};
                 }
