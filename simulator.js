@@ -212,18 +212,53 @@ function parseSingleLine(line) {
 function parseCodeLines(rawLines) {
     const labelMap = {};
     const tokenizedLines = [];
+    const tempLabels = [];
+    var tempBreak = false;
 
     rawLines.forEach((line, lineIndex) => {
         const parsed = parseSingleLine(line);
 
-        // Map labels to their line indices
-        parsed.labels.forEach(label => {
-            labelMap[label] = lineIndex;
-        });
+        // If line has no statement, accumulate labels in tempLabels
+        if (parsed.statement.length === 0) {
+            if (parsed.labels.length > 0) {
+                tempLabels.push(...parsed.labels);
+            }
+            if (parsed.breakpoint) {
+                tempBreak = true;
+            }
+            return;
+        } else {
+            // Line has a statement, attach any accumulated labels from previous empty lines
+            parsed.labels.push(...tempLabels);
+            tempLabels.length = 0; // Clear temporary labels
+            if (tempBreak) {
+                parsed.breakpoint = true;
+                tempBreak = false;
+            }
+        }
 
-        // Store the statement tokens
-        // tokenizedLines.push(parsed.statement);
+        // Store the statement tokens along with it's original index
+        parsed.lineIndex = lineIndex;
         tokenizedLines.push(parsed);
+    });
+    if (tempLabels.length > 0) {
+        // If there are leftover labels with no statements, add them to the first line
+        if (tokenizedLines.length > 0) {
+            tokenizedLines[0].labels.push(...tempLabels);
+        }
+    }
+    // If there was a trailing breakpoint set it on the first line
+    if (tempBreak && tokenizedLines.length > 0) {
+        tokenizedLines[0].breakpoint = true;
+    }
+
+    // Build labelMap from tokenizedLines
+    tokenizedLines.forEach((parsed, tokenIndex) => {
+        if (parsed.labels.length > 0) {
+            parsed.labels.forEach(label => {
+                labelMap[label] = tokenIndex;
+            });
+        }
     });
 
     return {
