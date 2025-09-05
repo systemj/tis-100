@@ -182,23 +182,24 @@ function parseSingleLine(line) {
         text = text.substring(0, commentIndex).trim();
     }
 
-    // Extract and remove labels (words ending with ":" character)
-    const labels = [];
-    while (text.includes(':')) {
-        const colonIndex = text.indexOf(':');
-        const labelCandidate = text.substring(0, colonIndex).trim();
-        if (labelCandidate && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelCandidate)) {
-            labels.push(labelCandidate);
-            // Remove the label from the line, keeping any instruction after the colon
-            text = text.substring(colonIndex + 1).trim();
-        } else {
-            break; // Invalid label format, stop processing
-        }
-    }
-
     // Clean remaining punctuation except : and ! and break into statement array
     text = text.replace(/[^\w\s:!-]/g, '');
-    const statement = text ? text.split(/\s+/) : [];
+    const tokens = text ? text.split(/\s+/) : [];
+
+    // Extract labels (words ending with ":") from tokens and move to labels array
+    const labels = [];
+    const statement = [];
+
+    tokens.forEach(token => {
+        if (token.endsWith(':')) {
+            const labelCandidate = token.slice(0, -1); // Remove the colon
+            if (labelCandidate && /^[A-Za-z_][A-Za-z0-9_]*$/.test(labelCandidate)) {
+                labels.push(labelCandidate);
+            }
+        } else {
+            statement.push(token);
+        }
+    });
 
     return {
         comments: comments,
