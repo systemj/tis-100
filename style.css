@@ -506,6 +506,8 @@ body, * {
 .node-line {
     width: 100%;
     height: 20px;
+    white-space: pre-wrap;
+
 }
 
 /* highlight when executing */

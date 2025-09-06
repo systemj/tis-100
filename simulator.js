@@ -10,7 +10,7 @@ var basicNodeState = {
     output_right: null,
     acc: 0,
     bak: 0,
-    last: 0,
+    last: "N/A",
     mode: "IDLE",
     idle: 100,
     neighbors: {
@@ -355,6 +355,60 @@ function parseCodeLines(rawLines) {
         labelMap: labelMap,
         syntaxOK: syntaxOK.allLinesValid
     };
+}
+
+function updateNodeUI(nodeIndex, nodeState) {
+    // Only update basic nodes
+    if (!nodeState.program) return;
+
+    const nodeId = puzzle.nodes[nodeIndex].id;
+
+    // Clear previous highlighting
+    const allLines = document.querySelectorAll(`#node-${nodeId} .node-line`);
+    allLines.forEach(line => {
+        line.classList.remove('node-line-highlight');
+    });
+
+    // Highlight current instruction line
+    if (nodeState.program.length > 0 && nodeState.program_counter < nodeState.program.length) {
+        const currentInstruction = nodeState.program[nodeState.program_counter];
+        if (currentInstruction && currentInstruction.lineIndex !== undefined) {
+            const currentLineElement = document.getElementById(`node-line-${currentInstruction.lineIndex}-node-${nodeId}`);
+            if (currentLineElement) {
+                currentLineElement.classList.add('node-line-execute');
+            }
+        }
+    }
+
+    // Update ACC value
+    const accElement = document.getElementById(`node-status-value-acc-node-${nodeId}`);
+    if (accElement) {
+        accElement.textContent = nodeState.acc;
+    }
+
+    // Update BAK value
+    const bakElement = document.getElementById(`node-status-value-bak-node-${nodeId}`);
+    if (bakElement) {
+        bakElement.textContent = nodeState.bak;
+    }
+
+    // Update LAST value
+    const lastElement = document.getElementById(`node-status-value-last-node-${nodeId}`);
+    if (lastElement) {
+        lastElement.textContent = nodeState.last;
+    }
+
+    // Update MODE value
+    const modeElement = document.getElementById(`node-status-value-mode-node-${nodeId}`);
+    if (modeElement) {
+        modeElement.textContent = nodeState.mode;
+    }
+
+    // Update IDLE value
+    const idleElement = document.getElementById(`node-status-value-idle-node-${nodeId}`);
+    if (idleElement) {
+        idleElement.textContent = nodeState.idle + '%';
+    }
 }
 
 function initializeSimulation() {
