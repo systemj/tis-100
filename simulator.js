@@ -4,10 +4,12 @@ var basicNodeState = {
     program_text: [],
     label_map: {}, /* maps label names to their corresponding instruction indices */
     program_counter: 0,
-    output_top: null,
-    output_bottom: null,
-    output_left: null,
-    output_right: null,
+    output: {
+        top: null,
+        bottom: null,
+        left: null,
+        right: null
+    },
     acc: 0,
     bak: 0,
     last: "N/A",
@@ -24,10 +26,12 @@ var basicNodeState = {
 /* stack memory node state */
 var stackMemoryNodeState = {
     stack: [],
-    output_top: null,
-    output_bottom: null,
-    output_left: null,
-    output_right: null,
+    output: {
+        top: null,
+        bottom: null,
+        left: null,
+        right: null
+    },
     neighbors: {
         top: null,
         bottom: null,
@@ -38,16 +42,21 @@ var stackMemoryNodeState = {
 
 /* damaged node state; just null outputs */
 var damagedNodeState = {
-    output_top: null,
-    output_bottom: null,
-    output_left: null,
-    output_right: null
+    output: {
+        top: null,
+        bottom: null,
+        left: null,
+        right: null
+    },
 }
 
 /* input values and output state */
 var inputState = {
     values: [],
-    output_bottom: null
+    index: 0,
+    output: {
+        bottom: null
+    }
 }
 
 /* output values state */
@@ -459,26 +468,18 @@ function initializeSimulation() {
     });
 
     // Initialize input ports
-    ['a', 'b', 'c', 'd'].forEach(port => {
+    ['a', 'b', 'c', 'd'].forEach((port, index) => {
+        const inputPortState = JSON.parse(JSON.stringify(inputState));
         if (puzzle.inputs[port] && puzzle.inputs[port].values) {
-            current_state.input.push({
-                values: [...puzzle.inputs[port].values],
-                output_bottom: null
-            });
-        } else {
-            current_state.input.push({
-                values: [],
-                output_bottom: null
-            });
+            inputPortState.values = [...puzzle.inputs[port].values];
         }
+        current_state.input.push(inputPortState);
     });
 
     // Initialize output ports
-    ['a', 'b', 'c', 'd'].forEach(port => {
-        current_state.output.push({
-            values: [],
-            neighbor: null
-        });
+    ['a', 'b', 'c', 'd'].forEach((port, index) => {
+        const outputPortState = JSON.parse(JSON.stringify(outputState));
+        current_state.output.push(outputPortState);
     });
 
     // Copy current_state to next_state for simulation stepping

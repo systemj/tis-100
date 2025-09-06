@@ -2,7 +2,7 @@ var puzzle = {
   title: "- TEST PUZZLE -",
   mainMessage: "> READ A VALUE FROM IN.X AND\n  WRITE THE VALUE TO OUT.A",
   inputs: {
-    a: { label: "IN.X", values: [1, 2, 3, 4, 5, 6, 7] },
+    a: { label: "IN.X", values: [1, 2, 3, 4, 5, 6, 7]},
     b: {},
     c: { label: "IN.Y", values: [0]},
     d: {}
