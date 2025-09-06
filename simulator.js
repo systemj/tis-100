@@ -209,6 +209,92 @@ function parseSingleLine(line) {
     };
 }
 
+function syntaxCheck(tokenizedLines, labelMap) {
+    const validSources = ['ACC', 'NIL', 'LEFT', 'RIGHT', 'UP', 'DOWN', 'ANY', 'LAST'];
+    const validDestinations = ['ACC', 'NIL', 'LEFT', 'RIGHT', 'UP', 'DOWN', 'ANY', 'LAST'];
+
+    function isValidInteger(str) {
+        const num = parseInt(str, 10);
+        return !isNaN(num) && num >= -999 && num <= 999 && str === num.toString();
+    }
+
+    function isValidSource(token) {
+        return validSources.includes(token) || isValidInteger(token);
+    }
+
+    function isValidDestination(token) {
+        return validDestinations.includes(token);
+    }
+
+    function isValidLabel(token) {
+        return labelMap.hasOwnProperty(token);
+    }
+
+    function isValidJROOperand(token) {
+        return token === 'ACC' || isValidInteger(token);
+    }
+
+    let allLinesValid = true;
+
+    for (const line of tokenizedLines) {
+        const statement = line.statement;
+
+        // Empty statements are considered valid
+        if (statement.length === 0) {
+            line.syntaxValid = true;
+            continue;
+        }
+
+        const instruction = statement[0].toUpperCase();
+        let lineValid = true;
+
+        switch (instruction) {
+            case 'MOV':
+                if (statement.length !== 3) lineValid = false;
+                else if (!isValidSource(statement[1]) || !isValidDestination(statement[2])) lineValid = false;
+                break;
+
+            case 'ADD':
+            case 'SUB':
+                if (statement.length !== 2) lineValid = false;
+                else if (!isValidSource(statement[1])) lineValid = false;
+                break;
+
+            case 'JMP':
+            case 'JEZ':
+            case 'JNZ':
+            case 'JGZ':
+            case 'JLZ':
+                if (statement.length !== 2) lineValid = false;
+                else if (!isValidLabel(statement[1])) lineValid = false;
+                break;
+
+            case 'JRO':
+                if (statement.length !== 2) lineValid = false;
+                else if (!isValidJROOperand(statement[1])) lineValid = false;
+                break;
+
+            case 'NOP':
+            case 'HCF':
+            case 'SWP':
+            case 'SAV':
+            case 'NEG':
+                if (statement.length !== 1) lineValid = false;
+                break;
+
+            default:
+                lineValid = false;
+        }
+
+        line.syntaxValid = lineValid;
+        if (!lineValid) {
+            allLinesValid = false;
+        }
+    }
+
+    return { allLinesValid: allLinesValid, tokenizedLines: tokenizedLines };
+}
+
 function parseCodeLines(rawLines) {
     const labelMap = {};
     const tokenizedLines = [];
@@ -261,9 +347,13 @@ function parseCodeLines(rawLines) {
         }
     });
 
+    // Basic syntax checking
+    const syntaxOK = syntaxCheck(tokenizedLines, labelMap);
+
     return {
-        program: tokenizedLines,
-        labelMap: labelMap
+        program: syntaxOK.tokenizedLines,
+        labelMap: labelMap,
+        syntaxOK: syntaxOK.allLinesValid
     };
 }
 
@@ -290,10 +380,12 @@ function initializeSimulation() {
                     nodeState.program = parseResult.program;
                     nodeState.program_text = rawLines;
                     nodeState.label_map = parseResult.labelMap;
+                    nodeState.syntax_ok = parseResult.syntaxOK;
                 } else {
                     nodeState.program_text = [];
                     nodeState.program = [];
                     nodeState.label_map = {};
+                    nodeState.syntax_ok = true;
                 }
                 break;
             case 'stackmem':
