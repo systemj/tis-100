@@ -1,5 +1,6 @@
 /* basic node state */
 var basicNodeState = {
+    kind: "basic",
     program: [],
     program_text: [],
     label_map: {}, /* maps label names to their corresponding instruction indices */
@@ -25,6 +26,7 @@ var basicNodeState = {
 
 /* stack memory node state */
 var stackMemoryNodeState = {
+    kind: "stackmem",
     stack: [],
     output: {
         top: null,
@@ -42,6 +44,7 @@ var stackMemoryNodeState = {
 
 /* damaged node state; just null outputs */
 var damagedNodeState = {
+    kind: "damaged",
     output: {
         top: null,
         bottom: null,
@@ -52,6 +55,7 @@ var damagedNodeState = {
 
 /* input values and output state */
 var inputState = {
+    kind: "input",
     label: "",
     values: [],
     index: 0,
@@ -62,6 +66,7 @@ var inputState = {
 
 /* output values state */
 var outputState =  {
+    kind: "output",
     label: "",
     values: [],
     output: {
@@ -176,17 +181,17 @@ neighbors = {
     ],
     /* neighbors configuration for each input in the puzzle */
     inputs: [
-        { l: "nodes", i: 0},
-        { l: "nodes", i: 1},
-        { l: "nodes", i: 2},
-        { l: "nodes", i: 3},
+        { bottom: { l: "nodes", i: 0}},
+        { bottom: { l: "nodes", i: 1}},
+        { bottom: { l: "nodes", i: 2}},
+        { bottom: { l: "nodes", i: 3}},
     ],
     /* neighbors configuration for each output in the puzzle */
     outputs: [
-        { l: "nodes", i: 8},
-        { l: "nodes", i: 9},
-        { l: "nodes", i: 10},
-        { l: "nodes", i: 11},
+       { top: { l: "nodes", i: 8}},
+       { top: { l: "nodes", i: 9}},
+       { top: { l: "nodes", i: 10}},
+       { top: { l: "nodes", i: 11}},
     ]
 }
 
@@ -507,7 +512,87 @@ function initializeSimulation() {
     });
 
     // Copy current_state to next_state for simulation stepping
-    next_state.nodes = current_state.nodes.map(node => JSON.parse(JSON.stringify(node)));
-    next_state.input = current_state.input.map(input => JSON.parse(JSON.stringify(input)));
-    next_state.output = current_state.output.map(output => JSON.parse(JSON.stringify(output)));
+    // next_state.nodes = current_state.nodes.map(node => JSON.parse(JSON.stringify(node)));
+    // next_state.input = current_state.input.map(input => JSON.parse(JSON.stringify(input)));
+    // next_state.output = current_state.output.map(output => JSON.parse(JSON.stringify(output)));
 }
+
+
+const readNeighborUpdates = [];
+
+function readNeighbor(neighbors, direction) {
+    const opposites = {
+        top: 'bottom',
+        bottom: 'top',
+        left: 'right',
+        right: 'left'
+    };
+    const neighbor = neighbors[direction];
+    if (neighbor === null) {
+        return null;
+    } else {
+        readValue = current_state[neighbor.l][neighbor.i].output[opposites[direction]];
+        if (readValue !== null) {
+            readNeighborUpdates.push({
+                neighbor,
+                direction: opposites[direction]
+            })
+        }
+        return readValue;
+    }
+}
+
+
+function nextInputPortState(inputIndex) {
+    const nextInputState = structuredClone(current_state.input[inputIndex]);
+    if (nextInputState.values.length > 0) {
+        if (nextInputState.output.bottom === null) {
+            // Shift the next item off values to output[bottom]
+            nextInputState.output.bottom = nextInputState.values.shift();
+        }
+        // else: do nothing (we are blocked)
+    }
+    return nextInputState;
+}
+
+function nextOutputPortState(outputIndex) {
+    const nextOutputState = structuredClone(current_state.output[outputIndex]);
+    outputValue = readNeighbor(nextOutputState.neighbors, "top");
+    if (outputValue !== null) {
+        nextOutputState.values.push(outputValue);
+    }
+    return nextOutputState;
+}
+
+function nextNodeState(nodeIndex) {
+    const nextNodeState = structuredClone(current_state.nodes[nodeIndex]);
+    return nextNodeState;
+}
+
+
+function nextState() {
+    next_state = {
+        nodes: [],
+        input: [],
+        output: []
+    };
+    current_state.input.forEach((inputState, inputIndex) => {
+        next_state.input.push(nextInputPortState(inputIndex));
+    });
+    current_state.output.forEach((outputState, outputIndex) => {
+        next_state.output.push(nextOutputPortState(outputIndex));
+    });
+    current_state.nodes.forEach((nodeState, nodeIndex) => {
+        next_state.nodes.push(nextNodeState(nodeIndex));
+    });
+
+    // Apply all readNeighbor updates after all nodes have read their neighbors
+    readNeighborUpdates.forEach(update => {
+        next_state[update.neighbor.l][update.neighbor.i].output[update.direction] = null;
+        console.log("updating neighbor read", update)
+    });
+    readNeighborUpdates.length = 0; // Clear updates for next cycle
+
+    current_state = structuredClone(next_state);
+}
+
