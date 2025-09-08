@@ -52,6 +52,7 @@ var damagedNodeState = {
 
 /* input values and output state */
 var inputState = {
+    label: "",
     values: [],
     index: 0,
     output: {
@@ -61,8 +62,11 @@ var inputState = {
 
 /* output values state */
 var outputState =  {
+    label: "",
     values: [],
-    neighbor: null
+    output: {
+        top: null,
+    },
 }
 
 /* current state of all inputs, outputs, and nodes */
@@ -81,94 +85,110 @@ next_state = {
 }
 
 /* mapping of all nodes to their neighbors */
-neighbors = [
-    /* row 1, node 1 */
-    {
-        top: { l: "input", i: 0},
-        bottom: { l: "nodes", i: 4},
-        left: null,
-        right: { l: "nodes", i: 1}
-    },
-    /* row 1, node 2 */
-    {
-        top: { l: "input", i: 1},
-        bottom: { l: "nodes", i: 5},
-        left: { l: "nodes", i: 0},
-        right: { l: "nodes", i: 2}
-    },
-    /* row 1, node 3 */
-    {
-        top: { l: "input", i: 2},
-        bottom: { l: "nodes", i: 6},
-        left: { l: "nodes", i: 1},
-        right: { l: "nodes", i: 3}
-    },
-    /* row 1, node 4 */
-    {
-        top: { l: "input", i: 3},
-        bottom: { l: "nodes", i: 7},
-        left: { l: "nodes", i: 2},
-        right: null
-    },
+neighbors = {
+    nodes: [
+        /* row 1, node 1 */
+        {
+            top: { l: "input", i: 0},
+            bottom: { l: "nodes", i: 4},
+            left: null,
+            right: { l: "nodes", i: 1}
+        },
+        /* row 1, node 2 */
+        {
+            top: { l: "input", i: 1},
+            bottom: { l: "nodes", i: 5},
+            left: { l: "nodes", i: 0},
+            right: { l: "nodes", i: 2}
+        },
+        /* row 1, node 3 */
+        {
+            top: { l: "input", i: 2},
+            bottom: { l: "nodes", i: 6},
+            left: { l: "nodes", i: 1},
+            right: { l: "nodes", i: 3}
+        },
+        /* row 1, node 4 */
+        {
+            top: { l: "input", i: 3},
+            bottom: { l: "nodes", i: 7},
+            left: { l: "nodes", i: 2},
+            right: null
+        },
 
-    /* row 2, node 4 */
-    {
-        top: { l: "nodes", i: 0},
-        bottom: { l: "nodes", i: 8},
-        left: null,
-        right: { l: "nodes", i: 5}
-    },
-    /* row 2, node 5 */
-    {
-        top: { l: "nodes", i: 1},
-        bottom: { l: "nodes", i: 9},
-        left: { l: "nodes", i: 4},
-        right: { l: "nodes", i: 6}
-    },
-    /* row 2, node 6 */
-    {
-        top: { l: "nodes", i: 2},
-        bottom: { l: "nodes", i: 10},
-        left: { l: "nodes", i: 5},
-        right: { l: "nodes", i: 7}
-    },
-    /* row 2, node 7 */
-    {
-        top: { l: "nodes", i: 3},
-        bottom: { l: "nodes", i: 11},
-        left: { l: "nodes", i: 6},
-        right: null
-    },
+        /* row 2, node 4 */
+        {
+            top: { l: "nodes", i: 0},
+            bottom: { l: "nodes", i: 8},
+            left: null,
+            right: { l: "nodes", i: 5}
+        },
+        /* row 2, node 5 */
+        {
+            top: { l: "nodes", i: 1},
+            bottom: { l: "nodes", i: 9},
+            left: { l: "nodes", i: 4},
+            right: { l: "nodes", i: 6}
+        },
+        /* row 2, node 6 */
+        {
+            top: { l: "nodes", i: 2},
+            bottom: { l: "nodes", i: 10},
+            left: { l: "nodes", i: 5},
+            right: { l: "nodes", i: 7}
+        },
+        /* row 2, node 7 */
+        {
+            top: { l: "nodes", i: 3},
+            bottom: { l: "nodes", i: 11},
+            left: { l: "nodes", i: 6},
+            right: null
+        },
 
-    /* row 3, node 8 */
-    {
-        top: { l: "nodes", i: 4},
-        bottom: { l: "output", i: 0},
-        left: null,
-        right: { l: "nodes", i: 9}
-    },
-    /* row 3, node 9 */
-    {
-        top: { l: "nodes", i: 5},
-        bottom: { l: "output", i: 1},
-        left: { l: "nodes", i: 8},
-        right: { l: "nodes", i: 10}
-    },
-    /* row 3, node 10 */
-    {
-        top: { l: "nodes", i: 6},
-        bottom: { l: "output", i: 2},
-        left: { l: "nodes", i: 8},
-        right: { l: "nodes", i: 11}
-    },
-    /* row 3, node 11 */
-    {
-        top: { l: "nodes", i: 7},
-        bottom: { l: "output", i: 3},
-        left: { l: "nodes", i: 10},
-        right: null
-    },
-]
+        /* row 3, node 8 */
+        {
+            top: { l: "nodes", i: 4},
+            bottom: { l: "output", i: 0},
+            left: null,
+            right: { l: "nodes", i: 9}
+        },
+        /* row 3, node 9 */
+        {
+            top: { l: "nodes", i: 5},
+            bottom: { l: "output", i: 1},
+            left: { l: "nodes", i: 8},
+            right: { l: "nodes", i: 10}
+        },
+        /* row 3, node 10 */
+        {
+            top: { l: "nodes", i: 6},
+            bottom: { l: "output", i: 2},
+            left: { l: "nodes", i: 8},
+            right: { l: "nodes", i: 11}
+        },
+        /* row 3, node 11 */
+        {
+            top: { l: "nodes", i: 7},
+            bottom: { l: "output", i: 3},
+            left: { l: "nodes", i: 10},
+            right: null
+        }
+    ],
+    /* neighbors configuration for each input in the puzzle */
+    inputs: [
+        { l: "nodes", i: 0},
+        { l: "nodes", i: 1},
+        { l: "nodes", i: 2},
+        { l: "nodes", i: 3},
+    ],
+    /* neighbors configuration for each output in the puzzle */
+    outputs: [
+        { l: "nodes", i: 8},
+        { l: "nodes", i: 9},
+        { l: "nodes", i: 10},
+        { l: "nodes", i: 11},
+    ]
+}
 
 function parseSingleLine(line) {
     let text = line || '';
@@ -462,23 +482,27 @@ function initializeSimulation() {
         }
 
         // Set up neighbors reference using the exact {l: list, i: index} format
-        nodeState.neighbors = neighbors[index];
+        nodeState.neighbors = neighbors["nodes"][index];
 
         current_state.nodes.push(nodeState);
     });
 
     // Initialize input ports
-    ['a', 'b', 'c', 'd'].forEach((port, index) => {
-        const inputPortState = JSON.parse(JSON.stringify(inputState));
-        if (puzzle.inputs[port] && puzzle.inputs[port].values) {
-            inputPortState.values = [...puzzle.inputs[port].values];
-        }
+    puzzle.inputs.forEach((inputConfig, index) => {
+        let inputPortState;
+        inputPortState = JSON.parse(JSON.stringify(inputState));
+        inputPortState = Object.assign(inputPortState, inputConfig);
+        inputPortState.neighbors = neighbors["inputs"][index];
         current_state.input.push(inputPortState);
     });
 
     // Initialize output ports
-    ['a', 'b', 'c', 'd'].forEach((port, index) => {
-        const outputPortState = JSON.parse(JSON.stringify(outputState));
+    puzzle.outputs.forEach((outputConfig, index) => {
+        let outputPortState;
+        outputPortState = JSON.parse(JSON.stringify(outputState));
+        outputPortState = Object.assign(outputPortState, outputConfig);
+        outputPortState.values = []; // Clear values to start empty
+        outputPortState.neighbors = neighbors["outputs"][index];
         current_state.output.push(outputPortState);
     });
 

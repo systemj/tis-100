@@ -48,7 +48,7 @@ function updateTitleAndMessage() {
 }
 
 function updateInputPorts() {
-    const inputPorts = ['a', 'b', 'c', 'd'];
+    const inputPorts = [0, 1, 2, 3];
     inputPorts.forEach(port => {
         const inputPortElement = document.getElementById(`input-${port}`);
         const inputData = puzzle.inputs[port];
@@ -66,7 +66,7 @@ function updateInputPorts() {
 }
 
 function updateOutputPorts() {
-    const outputPorts = ['a', 'b', 'c', 'd'];
+    const outputPorts = [0, 1, 2, 3];
 
     outputPorts.forEach(port => {
         const outputPortElement = document.getElementById(`output-${port}`);

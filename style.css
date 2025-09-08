@@ -247,22 +247,22 @@ body, * {
 }
 
 /* the bottom ports are hidden individually since the arrows are part of the nodes */
-#hide-ports-bottom-a {
+#hide-ports-bottom-0 {
   left: 600px;
   top: 948px;
 }
 
-#hide-ports-bottom-b {
+#hide-ports-bottom-1 {
   left: 920px;
   top: 948px;
 }
 
-#hide-ports-bottom-c {
+#hide-ports-bottom-2 {
   left: 1240px;
   top: 948px;
 }
 
-#hide-ports-bottom-d {
+#hide-ports-bottom-3 {
   left: 1560px;
   top: 948px;
 }
@@ -302,25 +302,25 @@ body, * {
   font-weight: bold;
 }
 
-#input-a {
+#input-0 {
   position: fixed;
   left: 539px;
   top: 55px;
 }
 
-#input-b{
+#input-1 {
   position: fixed;
   left: 859px;
   top: 55px;
 }
 
-#input-c {
+#input-2 {
   position: fixed;
   left: 1179px;
   top: 55px;
 }
 
-#input-d {
+#input-3 {
   position: fixed;
   left: 1499px;
   top: 55px;
@@ -336,25 +336,25 @@ body, * {
   text-align: right;
 }
 
-#output-a {
+#output-0 {
   position: fixed;
   left: 500px;
   top: 960px;
 }
 
-#output-b {
+#output-1 {
   position: fixed;
   left: 820px;
   top: 960px;
 }
 
-#output-c {
+#output-2 {
   position: fixed;
   left: 1140px;
   top: 960px;
 }
 
-#output-d {
+#output-3 {
   position: fixed;
   left: 1460px;
   top: 960px;
