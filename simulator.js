@@ -572,20 +572,30 @@ function nextNodeState(nodeIndex) {
     function setValue(destination, value) {
         if (!destination) return;
         const dst = destination.toUpperCase();
-
+        success = false;
         if (dst === 'ACC') {
             nextNodeState.acc = value;
+            success = true;
         } else if (dst === 'NIL') {
+            success = true;
             // Do nothing - value is discarded
-        } else if (dst === 'LEFT') {
+        } else if (dst === 'LEFT' && nextNodeState.output.left === null) {
             nextNodeState.output.left = value;
-        } else if (dst === 'RIGHT') {
+            success = true;
+        } else if (dst === 'RIGHT' && nextNodeState.output.right === null) {
             nextNodeState.output.right = value;
-        } else if (dst === 'UP') {
+            success = true;
+        } else if (dst === 'UP' && nextNodeState.output.top === null) {
             nextNodeState.output.top = value;
-        } else if (dst === 'DOWN') {
+            success = true;
+        } else if (dst === 'DOWN' && nextNodeState.output.bottom === null) {
             nextNodeState.output.bottom = value;
+            success = true;
         }
+        if (!success) {
+            nextNodeState.blocked = true;
+        }
+        return success
     }
 
     // Execute the instruction
@@ -601,13 +611,19 @@ function nextNodeState(nodeIndex) {
 
         case 'ADD':
             if (statement.length >= 2) {
-                nextNodeState.acc += getValue(statement[1]);
+                const value = getValue(statement[1]);
+                if (value !== null) {
+                    nextNodeState.acc += value;
+                }
             }
             break;
 
         case 'SUB':
             if (statement.length >= 2) {
-                nextNodeState.acc -= getValue(statement[1]);
+                const value = getValue(statement[1]);
+                if (value !== null) {
+                    nextNodeState.acc -= value;
+                }
             }
             break;
 
@@ -660,7 +676,7 @@ function nextNodeState(nodeIndex) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
                     nextNodeState.program_counter = nextNodeState.label_map[label];
-                    // return nextNodeState; // Don't increment program counter
+                    return nextNodeState; // Don't increment program counter
                 }
             }
             break;
@@ -670,7 +686,7 @@ function nextNodeState(nodeIndex) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
                     nextNodeState.program_counter = nextNodeState.label_map[label];
-                    // return nextNodeState; // Don't increment program counter
+                    return nextNodeState; // Don't increment program counter
                 }
             }
             break;

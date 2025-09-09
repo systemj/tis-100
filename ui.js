@@ -356,8 +356,6 @@ function updateOutputUI(object, index) {
             const arrowElement = document.getElementById(`arrow-${direction}-${kind}-${index}`);
             const outputElement = document.getElementById(`output-${direction}-${kind}-${index}`);
 
-            console.log(`Updating output for ${kind} ${index} direction ${direction}:`, object.output[direction]);
-
             if (object.output[direction] !== null) {
                 if (arrowElement) {
                     arrowElement.classList.add('arrow-active');
