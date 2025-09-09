@@ -1,14 +1,14 @@
 var basicNodeHtml = '\
   <div class="node basic-node" id="node-${id}">\
     <div class="node-arrows">\
-      <span class="node-arrow node-arrow-up" id="node-arrow-up-node-${id}">⬆</span>\
-      <span class="node-output-value node-output-up" id="node-output-up-node-${id}"></span>\
-      <span class="node-arrow node-arrow-right" id="node-arrow-right-node-${id}">➡</span>\
-      <span class="node-output-value node-output-right" id="node-output-right-node-${id}"></span>\
-      <span class="node-arrow node-arrow-down" id="node-arrow-down-node-${id}">⬇</span>\
-      <span class="node-output-value node-output-down" id="node-output-down-node-${id}"></span>\
-      <span class="node-arrow node-arrow-left" id="node-arrow-left-node-${id}">⬅</span>\
-      <span class="node-output-value node-output-left" id="node-output-left-node-${id}"></span>\
+      <span class="node-arrow node-arrow-up" id="arrow-top-node-${id}">⬆</span>\
+      <span class="node-output-value node-output-up" id="output-top-node-${id}"></span>\
+      <span class="node-arrow node-arrow-right" id="arrow-right-node-${id}">➡</span>\
+      <span class="node-output-value node-output-right" id="output-right-node-${id}"></span>\
+      <span class="node-arrow node-arrow-down" id="arrow-bottom-node-${id}">⬇</span>\
+      <span class="node-output-value node-output-down" id="output-bottom-node-${id}"></span>\
+      <span class="node-arrow node-arrow-left" id="arrow-left-node-${id}">⬅</span>\
+      <span class="node-output-value node-output-left" id="output-left-node-${id}"></span>\
     </div>\
     <div class="node-main"><div class="node-code-area">\
       <div class="node-line" id="node-line-0-node-${id}"></div>\
@@ -56,14 +56,14 @@ var basicNodeHtml = '\
 var StackMemoryNodeHtml = '\
   <div class="node stack-memory" id="node-${id}">\
     <div class="node-arrows">\
-      <span class="node-arrow node-arrow-up" id="node-arrow-up-node-${id}">⬆</span>\
-      <span class="node-output-value node-output-up" id="node-output-up-node-${id}"></span>\
-      <span class="node-arrow node-arrow-right" id="node-arrow-right-node-${id}">➡</span>\
-      <span class="node-output-value node-output-right" id="node-output-right-node-${id}"></span>\
-      <span class="node-arrow node-arrow-down" id="node-arrow-down-node-${id}">⬇</span>\
-      <span class="node-output-value node-output-down" id="node-output-down-node-${id}"></span>\
-      <span class="node-arrow node-arrow-left" id="node-arrow-left-node-${id}">⬅</span>\
-      <span class="node-output-value node-output-left" id="node-output-left-node-${id}"></span>\
+      <span class="node-arrow node-arrow-up" id="arrow-top-node-${id}">⬆</span>\
+      <span class="node-output-value node-output-up" id="output-top-node-${id}"></span>\
+      <span class="node-arrow node-arrow-right" id="arrow-right-node-${id}">➡</span>\
+      <span class="node-output-value node-output-right" id="output-right-node-${id}"></span>\
+      <span class="node-arrow node-arrow-down" id="arrow-bottom-node-${id}">⬇</span>\
+      <span class="node-output-value node-output-down" id="output-bottom-node-${id}"></span>\
+      <span class="node-arrow node-arrow-left" id="arrow-left-node-${id}">⬅</span>\
+      <span class="node-output-value node-output-left" id="output-left-node-${id}"></span>\
     </div>\
     <div class="node-main">\
       <div class="node-code-area">\

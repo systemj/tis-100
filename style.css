@@ -368,64 +368,64 @@ body, * {
 }
 
 /* Node row 1 */
-#node-1 {
+#node-0 {
   left: 0px;
   top: 0px;
 }
 
-#node-2 {
+#node-1 {
   left: 320px;
   top: 0px;
 }
 
-#node-3 {
+#node-2 {
   left: 640px;
   top: 0px;
 }
 
-#node-4 {
+#node-3 {
   left: 960px;
   top: 0px;
 }
 
 /* Node row 2 */
-#node-5 {
+#node-4 {
   left: 0px;
   top: 300px;
 }
 
-#node-6 {
+#node-5 {
   left: 320px;
   top: 300px;
 }
 
-#node-7 {
+#node-6 {
   left: 640px;
   top: 300px;
 }
 
-#node-8 {
+#node-7 {
   left: 960px;
   top: 300px;
 }
 
 /* Node row 3 */
-#node-9 {
+#node-8 {
   left: 0px;
   top: 600px;
 }
 
-#node-10 {
+#node-9 {
   left: 320px;
   top: 600px;
 }
 
-#node-11 {
+#node-10 {
   left: 640px;
   top: 600px;
 }
 
-#node-12 {
+#node-11 {
   left: 960px;
   top: 600px;
 }
@@ -466,7 +466,7 @@ body, * {
   color: #555;
 }
 
-.node-arrow-active {
+.arrow-active {
   color: #fff;
 }
 

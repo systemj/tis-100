@@ -16,7 +16,7 @@ var puzzle = {
   nodes: [
     /* row 1 */
     {
-        id: 1,
+        id: 0,
         type: "basic",
         program: [
             "# TEST",
@@ -32,41 +32,45 @@ var puzzle = {
         ]
     },
     {
+        id: 1,
+        type: "basic",
+        program: []
+    },
+    {
         id: 2,
         type: "basic",
         program: []
     },
     {
         id: 3,
-        type: "basic",
-        program: []
-    },
-    {
-        id: 4,
         type: "damaged",
         debugMessage: ""
     },
     /* row 2 */
     {
-        id: 5,
+        id: 4,
         type: "stackmem"
     },
     {
-        id: 6,
+        id: 5,
         type: "damaged",
         debugMessage: "NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY\nWOULD YOU EXPECT HER TO?",
     },
     {
-        id: 7,
+        id: 6,
         type: "basic",
         program: []
     },
     {
-        id: 8,
+        id: 7,
         type: "stackmem"
     },
     /* row 3 */
     {
+        id: 8,
+        type: "basic",
+        program: []
+    },    {
         id: 9,
         type: "basic",
         program: []
@@ -76,10 +80,6 @@ var puzzle = {
         program: []
     },    {
         id: 11,
-        type: "basic",
-        program: []
-    },    {
-        id: 12,
         type: "basic",
         program: []
     }

@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
-    updateTitleAndMessage();
-    updateInputPorts();
-    updateOutputPorts();
+    initTitleAndMessage();
+    initInputPorts();
+    initOutputPorts();
     populateNodes();
 
     /* control buttons */
     document.getElementById('step-button').addEventListener('click', function() {
-        initializeSimulation();
-        console.log('Step button clicked - simulation initialized');
+        if (current_state.nodes.length === 0) {
+            initializeSimulation();
+            console.log('simulation initialized');
+        }
+        nextState();
     });
 
     document.getElementById('run-button').addEventListener('click', function() {
@@ -21,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('stop-button').addEventListener('click', function() {
+        resetSimulation();
         console.log('Stop button clicked');
     });
 
@@ -34,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function updateTitleAndMessage() {
+function initTitleAndMessage() {
     const titleElement = document.querySelector('.title-message');
     const messageElement = document.querySelector('.main-message-text');
 
@@ -47,7 +51,7 @@ function updateTitleAndMessage() {
     }
 }
 
-function updateInputPorts() {
+function initInputPorts() {
     const inputPorts = [0, 1, 2, 3];
     inputPorts.forEach(port => {
         const inputPortElement = document.getElementById(`input-${port}`);
@@ -65,7 +69,7 @@ function updateInputPorts() {
     });
 }
 
-function updateOutputPorts() {
+function initOutputPorts() {
     const outputPorts = [0, 1, 2, 3];
 
     outputPorts.forEach(port => {
@@ -286,3 +290,89 @@ function updateNodeProgram(nodeId, lineIndex, newText) {
     }
 }
 
+
+function updateNodeUI(nodeState, nodeIndex) {
+    // Only update basic nodes
+    if (!nodeState.program) return;
+
+    const nodeId = puzzle.nodes[nodeIndex].id;
+
+    // Clear previous highlighting
+    const allLines = document.querySelectorAll(`#node-${nodeId} .node-line`);
+    allLines.forEach(line => {
+        line.classList.remove('node-line-execute');
+    });
+
+    // Highlight current instruction line
+    if (nodeState.program.length > 0 && nodeState.program_counter < nodeState.program.length) {
+        const currentInstruction = nodeState.program[nodeState.program_counter];
+        if (currentInstruction && currentInstruction.lineIndex !== undefined) {
+            const currentLineElement = document.getElementById(`node-line-${currentInstruction.lineIndex}-node-${nodeId}`);
+            if (currentLineElement) {
+                currentLineElement.classList.add('node-line-execute');
+            }
+        }
+    }
+
+    // Update ACC value
+    const accElement = document.getElementById(`node-status-value-acc-node-${nodeId}`);
+    if (accElement) {
+        accElement.textContent = nodeState.acc;
+    }
+
+    // Update BAK value
+    const bakElement = document.getElementById(`node-status-value-bak-node-${nodeId}`);
+    if (bakElement) {
+        bakElement.textContent = nodeState.bak;
+    }
+
+    // Update LAST value
+    const lastElement = document.getElementById(`node-status-value-last-node-${nodeId}`);
+    if (lastElement) {
+        lastElement.textContent = nodeState.last;
+    }
+
+    // Update MODE value
+    const modeElement = document.getElementById(`node-status-value-mode-node-${nodeId}`);
+    if (modeElement) {
+        modeElement.textContent = nodeState.mode;
+    }
+
+    // Update IDLE value
+    const idleElement = document.getElementById(`node-status-value-idle-node-${nodeId}`);
+    if (idleElement) {
+        idleElement.textContent = nodeState.idle + '%';
+    }
+}
+
+function updateOutputUI(object, index) {
+    let kind = object.kind;
+    if (kind === 'basic' || kind === 'stackmem') {
+        kind = 'node';
+    }
+
+    if (object.output) {
+        Object.keys(object.output).forEach(direction => {
+            const arrowElement = document.getElementById(`arrow-${direction}-${kind}-${index}`);
+            const outputElement = document.getElementById(`output-${direction}-${kind}-${index}`);
+
+            console.log(`Updating output for ${kind} ${index} direction ${direction}:`, object.output[direction]);
+
+            if (object.output[direction] !== null) {
+                if (arrowElement) {
+                    arrowElement.classList.add('arrow-active');
+                }
+                if (outputElement) {
+                    outputElement.textContent = object.output[direction];
+                }
+            } else {
+                if (arrowElement) {
+                    arrowElement.classList.remove('arrow-active');
+                }
+                if (outputElement) {
+                    outputElement.textContent = '';
+                }
+            }
+        });
+    }
+}

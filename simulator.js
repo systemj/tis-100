@@ -16,6 +16,7 @@ var basicNodeState = {
     last: "N/A",
     mode: "IDLE",
     idle: 100,
+    blocked: false,
     neighbors: {
         top: null,
         bottom: null,
@@ -28,6 +29,7 @@ var basicNodeState = {
 var stackMemoryNodeState = {
     kind: "stackmem",
     stack: [],
+    blocked: false,
     output: {
         top: null,
         bottom: null,
@@ -55,10 +57,11 @@ var damagedNodeState = {
 
 /* input values and output state */
 var inputState = {
-    kind: "input",
+    kind: "input-port",
     label: "",
     values: [],
     index: 0,
+    blocked: false,
     output: {
         bottom: null
     }
@@ -66,7 +69,7 @@ var inputState = {
 
 /* output values state */
 var outputState =  {
-    kind: "output",
+    kind: "output-port",
     label: "",
     values: [],
     output: {
@@ -391,59 +394,7 @@ function parseCodeLines(rawLines) {
     };
 }
 
-function updateNodeUI(nodeIndex, nodeState) {
-    // Only update basic nodes
-    if (!nodeState.program) return;
 
-    const nodeId = puzzle.nodes[nodeIndex].id;
-
-    // Clear previous highlighting
-    const allLines = document.querySelectorAll(`#node-${nodeId} .node-line`);
-    allLines.forEach(line => {
-        line.classList.remove('node-line-highlight');
-    });
-
-    // Highlight current instruction line
-    if (nodeState.program.length > 0 && nodeState.program_counter < nodeState.program.length) {
-        const currentInstruction = nodeState.program[nodeState.program_counter];
-        if (currentInstruction && currentInstruction.lineIndex !== undefined) {
-            const currentLineElement = document.getElementById(`node-line-${currentInstruction.lineIndex}-node-${nodeId}`);
-            if (currentLineElement) {
-                currentLineElement.classList.add('node-line-execute');
-            }
-        }
-    }
-
-    // Update ACC value
-    const accElement = document.getElementById(`node-status-value-acc-node-${nodeId}`);
-    if (accElement) {
-        accElement.textContent = nodeState.acc;
-    }
-
-    // Update BAK value
-    const bakElement = document.getElementById(`node-status-value-bak-node-${nodeId}`);
-    if (bakElement) {
-        bakElement.textContent = nodeState.bak;
-    }
-
-    // Update LAST value
-    const lastElement = document.getElementById(`node-status-value-last-node-${nodeId}`);
-    if (lastElement) {
-        lastElement.textContent = nodeState.last;
-    }
-
-    // Update MODE value
-    const modeElement = document.getElementById(`node-status-value-mode-node-${nodeId}`);
-    if (modeElement) {
-        modeElement.textContent = nodeState.mode;
-    }
-
-    // Update IDLE value
-    const idleElement = document.getElementById(`node-status-value-idle-node-${nodeId}`);
-    if (idleElement) {
-        idleElement.textContent = nodeState.idle + '%';
-    }
-}
 
 function initializeSimulation() {
     // Clear existing state
@@ -459,7 +410,7 @@ function initializeSimulation() {
             case 'basic':
                 nodeState = JSON.parse(JSON.stringify(basicNodeState));
                 // Capture live program data from DOM and process it
-                const nodeElement = document.querySelector(`#node-${nodeConfig.id}`);
+                const nodeElement = document.querySelector(`#node-${index}`);
                 if (nodeElement) {
                     const codeLines = nodeElement.querySelectorAll('.node-line');
                     const rawLines = Array.from(codeLines).map(line => line.textContent || '');
@@ -566,6 +517,194 @@ function nextOutputPortState(outputIndex) {
 
 function nextNodeState(nodeIndex) {
     const nextNodeState = structuredClone(current_state.nodes[nodeIndex]);
+    nextNodeState.blocked = false;
+
+    // Only execute program for basic nodes
+    if (nextNodeState.kind !== 'basic' || !nextNodeState.program || nextNodeState.program.length === 0) {
+        return nextNodeState;
+    }
+
+    const currentInstruction = nextNodeState.program[nextNodeState.program_counter];
+    if (!currentInstruction || !currentInstruction.statement || currentInstruction.statement.length === 0) {
+        // No instruction to execute, just increment program counter
+        nextNodeState.program_counter++;
+        if (nextNodeState.program_counter >= nextNodeState.program.length) {
+            nextNodeState.program_counter = 0;
+        }
+        return nextNodeState;
+    }
+
+    const statement = currentInstruction.statement;
+    const instruction = statement[0].toUpperCase();
+
+    // Helper function to get value from source
+    function getValue(source) {
+        if (!source) return null;
+        const src = source.toUpperCase();
+        let value = null;
+
+        if (src === 'ACC') value = nextNodeState.acc;
+        if (src === 'NIL') value = 0;
+        if (src === 'LEFT') value = readNeighbor(nextNodeState.neighbors, 'left');
+        if (src === 'RIGHT') value = readNeighbor(nextNodeState.neighbors, 'right');
+        if (src === 'UP') value = readNeighbor(nextNodeState.neighbors, 'top');
+        if (src === 'DOWN') value = readNeighbor(nextNodeState.neighbors, 'bottom');
+        if (src === 'ANY') {
+            const directions = ['top', 'bottom', 'left', 'right'];
+            for (const dir of directions) {
+                const val = readNeighbor(nextNodeState.neighbors, dir);
+                if (val !== null) value = val;
+            }
+            value = null;
+        }
+        if (src === 'LAST') return getValue(nextNodeState.last);
+        // Handle integer literals
+        const intValue = parseInt(src, 10);
+        if (!isNaN(intValue)) return intValue;
+
+        if (value === null) {
+            nextNodeState.blocked = true;
+        }
+        return value;
+    }
+
+    // Helper function to set value to destination
+    function setValue(destination, value) {
+        if (!destination) return;
+        const dst = destination.toUpperCase();
+
+        if (dst === 'ACC') {
+            nextNodeState.acc = value;
+        } else if (dst === 'NIL') {
+            // Do nothing - value is discarded
+        } else if (dst === 'LEFT') {
+            nextNodeState.output.left = value;
+        } else if (dst === 'RIGHT') {
+            nextNodeState.output.right = value;
+        } else if (dst === 'UP') {
+            nextNodeState.output.top = value;
+        } else if (dst === 'DOWN') {
+            nextNodeState.output.bottom = value;
+        }
+    }
+
+    // Execute the instruction
+    switch (instruction) {
+        case 'MOV':
+            if (statement.length === 3) {
+                const value = getValue(statement[1]);
+                if (value !== null) {
+                    setValue(statement[2], value);
+                }
+            }
+            break;
+
+        case 'ADD':
+            if (statement.length >= 2) {
+                nextNodeState.acc += getValue(statement[1]);
+            }
+            break;
+
+        case 'SUB':
+            if (statement.length >= 2) {
+                nextNodeState.acc -= getValue(statement[1]);
+            }
+            break;
+
+        case 'NEG':
+            nextNodeState.acc = -nextNodeState.acc;
+            break;
+
+        case 'SWP':
+            const temp = nextNodeState.acc;
+            nextNodeState.acc = nextNodeState.bak;
+            nextNodeState.bak = temp;
+            break;
+
+        case 'SAV':
+            nextNodeState.bak = nextNodeState.acc;
+            break;
+
+        case 'JMP':
+            if (statement.length >= 2) {
+                const label = statement[1];
+                if (nextNodeState.label_map.hasOwnProperty(label)) {
+                    nextNodeState.program_counter = nextNodeState.label_map[label];
+                    return nextNodeState; // Don't increment program counter
+                }
+            }
+            break;
+
+        case 'JEZ':
+            if (statement.length >= 2 && nextNodeState.acc === 0) {
+                const label = statement[1];
+                if (nextNodeState.label_map.hasOwnProperty(label)) {
+                    nextNodeState.program_counter = nextNodeState.label_map[label];
+                    return nextNodeState; // Don't increment program counter
+                }
+            }
+            break;
+
+        case 'JNZ':
+            if (statement.length >= 2 && nextNodeState.acc !== 0) {
+                const label = statement[1];
+                if (nextNodeState.label_map.hasOwnProperty(label)) {
+                    nextNodeState.program_counter = nextNodeState.label_map[label];
+                    return nextNodeState; // Don't increment program counter
+                }
+            }
+            break;
+
+        case 'JGZ':
+            if (statement.length >= 2 && nextNodeState.acc > 0) {
+                const label = statement[1];
+                if (nextNodeState.label_map.hasOwnProperty(label)) {
+                    nextNodeState.program_counter = nextNodeState.label_map[label];
+                    // return nextNodeState; // Don't increment program counter
+                }
+            }
+            break;
+
+        case 'JLZ':
+            if (statement.length >= 2 && nextNodeState.acc < 0) {
+                const label = statement[1];
+                if (nextNodeState.label_map.hasOwnProperty(label)) {
+                    nextNodeState.program_counter = nextNodeState.label_map[label];
+                    // return nextNodeState; // Don't increment program counter
+                }
+            }
+            break;
+
+        case 'JRO':
+            if (statement.length >= 2) {
+                const offset = getValue(statement[1]);
+                let newPC = nextNodeState.program_counter + offset;
+                // Wrap around if necessary
+                while (newPC < 0) newPC += nextNodeState.program.length;
+                while (newPC >= nextNodeState.program.length) newPC -= nextNodeState.program.length;
+                nextNodeState.program_counter = newPC;
+                return nextNodeState; // Don't increment program counter
+            }
+            break;
+
+        case 'NOP':
+            // No operation - just increment program counter
+            break;
+
+        case 'HCF':
+            // Halt and catch fire - stop execution
+            break;
+    }
+
+    // Check if the node is blocked
+    if (!nextNodeState.blocked) {
+        // Increment program counter for most instructions
+        nextNodeState.program_counter++;
+        if (nextNodeState.program_counter >= nextNodeState.program.length) {
+            nextNodeState.program_counter = 0;
+        }
+    }
+
     return nextNodeState;
 }
 
@@ -593,6 +732,36 @@ function nextState() {
     });
     readNeighborUpdates.length = 0; // Clear updates for next cycle
 
+    // Commit next_state to current_state
     current_state = structuredClone(next_state);
+
+    // Update the UI to reflect the new current_state
+    current_state.input.forEach((inputState, inputIndex) => {
+        updateOutputUI(inputState, inputIndex);
+    });
+
+    current_state.nodes.forEach((nodeState, nodeIndex) => {
+        updateNodeUI(nodeState, nodeIndex);
+        updateOutputUI(nodeState, nodeIndex);
+    });
+
+    // Not updating output UI here, as outputs are passive and only show accumulated values
+    // current_state.output.forEach((outputState, outputIndex) => {
+    //     updateOutputUI(outputState, outputIndex);
+    // });
+}
+
+function resetSimulation() {
+    initializeSimulation();
+    // Update the UI to reflect the reset state
+    current_state.input.forEach((inputState, inputIndex) => {
+        updateOutputUI(inputState, inputIndex);
+    });
+    current_state.nodes.forEach((nodeState, nodeIndex) => {
+        updateNodeUI(nodeState, nodeIndex);
+    });
+    current_state.output.forEach((outputState, outputIndex) => {
+        updateOutputUI(outputState, outputIndex);
+    });
 }
 
