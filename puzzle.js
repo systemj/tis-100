@@ -59,7 +59,19 @@ var puzzle = {
     {
         id: 6,
         type: "basic",
-        program: []
+        program: [
+            "LOOP:",
+            "MOV ACC RIGHT",
+            "ADD 1",
+            "SAV",
+            "SUB 10",
+            "JEZ DUMP",
+            "SWP",
+            "JMP LOOP",
+            "DUMP:",
+            "MOV 1 DOWN",
+            "MOV DOWN NIL"
+        ]
     },
     {
         id: 7,
@@ -77,11 +89,29 @@ var puzzle = {
     },    {
         id: 10,
         type: "basic",
-        program: []
+        program: [
+            "MOV UP NIL",
+            "MOV 1 RIGHT",
+            "LOOP:",
+            "MOV RIGHT ACC",
+            "MOV ACC DOWN",
+            "JEZ DONE",
+            "JMP LOOP",
+            "DONE:",
+            "MOV 1 UP"
+        ]
     },    {
         id: 11,
         type: "basic",
-        program: []
+        program: [
+            "START:",
+            "MOV LEFT NIL",
+            "LOOP:",
+            "MOV UP ACC",
+            "MOV ACC LEFT",
+            "JEZ START",
+            "JMP LOOP"
+        ]
     }
   ]
 };
