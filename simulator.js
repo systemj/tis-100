@@ -199,7 +199,7 @@ neighbors = {
 }
 
 var simulationState = "stop"; // "run", "step" "stop"
-var simulationSpeed = 200; // milliseconds per cycle
+var simulationSpeed = 250; // milliseconds per cycle
 
 function parseSingleLine(line) {
     let text = line || '';

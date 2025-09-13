@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('run-button').addEventListener('click', function() {
         simulationState = "run"
-        simulationSpeed = 200; // reset to default speed
+        simulationSpeed = 250; // reset to default speed
         if (current_state.nodes.length === 0) {
             initializeSimulation();
             console.log('simulation initialized');
