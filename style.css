@@ -247,22 +247,22 @@ body, * {
 }
 
 /* the bottom ports are hidden individually since the arrows are part of the nodes */
-#hide-ports-bottom-0 {
+#hide-ports-down-0 {
   left: 600px;
   top: 948px;
 }
 
-#hide-ports-bottom-1 {
+#hide-ports-down-1 {
   left: 920px;
   top: 948px;
 }
 
-#hide-ports-bottom-2 {
+#hide-ports-down-2 {
   left: 1240px;
   top: 948px;
 }
 
-#hide-ports-bottom-3 {
+#hide-ports-down-3 {
   left: 1560px;
   top: 948px;
 }

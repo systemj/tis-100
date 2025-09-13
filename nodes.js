@@ -1,12 +1,12 @@
 var basicNodeHtml = '\
   <div class="node basic-node" id="node-${id}">\
     <div class="node-arrows">\
-      <span class="node-arrow node-arrow-up" id="arrow-top-node-${id}">⬆</span>\
-      <span class="node-output-value node-output-up" id="output-top-node-${id}"></span>\
+      <span class="node-arrow node-arrow-up" id="arrow-up-node-${id}">⬆</span>\
+      <span class="node-output-value node-output-up" id="output-up-node-${id}"></span>\
       <span class="node-arrow node-arrow-right" id="arrow-right-node-${id}">➡</span>\
       <span class="node-output-value node-output-right" id="output-right-node-${id}"></span>\
-      <span class="node-arrow node-arrow-down" id="arrow-bottom-node-${id}">⬇</span>\
-      <span class="node-output-value node-output-down" id="output-bottom-node-${id}"></span>\
+      <span class="node-arrow node-arrow-down" id="arrow-down-node-${id}">⬇</span>\
+      <span class="node-output-value node-output-down" id="output-down-node-${id}"></span>\
       <span class="node-arrow node-arrow-left" id="arrow-left-node-${id}">⬅</span>\
       <span class="node-output-value node-output-left" id="output-left-node-${id}"></span>\
     </div>\
@@ -56,12 +56,12 @@ var basicNodeHtml = '\
 var StackMemoryNodeHtml = '\
   <div class="node stack-memory" id="node-${id}">\
     <div class="node-arrows">\
-      <span class="node-arrow node-arrow-up" id="arrow-top-node-${id}">⬆</span>\
-      <span class="node-output-value node-output-up" id="output-top-node-${id}"></span>\
+      <span class="node-arrow node-arrow-up" id="arrow-up-node-${id}">⬆</span>\
+      <span class="node-output-value node-output-up" id="output-up-node-${id}"></span>\
       <span class="node-arrow node-arrow-right" id="arrow-right-node-${id}">➡</span>\
       <span class="node-output-value node-output-right" id="output-right-node-${id}"></span>\
-      <span class="node-arrow node-arrow-down" id="arrow-bottom-node-${id}">⬇</span>\
-      <span class="node-output-value node-output-down" id="output-bottom-node-${id}"></span>\
+      <span class="node-arrow node-arrow-down" id="arrow-down-node-${id}">⬇</span>\
+      <span class="node-output-value node-output-down" id="output-down-node-${id}"></span>\
       <span class="node-arrow node-arrow-left" id="arrow-left-node-${id}">⬅</span>\
       <span class="node-output-value node-output-left" id="output-left-node-${id}"></span>\
     </div>\

@@ -74,7 +74,7 @@ function initOutputPorts() {
 
     outputPorts.forEach(port => {
         const outputPortElement = document.getElementById(`output-${port}`);
-        const hidePortElement = document.getElementById(`hide-ports-bottom-${port}`);
+        const hidePortElement = document.getElementById(`hide-ports-down-${port}`);
         const outputData = puzzle.outputs[port];
 
         if (outputPortElement) {

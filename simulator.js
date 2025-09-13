@@ -6,8 +6,8 @@ var basicNodeState = {
     label_map: {}, /* maps label names to their corresponding instruction indices */
     program_counter: 0,
     output: {
-        top: null,
-        bottom: null,
+        up: null,
+        down: null,
         left: null,
         right: null
     },
@@ -18,8 +18,8 @@ var basicNodeState = {
     idle: 100,
     blocked: false,
     neighbors: {
-        top: null,
-        bottom: null,
+        up: null,
+        down: null,
         left: null,
         right: null
     }
@@ -31,14 +31,14 @@ var stackMemoryNodeState = {
     stack: [],
     blocked: false,
     output: {
-        top: null,
-        bottom: null,
+        up: null,
+        down: null,
         left: null,
         right: null
     },
     neighbors: {
-        top: null,
-        bottom: null,
+        up: null,
+        down: null,
         left: null,
         right: null
     }
@@ -48,8 +48,8 @@ var stackMemoryNodeState = {
 var damagedNodeState = {
     kind: "damaged",
     output: {
-        top: null,
-        bottom: null,
+        up: null,
+        down: null,
         left: null,
         right: null
     },
@@ -63,7 +63,7 @@ var inputState = {
     index: 0,
     blocked: false,
     output: {
-        bottom: null
+        down: null
     }
 }
 
@@ -73,7 +73,7 @@ var outputState =  {
     label: "",
     values: [],
     output: {
-        top: null,
+        up: null,
     },
 }
 
@@ -97,104 +97,104 @@ neighbors = {
     nodes: [
         /* row 1, node 1 */
         {
-            top: { l: "input", i: 0},
-            bottom: { l: "nodes", i: 4},
+            up: { l: "input", i: 0},
+            down: { l: "nodes", i: 4},
             left: null,
             right: { l: "nodes", i: 1}
         },
         /* row 1, node 2 */
         {
-            top: { l: "input", i: 1},
-            bottom: { l: "nodes", i: 5},
+            up: { l: "input", i: 1},
+            down: { l: "nodes", i: 5},
             left: { l: "nodes", i: 0},
             right: { l: "nodes", i: 2}
         },
         /* row 1, node 3 */
         {
-            top: { l: "input", i: 2},
-            bottom: { l: "nodes", i: 6},
+            up: { l: "input", i: 2},
+            down: { l: "nodes", i: 6},
             left: { l: "nodes", i: 1},
             right: { l: "nodes", i: 3}
         },
         /* row 1, node 4 */
         {
-            top: { l: "input", i: 3},
-            bottom: { l: "nodes", i: 7},
+            up: { l: "input", i: 3},
+            down: { l: "nodes", i: 7},
             left: { l: "nodes", i: 2},
             right: null
         },
 
         /* row 2, node 4 */
         {
-            top: { l: "nodes", i: 0},
-            bottom: { l: "nodes", i: 8},
+            up: { l: "nodes", i: 0},
+            down: { l: "nodes", i: 8},
             left: null,
             right: { l: "nodes", i: 5}
         },
         /* row 2, node 5 */
         {
-            top: { l: "nodes", i: 1},
-            bottom: { l: "nodes", i: 9},
+            up: { l: "nodes", i: 1},
+            down: { l: "nodes", i: 9},
             left: { l: "nodes", i: 4},
             right: { l: "nodes", i: 6}
         },
         /* row 2, node 6 */
         {
-            top: { l: "nodes", i: 2},
-            bottom: { l: "nodes", i: 10},
+            up: { l: "nodes", i: 2},
+            down: { l: "nodes", i: 10},
             left: { l: "nodes", i: 5},
             right: { l: "nodes", i: 7}
         },
         /* row 2, node 7 */
         {
-            top: { l: "nodes", i: 3},
-            bottom: { l: "nodes", i: 11},
+            up: { l: "nodes", i: 3},
+            down: { l: "nodes", i: 11},
             left: { l: "nodes", i: 6},
             right: null
         },
 
         /* row 3, node 8 */
         {
-            top: { l: "nodes", i: 4},
-            bottom: { l: "output", i: 0},
+            up: { l: "nodes", i: 4},
+            down: { l: "output", i: 0},
             left: null,
             right: { l: "nodes", i: 9}
         },
         /* row 3, node 9 */
         {
-            top: { l: "nodes", i: 5},
-            bottom: { l: "output", i: 1},
+            up: { l: "nodes", i: 5},
+            down: { l: "output", i: 1},
             left: { l: "nodes", i: 8},
             right: { l: "nodes", i: 10}
         },
         /* row 3, node 10 */
         {
-            top: { l: "nodes", i: 6},
-            bottom: { l: "output", i: 2},
+            up: { l: "nodes", i: 6},
+            down: { l: "output", i: 2},
             left: { l: "nodes", i: 8},
             right: { l: "nodes", i: 11}
         },
         /* row 3, node 11 */
         {
-            top: { l: "nodes", i: 7},
-            bottom: { l: "output", i: 3},
+            up: { l: "nodes", i: 7},
+            down: { l: "output", i: 3},
             left: { l: "nodes", i: 10},
             right: null
         }
     ],
     /* neighbors configuration for each input in the puzzle */
     inputs: [
-        { bottom: { l: "nodes", i: 0}},
-        { bottom: { l: "nodes", i: 1}},
-        { bottom: { l: "nodes", i: 2}},
-        { bottom: { l: "nodes", i: 3}},
+        { down: { l: "nodes", i: 0}},
+        { down: { l: "nodes", i: 1}},
+        { down: { l: "nodes", i: 2}},
+        { down: { l: "nodes", i: 3}},
     ],
     /* neighbors configuration for each output in the puzzle */
     outputs: [
-       { top: { l: "nodes", i: 8}},
-       { top: { l: "nodes", i: 9}},
-       { top: { l: "nodes", i: 10}},
-       { top: { l: "nodes", i: 11}},
+       { up: { l: "nodes", i: 8}},
+       { up: { l: "nodes", i: 9}},
+       { up: { l: "nodes", i: 10}},
+       { up: { l: "nodes", i: 11}},
     ]
 }
 
@@ -473,8 +473,8 @@ const readNeighborUpdates = [];
 
 function readNeighbor(neighbors, direction) {
     const opposites = {
-        top: 'bottom',
-        bottom: 'top',
+        up: 'down',
+        down: 'up',
         left: 'right',
         right: 'left'
     };
@@ -497,9 +497,9 @@ function readNeighbor(neighbors, direction) {
 function nextInputPortState(inputIndex) {
     const nextInputState = structuredClone(current_state.input[inputIndex]);
     if (nextInputState.values.length > 0) {
-        if (nextInputState.output.bottom === null) {
-            // Shift the next item off values to output[bottom]
-            nextInputState.output.bottom = nextInputState.values.shift();
+        if (nextInputState.output.down === null) {
+            // Shift the next item off values to output[down]
+            nextInputState.output.down = nextInputState.values.shift();
         }
         // else: do nothing (we are blocked)
     }
@@ -508,7 +508,7 @@ function nextInputPortState(inputIndex) {
 
 function nextOutputPortState(outputIndex) {
     const nextOutputState = structuredClone(current_state.output[outputIndex]);
-    outputValue = readNeighbor(nextOutputState.neighbors, "top");
+    outputValue = readNeighbor(nextOutputState.neighbors, "up");
     if (outputValue !== null) {
         nextOutputState.values.push(outputValue);
     }
@@ -553,15 +553,18 @@ function nextNodeState(nodeIndex) {
         if (src === 'NIL') value = 0;
         if (src === 'LEFT') value = readNeighbor(nextNodeState.neighbors, 'left');
         if (src === 'RIGHT') value = readNeighbor(nextNodeState.neighbors, 'right');
-        if (src === 'UP') value = readNeighbor(nextNodeState.neighbors, 'top');
-        if (src === 'DOWN') value = readNeighbor(nextNodeState.neighbors, 'bottom');
+        if (src === 'UP') value = readNeighbor(nextNodeState.neighbors, 'up');
+        if (src === 'DOWN') value = readNeighbor(nextNodeState.neighbors, 'down');
         if (src === 'ANY') {
-            const directions = ['top', 'bottom', 'left', 'right'];
+            const directions = ['left', 'up', 'right', 'down'];
             for (const dir of directions) {
+                value = null;
                 const val = readNeighbor(nextNodeState.neighbors, dir);
-                if (val !== null) value = val;
+                if (val !== null) {
+                    value = val;
+                    break;
+                }
             }
-            value = null;
         }
         if (src === 'LAST') return getValue(nextNodeState.last);
         // Handle integer literals
@@ -604,11 +607,11 @@ function nextNodeState(nodeIndex) {
             } else if (dst === 'RIGHT' && nextNodeState.output.right === null) {
                 nextNodeState.output.right = value;
                 success = true;
-            } else if (dst === 'UP' && nextNodeState.output.top === null) {
-                nextNodeState.output.top = value;
+            } else if (dst === 'UP' && nextNodeState.output.up === null) {
+                nextNodeState.output.up = value;
                 success = true;
-            } else if (dst === 'DOWN' && nextNodeState.output.bottom === null) {
-                nextNodeState.output.bottom = value;
+            } else if (dst === 'DOWN' && nextNodeState.output.down === null) {
+                nextNodeState.output.down = value;
                 success = true;
             }
         }
