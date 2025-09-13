@@ -1,3 +1,34 @@
+let simulationInterval = null;
+
+function startAutomaticSimulation() {
+    // Clear any existing interval
+    if (simulationInterval) {
+        clearInterval(simulationInterval);
+    }
+
+    // Start new interval if simulation state is "run"
+    if (simulationState === "run") {
+        simulationInterval = setInterval(() => {
+            // Check if simulation should continue
+            if (simulationState !== "run") {
+                clearInterval(simulationInterval);
+                simulationInterval = null;
+                return;
+            }
+
+            // Execute next simulation step
+            nextState();
+        }, simulationSpeed);
+    }
+}
+
+function stopAutomaticSimulation() {
+    if (simulationInterval) {
+        clearInterval(simulationInterval);
+        simulationInterval = null;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     initTitleAndMessage();
     initInputPorts();
@@ -6,24 +37,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* control buttons */
     document.getElementById('step-button').addEventListener('click', function() {
+        simulationState = "step"
+        stopAutomaticSimulation();
+        if (current_state.nodes.length === 0) {
+            initializeSimulation();
+            console.log('simulation initialized');
+        } else {
+            nextState();
+        }
+    });
+
+    document.getElementById('run-button').addEventListener('click', function() {
+        simulationState = "run"
+        simulationSpeed = 500; // reset to default speed
         if (current_state.nodes.length === 0) {
             initializeSimulation();
             console.log('simulation initialized');
         }
-        nextState();
-    });
-
-    document.getElementById('run-button').addEventListener('click', function() {
-        initializeSimulation();
-        console.log('Run button clicked - simulation initialized');
+        startAutomaticSimulation();
     });
 
     document.getElementById('fast-button').addEventListener('click', function() {
-        initializeSimulation();
-        console.log('Fast button clicked - simulation initialized');
+        simulationState = "run"
+        simulationSpeed = 50; // faster speed
+        if (current_state.nodes.length === 0) {
+            initializeSimulation();
+            console.log('simulation initialized');
+        }
+        startAutomaticSimulation();
     });
 
     document.getElementById('stop-button').addEventListener('click', function() {
+        simulationState = "stop"
+        stopAutomaticSimulation();
         resetSimulation();
         console.log('Stop button clicked');
     });
@@ -304,7 +350,7 @@ function updateNodeUI(nodeState, nodeIndex) {
     });
 
     // Highlight current instruction line
-    if (nodeState.program.length > 0 && nodeState.program_counter < nodeState.program.length) {
+    if (nodeState.program.length > 0 && nodeState.program_counter < nodeState.program.length && simulationState !== "stop") {
         const currentInstruction = nodeState.program[nodeState.program_counter];
         if (currentInstruction && currentInstruction.lineIndex !== undefined) {
             const currentLineElement = document.getElementById(`node-line-${currentInstruction.lineIndex}-node-${nodeId}`);

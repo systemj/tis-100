@@ -198,6 +198,9 @@ neighbors = {
     ]
 }
 
+var simulationState = "stop"; // "run", "step" "stop"
+var simulationSpeed = 300; // milliseconds per cycle
+
 function parseSingleLine(line) {
     let text = line || '';
 
@@ -896,6 +899,19 @@ function nextState() {
         updateOutputUI(nodeState, nodeIndex);
     });
 
+    // handle breakpoints
+    current_state.nodes.forEach((nodeState, nodeIndex) => {
+        if (nodeState.kind === "basic") {
+            if (nodeState.program.length > 0) {
+                if (nodeState.program[nodeState.program_counter].breakpoint == true) {
+                    console.log('Breakpoint hit at node', nodeIndex, 'instruction', nodeState.program_counter);
+                    stopAutomaticSimulation();
+                    simulationState = "step";
+                }
+            }
+        }
+    });
+
     // Not updating output UI here, as outputs are passive and only show accumulated values
     // current_state.output.forEach((outputState, outputIndex) => {
     //     updateOutputUI(outputState, outputIndex);
@@ -903,6 +919,7 @@ function nextState() {
 }
 
 function resetSimulation() {
+    simulationState = "stop";
     initializeSimulation();
     // Update the UI to reflect the reset state
     current_state.input.forEach((inputState, inputIndex) => {
@@ -911,6 +928,7 @@ function resetSimulation() {
     current_state.nodes.forEach((nodeState, nodeIndex) => {
         updateNodeUI(nodeState, nodeIndex);
         updateStackNodeUI(nodeState, nodeIndex);
+        updateOutputUI(nodeState, nodeIndex);
     });
     current_state.output.forEach((outputState, outputIndex) => {
         updateOutputUI(outputState, outputIndex);
