@@ -171,7 +171,7 @@ neighbors = {
         {
             up: { l: "nodes", i: 6},
             down: { l: "output", i: 2},
-            left: { l: "nodes", i: 8},
+            left: { l: "nodes", i: 9},
             right: { l: "nodes", i: 11}
         },
         /* row 3, node 11 */
@@ -561,6 +561,7 @@ function nextNodeState(nodeIndex) {
                 value = null;
                 const val = readNeighbor(nextNodeState.neighbors, dir);
                 if (val !== null) {
+                    nextNodeState.last = dir.toUpperCase();
                     value = val;
                     break;
                 }
@@ -580,8 +581,13 @@ function nextNodeState(nodeIndex) {
     // Helper function to set value to destination
     function setValue(destination, value) {
         if (!destination) return;
-        const dst = destination.toUpperCase();
+        let dst = destination.toUpperCase();
         success = false;
+
+        // handle LAST destination by resolving it to the last successful read direction
+        if (dst === 'LAST') {
+            dst = nextNodeState.last;
+        }
 
         // Handle register destinations (ACC, NIL) - these don't block
         if (dst === 'ACC') {
