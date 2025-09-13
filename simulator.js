@@ -539,6 +539,12 @@ function nextNodeState(nodeIndex) {
 
     // Helper function to get value from source
     function getValue(source) {
+        if (nextNodeState.mode === "WRITE") {
+            // Already in WRITE mode, block this operation
+            nextNodeState.blocked = true;
+            return null;
+        }
+        nextNodeState.mode = "READ";
         if (!source) return null;
         const src = source.toUpperCase();
         let value = null;
@@ -573,25 +579,40 @@ function nextNodeState(nodeIndex) {
         if (!destination) return;
         const dst = destination.toUpperCase();
         success = false;
+
+        // Handle register destinations (ACC, NIL) - these don't block
         if (dst === 'ACC') {
             nextNodeState.acc = value;
             success = true;
         } else if (dst === 'NIL') {
             success = true;
             // Do nothing - value is discarded
-        } else if (dst === 'LEFT' && nextNodeState.output.left === null) {
-            nextNodeState.output.left = value;
-            success = true;
-        } else if (dst === 'RIGHT' && nextNodeState.output.right === null) {
-            nextNodeState.output.right = value;
-            success = true;
-        } else if (dst === 'UP' && nextNodeState.output.top === null) {
-            nextNodeState.output.top = value;
-            success = true;
-        } else if (dst === 'DOWN' && nextNodeState.output.bottom === null) {
-            nextNodeState.output.bottom = value;
-            success = true;
+        } else {
+            // Handle port destinations (LEFT, RIGHT, UP, DOWN) - these can block
+            if (nextNodeState.mode === "WRITE") {
+                // Already in WRITE mode, block this operation
+                nextNodeState.blocked = true;
+                return false;
+            }
+
+            // Set mode to WRITE and attempt to write to port
+            nextNodeState.mode = "WRITE";
+
+            if (dst === 'LEFT' && nextNodeState.output.left === null) {
+                nextNodeState.output.left = value;
+                success = true;
+            } else if (dst === 'RIGHT' && nextNodeState.output.right === null) {
+                nextNodeState.output.right = value;
+                success = true;
+            } else if (dst === 'UP' && nextNodeState.output.top === null) {
+                nextNodeState.output.top = value;
+                success = true;
+            } else if (dst === 'DOWN' && nextNodeState.output.bottom === null) {
+                nextNodeState.output.bottom = value;
+                success = true;
+            }
         }
+
         if (!success) {
             nextNodeState.blocked = true;
         }
@@ -712,16 +733,23 @@ function nextNodeState(nodeIndex) {
             break;
     }
 
+
+
     // Check if the node is blocked
-    if (!nextNodeState.blocked) {
+    if (!nextNodeState.blocked && nextNodeState.mode !== "WRITE") {
         // Increment program counter for most instructions
-        nextNodeState.program_counter++;
-        if (nextNodeState.program_counter >= nextNodeState.program.length) {
-            nextNodeState.program_counter = 0;
-        }
+        incrementProgramCounter(nextNodeState);
     }
 
     return nextNodeState;
+}
+
+// Helper function to increment program counter with wraparound
+function incrementProgramCounter(nodeState) {
+    nodeState.program_counter++;
+    if (nodeState.program_counter >= nodeState.program.length) {
+        nodeState.program_counter = 0;
+    }
 }
 
 
@@ -744,6 +772,10 @@ function nextState() {
     // Apply all readNeighbor updates after all nodes have read their neighbors
     readNeighborUpdates.forEach(update => {
         next_state[update.neighbor.l][update.neighbor.i].output[update.direction] = null;
+        if (next_state[update.neighbor.l][update.neighbor.i].kind === "basic") {
+            next_state[update.neighbor.l][update.neighbor.i].mode = "RUN";
+            incrementProgramCounter(next_state[update.neighbor.l][update.neighbor.i]);
+        }
         console.log("updating neighbor read", update)
     });
     readNeighborUpdates.length = 0; // Clear updates for next cycle
@@ -760,6 +792,8 @@ function nextState() {
         updateNodeUI(nodeState, nodeIndex);
         updateOutputUI(nodeState, nodeIndex);
     });
+
+    console.log(current_state.nodes[0])
 
     // Not updating output UI here, as outputs are passive and only show accumulated values
     // current_state.output.forEach((outputState, outputIndex) => {
