@@ -561,8 +561,14 @@ function nextBasicNodeState(nodeIndex) {
         const src = source.toUpperCase();
         let value = null;
 
-        if (src === 'ACC') value = nextNodeState.acc;
-        if (src === 'NIL') value = 0;
+        if (src === 'ACC') {
+            nextNodeState.mode = "RUN";
+            value = nextNodeState.acc;
+        }
+        if (src === 'NIL') {
+            nextNodeState.mode = "RUN";
+            value = 0;
+        }
         if (src === 'LEFT') value = readNeighbor(nextNodeState.neighbors, 'left');
         if (src === 'RIGHT') value = readNeighbor(nextNodeState.neighbors, 'right');
         if (src === 'UP') value = readNeighbor(nextNodeState.neighbors, 'up');
@@ -582,7 +588,10 @@ function nextBasicNodeState(nodeIndex) {
         if (src === 'LAST') return getValue(nextNodeState.last);
         // Handle integer literals
         const intValue = parseInt(src, 10);
-        if (!isNaN(intValue)) return intValue;
+        if (!isNaN(intValue)) {
+            nextNodeState.mode = "RUN";
+            value = intValue;
+        }
 
         if (value === null) {
             nextNodeState.blocked = true;
@@ -676,20 +685,24 @@ function nextBasicNodeState(nodeIndex) {
             break;
 
         case 'NEG':
+            nextNodeState.mode = "RUN";
             nextNodeState.acc = -nextNodeState.acc;
             break;
 
         case 'SWP':
+            nextNodeState.mode = "RUN";
             const temp = nextNodeState.acc;
             nextNodeState.acc = nextNodeState.bak;
             nextNodeState.bak = temp;
             break;
 
         case 'SAV':
+            nextNodeState.mode = "RUN";
             nextNodeState.bak = nextNodeState.acc;
             break;
 
         case 'JMP':
+            nextNodeState.mode = "RUN";
             if (statement.length >= 2) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
@@ -700,6 +713,7 @@ function nextBasicNodeState(nodeIndex) {
             break;
 
         case 'JEZ':
+            nextNodeState.mode = "RUN";
             if (statement.length >= 2 && nextNodeState.acc === 0) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
@@ -710,6 +724,7 @@ function nextBasicNodeState(nodeIndex) {
             break;
 
         case 'JNZ':
+            nextNodeState.mode = "RUN";
             if (statement.length >= 2 && nextNodeState.acc !== 0) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
@@ -720,6 +735,7 @@ function nextBasicNodeState(nodeIndex) {
             break;
 
         case 'JGZ':
+            nextNodeState.mode = "RUN";
             if (statement.length >= 2 && nextNodeState.acc > 0) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
@@ -730,6 +746,7 @@ function nextBasicNodeState(nodeIndex) {
             break;
 
         case 'JLZ':
+            nextNodeState.mode = "RUN";
             if (statement.length >= 2 && nextNodeState.acc < 0) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
@@ -740,6 +757,7 @@ function nextBasicNodeState(nodeIndex) {
             break;
 
         case 'JRO':
+            nextNodeState.mode = "RUN";
             if (statement.length >= 2) {
                 const offset = getValue(statement[1]);
                 let newPC = nextNodeState.program_counter + offset;
@@ -752,10 +770,12 @@ function nextBasicNodeState(nodeIndex) {
             break;
 
         case 'NOP':
+            nextNodeState.mode = "RUN";
             // No operation - just increment program counter
             break;
 
         case 'HCF':
+            nextNodeState.mode = "HALT";
             // Halt and catch fire - stop execution
             break;
     }
