@@ -345,6 +345,35 @@ function updateNodeUI(nodeState, nodeIndex) {
     }
 }
 
+function updateStackNodeUI(nodeState, nodeIndex) {
+    if (nodeState.kind !== 'stackmem') return;
+
+    const nodeId = puzzle.nodes[nodeIndex].id;
+
+    // Update all 15 stack memory slots
+    for (let stackIndex = 0; stackIndex < 15; stackIndex++) {
+        const memValueElement = document.getElementById(`mem-value-${stackIndex}-node-${nodeId}`);
+        if (memValueElement) {
+            // Clear previous classes
+            memValueElement.classList.remove('mem-value-top');
+
+            // Check if there's a value at this stack position
+            if (stackIndex < nodeState.stack.length) {
+                const value = nodeState.stack[stackIndex];
+                memValueElement.textContent = value.toString();
+
+                // Add mem-value-top class to the top value (last element in array)
+                if (stackIndex === nodeState.stack.length - 1) {
+                    memValueElement.classList.add('mem-value-top');
+                }
+            } else {
+                // No value at this position, display as empty
+                memValueElement.textContent = '';
+            }
+        }
+    }
+}
+
 function updateOutputUI(object, index) {
     let kind = object.kind;
     if (kind === 'basic' || kind === 'stackmem') {

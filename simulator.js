@@ -29,7 +29,7 @@ var basicNodeState = {
 var stackMemoryNodeState = {
     kind: "stackmem",
     stack: [],
-    blocked: false,
+    read: false,
     output: {
         up: null,
         down: null,
@@ -483,6 +483,14 @@ function readNeighbor(neighbors, direction) {
     if (neighbor === null) {
         return null;
     } else {
+        // Check if there's already an entry for this neighbor in readNeighborUpdates
+        const existingUpdate = readNeighborUpdates.find(update =>
+            update.neighbor.l === neighbor.l && update.neighbor.i === neighbor.i
+        );
+        if (existingUpdate) {
+            return null;
+        }
+
         readValue = current_state[neighbor.l][neighbor.i].output[opposites[direction]];
         if (readValue !== null) {
             readNeighborUpdates.push({
@@ -516,7 +524,7 @@ function nextOutputPortState(outputIndex) {
     return nextOutputState;
 }
 
-function nextNodeState(nodeIndex) {
+function nextBasicNodeState(nodeIndex) {
     const nextNodeState = structuredClone(current_state.nodes[nodeIndex]);
     nextNodeState.blocked = false;
 
@@ -768,6 +776,46 @@ function incrementProgramCounter(nodeState) {
     }
 }
 
+function nextStackMemoryNodeState(nodeIndex) {
+    const currentNodeState = current_state.nodes[nodeIndex];
+    const nextNodeState = structuredClone(currentNodeState);
+
+    if (nextNodeState.read === true) {
+        // Set read to false and pop the top value from the stack (discarded)
+        nextNodeState.read = false;
+        // if (nextNodeState.stack.length > 0) {
+        //     nextNodeState.stack.pop();
+        // }
+    } else {
+        // Read values from each direction in order: left, up, right, down
+        // Only if the stack is not full (maximum 15 values)
+        if (nextNodeState.stack.length < 15) {
+            const directions = ['left', 'up', 'right', 'down'];
+
+            for (const direction of directions) {
+                const value = readNeighbor(nextNodeState.neighbors, direction);
+                if (value !== null) {
+                    nextNodeState.stack.push(value);
+                    // If the stack is now full, stop reading values
+                    if (nextNodeState.stack.length >= 15) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // If there are any values on the stack, write the top value to all output directions
+    if (nextNodeState.stack.length > 0) {
+        const topValue = nextNodeState.stack[nextNodeState.stack.length - 1];
+        nextNodeState.output.up = topValue;
+        nextNodeState.output.down = topValue;
+        nextNodeState.output.left = topValue;
+        nextNodeState.output.right = topValue;
+    }
+
+    return nextNodeState;
+}
 
 function nextState() {
     next_state = {
@@ -782,25 +830,55 @@ function nextState() {
         next_state.output.push(nextOutputPortState(outputIndex));
     });
     current_state.nodes.forEach((nodeState, nodeIndex) => {
-        next_state.nodes.push(nextNodeState(nodeIndex));
+        if (nodeState.kind === "basic") {
+            next_state.nodes.push(nextBasicNodeState(nodeIndex));
+        } else if (nodeState.kind === "stackmem") {
+            next_state.nodes.push(nextStackMemoryNodeState(nodeIndex));
+        } else {
+            // damaged or stackmem nodes just carry forward their state
+            next_state.nodes.push(structuredClone(current_state.nodes[nodeIndex]));
+        }
     });
+
+    // // Now handle stack memory nodes separately to ensure they see the updated state
+    // // of other nodes after they have executed their instructions
+    // current_state.nodes.forEach((nodeState, nodeIndex) => {
+    // });
 
     // Apply all readNeighbor updates after all nodes have read their neighbors
     readNeighborUpdates.forEach(update => {
         // clear all the neighbor outputs in case it was writing to "ANY"
         // a node can only write to one direction at a time
+
         next_state[update.neighbor.l][update.neighbor.i].output = {
             up: null,
             down: null,
             left: null,
             right: null
         };
+
         if (next_state[update.neighbor.l][update.neighbor.i].kind === "basic") {
             next_state[update.neighbor.l][update.neighbor.i].mode = "RUN";
             next_state[update.neighbor.l][update.neighbor.i].last = update.direction.toUpperCase();
             incrementProgramCounter(next_state[update.neighbor.l][update.neighbor.i]);
         }
-        console.log("updating neighbor read", update)
+
+        // complicated read logic for stack memory nodes
+        if (next_state[update.neighbor.l][update.neighbor.i].kind === "stackmem") {
+            next_state[update.neighbor.l][update.neighbor.i].read = true;
+
+            if (next_state[update.neighbor.l][update.neighbor.i].stack.length > 0) {
+                next_state[update.neighbor.l][update.neighbor.i].stack.pop();
+            }
+
+            if (next_state[update.neighbor.l][update.neighbor.i].stack.length > 0) {
+                const topValue = next_state[update.neighbor.l][update.neighbor.i].stack[next_state[update.neighbor.l][update.neighbor.i].stack.length - 1];
+                next_state[update.neighbor.l][update.neighbor.i].output.up = topValue;
+                next_state[update.neighbor.l][update.neighbor.i].output.down = topValue;
+                next_state[update.neighbor.l][update.neighbor.i].output.left = topValue;
+                next_state[update.neighbor.l][update.neighbor.i].output.right = topValue;
+            }
+        }
     });
     readNeighborUpdates.length = 0; // Clear updates for next cycle
 
@@ -814,6 +892,7 @@ function nextState() {
 
     current_state.nodes.forEach((nodeState, nodeIndex) => {
         updateNodeUI(nodeState, nodeIndex);
+        updateStackNodeUI(nodeState, nodeIndex);
         updateOutputUI(nodeState, nodeIndex);
     });
 
@@ -831,6 +910,7 @@ function resetSimulation() {
     });
     current_state.nodes.forEach((nodeState, nodeIndex) => {
         updateNodeUI(nodeState, nodeIndex);
+        updateStackNodeUI(nodeState, nodeIndex);
     });
     current_state.output.forEach((outputState, outputIndex) => {
         updateOutputUI(outputState, outputIndex);
