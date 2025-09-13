@@ -470,14 +470,15 @@ function initializeSimulation() {
 
 
 const readNeighborUpdates = [];
+const opposites = {
+    up: 'down',
+    down: 'up',
+    left: 'right',
+    right: 'left'
+};
 
 function readNeighbor(neighbors, direction) {
-    const opposites = {
-        up: 'down',
-        down: 'up',
-        left: 'right',
-        right: 'left'
-    };
+
     const neighbor = neighbors[direction];
     if (neighbor === null) {
         return null;
@@ -617,6 +618,12 @@ function nextNodeState(nodeIndex) {
                 nextNodeState.output.up = value;
                 success = true;
             } else if (dst === 'DOWN' && nextNodeState.output.down === null) {
+                nextNodeState.output.down = value;
+                success = true;
+            } else if (dst === 'ANY') {
+                nextNodeState.output.left = value;
+                nextNodeState.output.right = value;
+                nextNodeState.output.up = value;
                 nextNodeState.output.down = value;
                 success = true;
             }
@@ -780,9 +787,17 @@ function nextState() {
 
     // Apply all readNeighbor updates after all nodes have read their neighbors
     readNeighborUpdates.forEach(update => {
-        next_state[update.neighbor.l][update.neighbor.i].output[update.direction] = null;
+        // clear all the neighbor outputs in case it was writing to "ANY"
+        // a node can only write to one direction at a time
+        next_state[update.neighbor.l][update.neighbor.i].output = {
+            up: null,
+            down: null,
+            left: null,
+            right: null
+        };
         if (next_state[update.neighbor.l][update.neighbor.i].kind === "basic") {
             next_state[update.neighbor.l][update.neighbor.i].mode = "RUN";
+            next_state[update.neighbor.l][update.neighbor.i].last = update.direction.toUpperCase();
             incrementProgramCounter(next_state[update.neighbor.l][update.neighbor.i]);
         }
         console.log("updating neighbor read", update)
@@ -801,8 +816,6 @@ function nextState() {
         updateNodeUI(nodeState, nodeIndex);
         updateOutputUI(nodeState, nodeIndex);
     });
-
-    console.log(current_state.nodes[0])
 
     // Not updating output UI here, as outputs are passive and only show accumulated values
     // current_state.output.forEach((outputState, outputIndex) => {
