@@ -223,10 +223,12 @@ function findEditTarget(nodeId, clickedLineIndex) {
 
 function makeLineEditable(lineElement, nodeId, lineIndex) {
     lineElement.addEventListener('click', function() {
+        if (simulationState !== "stop") return; // only allow editing when simulation is stopped
         const targetLineIndex = findEditTarget(nodeId, lineIndex);
         if (targetLineIndex !== lineIndex) {
             const targetLineElement = document.getElementById(`node-line-${targetLineIndex}-node-${nodeId}`);
             if (targetLineElement) {
+                console.log("editing...", simulationState)
                 startEditing(targetLineElement, nodeId, targetLineIndex);
                 return;
             }
@@ -235,7 +237,7 @@ function makeLineEditable(lineElement, nodeId, lineIndex) {
     });
 }
 
-function startEditing(lineElement, nodeId, lineIndex) {
+function startEditing(lineElement, nodeId, lineIndex, cursorPosition = null) {
     if (lineElement.querySelector('input')) return;
 
     const currentText = lineElement.textContent;
@@ -256,6 +258,12 @@ function startEditing(lineElement, nodeId, lineIndex) {
     lineElement.innerHTML = '';
     lineElement.appendChild(input);
     input.focus();
+
+    // Set cursor position if provided
+    if (cursorPosition !== null) {
+        const targetPos = Math.min(cursorPosition, input.value.length);
+        input.setSelectionRange(targetPos, targetPos);
+    }
     // input.select();
 
     function finishEditing(saveChanges = true) {
@@ -274,30 +282,65 @@ function startEditing(lineElement, nodeId, lineIndex) {
         switch(e.key) {
             case 'Enter':
                 e.preventDefault();
-                if (lineIndex < 14) {
+                const lastLineElement = document.getElementById(`node-line-14-node-${nodeId}`);
+                const lastLineText = lastLineElement ? lastLineElement.textContent : '';
+                if (lastLineText.length === 0) {
+                    // There are blank lines at the end, so we can shift down
                     finishEditing(true);
-                    navigateToLine(nodeId, lineIndex + 1);
+                    splitAndShiftLines(nodeId, lineIndex, input);
+                    navigateToLine(nodeId, lineIndex + 1, 0);
+                }
+                break;
+            case 'ArrowLeft':
+                if (input.selectionStart === 0 && input.selectionEnd === 0 && lineIndex > 0) {
+                    e.preventDefault();
+                    finishEditing(true);
+                    const previousLineElement = document.getElementById(`node-line-${lineIndex - 1}-node-${nodeId}`);
+                    const previousLineText = previousLineElement ? previousLineElement.textContent : '';
+                    navigateToLine(nodeId, lineIndex - 1, previousLineText.length);
+                }
+                break;
+            case 'ArrowRight':
+                if (input.selectionStart === input.value.length && input.selectionEnd === input.value.length && lineIndex < 14) {
+                    e.preventDefault();
+                    finishEditing(true);
+                    navigateToLine(nodeId, lineIndex + 1, 0);
                 }
                 break;
             case 'ArrowUp':
                 e.preventDefault();
                 if (lineIndex > 0) {
+                    const currentCursorPos = input.selectionStart;
                     finishEditing(true);
-                    navigateToLine(nodeId, lineIndex - 1);
+                    navigateToLine(nodeId, lineIndex - 1, currentCursorPos);
                 }
                 break;
             case 'ArrowDown':
                 e.preventDefault();
                 if (lineIndex < 14) {
+                    const currentCursorPos = input.selectionStart;
                     finishEditing(true);
-                    navigateToLine(nodeId, lineIndex + 1);
+                    navigateToLine(nodeId, lineIndex + 1, currentCursorPos);
                 }
                 break;
             case 'Backspace':
                 if (input.selectionStart === 0 && input.selectionEnd === 0 && lineIndex > 0) {
                     e.preventDefault();
-                    finishEditing(true);
-                    navigateToLine(nodeId, lineIndex - 1);
+                    const currentLineText = input.value.trimEnd();
+                    const previousLineElement = document.getElementById(`node-line-${lineIndex - 1}-node-${nodeId}`);
+                    const previousLineText = previousLineElement ? previousLineElement.textContent : '';
+
+                    // Check if we can combine the lines within maxLength
+                    if (previousLineText.length + currentLineText.length <= input.maxLength) {
+                        // Combine lines and shift all following lines up
+                        finishEditing(true);
+                        combineAndShiftLines(nodeId, lineIndex, previousLineText, currentLineText);
+                        navigateToLine(nodeId, lineIndex - 1, previousLineText.length);
+                    } else {
+                        // Original behavior - just navigate to previous line
+                        finishEditing(true);
+                        navigateToLine(nodeId, lineIndex - 1);
+                    }
                 }
                 break;
             case 'Escape':
@@ -314,12 +357,12 @@ function startEditing(lineElement, nodeId, lineIndex) {
     });
 }
 
-function navigateToLine(nodeId, lineIndex) {
+function navigateToLine(nodeId, lineIndex, cursorPosition = null) {
     if (lineIndex < 0 || lineIndex >= 15) return;
 
     const targetLineElement = document.getElementById(`node-line-${lineIndex}-node-${nodeId}`);
     if (targetLineElement) {
-        startEditing(targetLineElement, nodeId, lineIndex);
+        startEditing(targetLineElement, nodeId, lineIndex, cursorPosition);
     }
 }
 
@@ -333,6 +376,72 @@ function updateNodeProgram(nodeId, lineIndex, newText) {
             node.program.push('');
         }
         node.program[lineIndex] = newText;
+    }
+}
+
+function combineAndShiftLines(nodeId, currentLineIndex, previousLineText, currentLineText) {
+    const node = puzzle.nodes.find(n => n.id === nodeId);
+    if (!node) return;
+
+    if (!node.program) {
+        node.program = new Array(15).fill('');
+    }
+    while (node.program.length < 15) {
+        node.program.push('');
+    }
+
+    // Combine the previous and current lines
+    const combinedText = previousLineText + currentLineText;
+    node.program[currentLineIndex - 1] = combinedText;
+
+    // Shift all lines from current position up by one
+    for (let i = currentLineIndex; i < 14; i++) {
+        node.program[i] = node.program[i + 1] || '';
+    }
+
+    // Make the last line empty
+    node.program[14] = '';
+
+    // Update the UI for all affected lines
+    for (let i = currentLineIndex - 1; i < 15; i++) {
+        const lineElement = document.getElementById(`node-line-${i}-node-${nodeId}`);
+        if (lineElement) {
+            lineElement.textContent = node.program[i];
+        }
+    }
+}
+
+function splitAndShiftLines(nodeId, currentLineIndex, input) {
+    const node = puzzle.nodes.find(n => n.id === nodeId);
+    if (!node) return;
+
+    if (!node.program) {
+        node.program = new Array(15).fill('');
+    }
+    while (node.program.length < 15) {
+        node.program.push('');
+    }
+
+    const cursorPos = input.selectionStart;
+    const currentText = input.value;
+    const textBeforeCursor = currentText.substring(0, cursorPos);
+    const textAfterCursor = currentText.substring(cursorPos);
+
+    // Shift each following line down 1 position (content of last line will be discarded)
+    for (let i = 14; i > currentLineIndex; i--) {
+        node.program[i] = node.program[i - 1] || '';
+    }
+
+    // Split the current line at cursor position
+    node.program[currentLineIndex] = textBeforeCursor;
+    node.program[currentLineIndex + 1] = textAfterCursor;
+
+    // Update the UI for all affected lines
+    for (let i = currentLineIndex; i < 15; i++) {
+        const lineElement = document.getElementById(`node-line-${i}-node-${nodeId}`);
+        if (lineElement) {
+            lineElement.textContent = node.program[i];
+        }
     }
 }
 
