@@ -329,6 +329,9 @@ function nextInputPortState(inputIndex) {
 
 function nextOutputPortState(outputIndex) {
     const nextOutputState = structuredClone(current_state.output[outputIndex]);
+    if (nextOutputState.label.length === 0) {
+        return nextOutputState; // No label means inactive output port
+    }
     outputValue = readNeighbor(nextOutputState.neighbors, "up");
     if (outputValue !== null) {
         nextOutputState.values.push(outputValue);
@@ -480,6 +483,12 @@ function nextBasicNodeState(nodeIndex) {
                 const value = getValue(statement[1]);
                 if (value !== null) {
                     nextNodeState.acc += value;
+                    // Wrap ACC value to stay within -999 to 999 range
+                    if (nextNodeState.acc > 999) {
+                        nextNodeState.acc = -999 + (nextNodeState.acc - 1000);
+                    } else if (nextNodeState.acc < -999) {
+                        nextNodeState.acc = 999 + (nextNodeState.acc + 1000);
+                    }
                 }
             }
             break;
@@ -489,6 +498,12 @@ function nextBasicNodeState(nodeIndex) {
                 const value = getValue(statement[1]);
                 if (value !== null) {
                     nextNodeState.acc -= value;
+                    // Wrap ACC value to stay within -999 to 999 range
+                    if (nextNodeState.acc > 999) {
+                        nextNodeState.acc = -999 + (nextNodeState.acc - 1000);
+                    } else if (nextNodeState.acc < -999) {
+                        nextNodeState.acc = 999 + (nextNodeState.acc + 1000);
+                    }
                 }
             }
             break;

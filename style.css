@@ -227,7 +227,7 @@ body, * {
   top: 90px;
 }
 
-.hide-ports-top {
+.hide-ports-up {
   background-color: #000;
   z-index: 10;
   position: fixed;
@@ -237,7 +237,7 @@ body, * {
   top: 38px;
 }
 
-.hide-ports-bottom {
+.hide-ports-down {
   background-color: #000;
   z-index: 10;
   position: fixed;
