@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* control buttons */
     document.getElementById('step-button').addEventListener('click', function() {
+        if (!allSyntaxOK) return;
         simulationState = "step"
         stopAutomaticSimulation();
         if (current_state.nodes.length === 0) {
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('run-button').addEventListener('click', function() {
+        if (!allSyntaxOK) return;
         simulationState = "run"
         simulationSpeed = 250; // reset to default speed
         if (current_state.nodes.length === 0) {
@@ -58,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('fast-button').addEventListener('click', function() {
+        if (!allSyntaxOK) return;
         simulationState = "run"
         simulationSpeed = 20; // faster speed
         if (current_state.nodes.length === 0) {
@@ -273,6 +276,8 @@ function startEditing(lineElement, nodeId, lineIndex, cursorPosition = null) {
         if (saveChanges && newText !== currentText) {
             updateNodeProgram(nodeId, lineIndex, newText);
         }
+        initializeSimulation();
+        updateNodeUI(current_state.nodes[nodeId], nodeId);
     }
 
     input.addEventListener('blur', () => finishEditing(true));
@@ -466,6 +471,16 @@ function updateNodeUI(nodeState, nodeIndex) {
             if (currentLineElement) {
                 currentLineElement.classList.add('node-line-execute');
             }
+        }
+    }
+
+    // Show/hide syntax error indicator
+    const syntaxErrorElement = document.getElementById(`syntax-error-node-${nodeId}`);
+    if (syntaxErrorElement) {
+        if (nodeState.syntax_ok) {
+            syntaxErrorElement.classList.remove('visible');
+        } else {
+            syntaxErrorElement.classList.add('visible');
         }
     }
 

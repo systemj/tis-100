@@ -3,6 +3,7 @@ var basicNodeState = {
     kind: "basic",
     program: [],
     program_text: [],
+    syntax_ok: true,
     label_map: {}, /* maps label names to their corresponding instruction indices */
     program_counter: 0,
     output: {
@@ -230,11 +231,11 @@ var basicNodeHtml = '\
       <div class="node-status">\
         <div class="node-status-box node-acc">\
           <div class="node-status-label">ACC</div>\
-          <div class="node-status-value" id="node-status-value-acc-node-${id}"></div>\
+          <div class="node-status-value" id="node-status-value-acc-node-${id}">0</div>\
         </div>\
         <div class="node-status-box node-bak">\
           <div class="node-status-label">BAK</div>\
-          <div class="node-status-value" id="node-status-value-bak-node-${id}"></div>\
+          <div class="node-status-value" id="node-status-value-bak-node-${id}">0</div>\
         </div>\
         <div class="node-status-box node-last">\
           <div class="node-status-label">LAST</div>\

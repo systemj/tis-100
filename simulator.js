@@ -1,5 +1,6 @@
 var simulationState = "stop"; // "run", "step" "stop"
 var simulationSpeed = 250; // milliseconds per cycle
+var allSyntaxOK = true;
 
 function parseSingleLine(line) {
     let text = line || '';
@@ -205,6 +206,9 @@ function initializeSimulation() {
     current_state.input = [];
     current_state.output = [];
 
+    // Initialize allSyntaxOK to true, will be set to false if any node has syntax errors
+    allSyntaxOK = true;
+
     // Initialize nodes based on puzzle configuration
     puzzle.nodes.forEach((nodeConfig, index) => {
         let nodeState;
@@ -223,6 +227,11 @@ function initializeSimulation() {
                     nodeState.program_text = rawLines;
                     nodeState.label_map = parseResult.labelMap;
                     nodeState.syntax_ok = parseResult.syntaxOK;
+
+                    // Update global syntax status
+                    if (!parseResult.syntaxOK) {
+                        allSyntaxOK = false;
+                    }
                 } else {
                     nodeState.program_text = [];
                     nodeState.program = [];
