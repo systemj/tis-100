@@ -225,18 +225,42 @@ function findEditTarget(nodeId, clickedLineIndex) {
 }
 
 function makeLineEditable(lineElement, nodeId, lineIndex) {
-    lineElement.addEventListener('click', function() {
+    lineElement.addEventListener('click', function(event) {
         if (simulationState !== "stop") return; // only allow editing when simulation is stopped
+
+        // Calculate cursor position based on click location
+        const clickX = event.clientX;
+        const rect = lineElement.getBoundingClientRect();
+        const clickOffsetX = clickX - rect.left;
+
+        // Create a temporary canvas to measure text width
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const computedStyle = window.getComputedStyle(lineElement);
+        ctx.font = computedStyle.font;
+
+        const text = lineElement.textContent;
+        let cursorPosition = text.length; // Default to end of line
+
+        // Find the character position closest to the click
+        for (let i = 0; i <= text.length; i++) {
+            const textWidth = ctx.measureText(text.substring(0, i)).width;
+            if (textWidth >= clickOffsetX) {
+                cursorPosition = i;
+                break;
+            }
+        }
+
         const targetLineIndex = findEditTarget(nodeId, lineIndex);
         if (targetLineIndex !== lineIndex) {
             const targetLineElement = document.getElementById(`node-line-${targetLineIndex}-node-${nodeId}`);
             if (targetLineElement) {
                 console.log("editing...", simulationState)
-                startEditing(targetLineElement, nodeId, targetLineIndex);
+                startEditing(targetLineElement, nodeId, targetLineIndex, 0);
                 return;
             }
         }
-        startEditing(lineElement, nodeId, lineIndex);
+        startEditing(lineElement, nodeId, lineIndex, cursorPosition);
     });
 }
 

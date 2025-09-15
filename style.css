@@ -16,6 +16,7 @@
 
 body, * {
   font-family: 'PerfectDOS', monospace;
+  caret-shape: block;
 }
 
 /* message box overlays all other content */
