@@ -106,7 +106,7 @@ body, * {
   top: 40px;
   left: 0px;
   width: 370px;
-  height: 200px;
+  height: 140px;
   border: 4px double #eee;
   background-color: #000;
   color: #eee;
@@ -121,6 +121,35 @@ body, * {
   left: 12px;
 }
 
+.manual-button {
+  position: absolute;
+  width: 70px;
+  height: 25px;
+  bottom: 85px;
+  left: 10px;
+  border: 4px double #eee;
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  background-color: #000;
+  color: #eee;
+  z-index: 100;
+}
+
+.manual-button:hover {
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.75 );
+}
+
+.manual-button:active {
+  background-color: #555;
+}
+
+.manual-button-text {
+  position: absolute;
+  top: 4px;
+  text-align: center;
+  width: 100%;
+}
+
 /* control buttons */
 .control-button {
   position: absolute;
@@ -132,6 +161,14 @@ body, * {
   background-color: #000;
   color: #eee;
   z-index: 100;
+}
+
+.control-button:hover {
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.75 );
+}
+
+.control-button:active {
+  background-color: #555;
 }
 
 .control-button-text {
@@ -720,6 +757,24 @@ body, * {
 
 .mem-value-top {
   background-color:rgb(170, 0, 0, 0.5)
+}
+
+.zachtronics {
+  position: fixed;
+  bottom: 5px;
+  left: 30px;
+  font-size: 16px;
+  color: #555;
+}
+
+.zachtronics a {
+  color: #555;
+  text-decoration: none;
+}
+
+.zachtronics a:hover {
+  color: #aaa;
+  text-decoration: underline;
 }
 
 .visible {
