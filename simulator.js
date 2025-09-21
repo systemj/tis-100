@@ -1,6 +1,11 @@
 var simulationState = "stop"; // "run", "step" "stop"
 var simulationSpeed = 250; // milliseconds per cycle
 var allSyntaxOK = true;
+var consoleCursorX = 0;
+var consoleCursorY = 0;
+var consoleBuffer = [];
+var consoleExpectingX = false;
+var consoleExpectingY = false;
 
 function parseSingleLine(line) {
     let text = line || '';
@@ -205,6 +210,13 @@ function initializeSimulation() {
     current_state.nodes = [];
     current_state.input = [];
     current_state.output = [];
+
+    // Initialize console state
+    consoleCursorX = 0;
+    consoleCursorY = 0;
+    consoleBuffer = [];
+    consoleExpectingX = false;
+    consoleExpectingY = false;
 
     // Initialize allSyntaxOK to true, will be set to false if any node has syntax errors
     allSyntaxOK = true;
@@ -729,6 +741,9 @@ function nextState() {
     });
     readNeighborUpdates.length = 0; // Clear updates for next cycle
 
+    // Process console output before committing next_state
+    processConsoleOutput();
+
     // Commit next_state to current_state
     current_state = structuredClone(next_state);
 
@@ -762,8 +777,75 @@ function nextState() {
     // });
 }
 
+function processConsoleOutput() {
+    // Find the index of the OUT.CONSOLE output port
+    const consoleOutputIndex = next_state.output.findIndex(output => output.label === "OUT.CONSOLE");
+    if (consoleOutputIndex === -1 || !next_state.output[consoleOutputIndex].values || next_state.output[consoleOutputIndex].values.length === 0) {
+        return;
+    }
+
+    // Process one value at a time (since values arrive one per simulation cycle)
+    if (next_state.output[consoleOutputIndex].values.length > 0) {
+        const value = next_state.output[consoleOutputIndex].values.shift();
+
+        if (consoleExpectingX) {
+            // This value is the X coordinate
+            consoleCursorX = Math.max(0, Math.min(39, value));
+            consoleExpectingX = false;
+            consoleExpectingY = true;
+        } else if (consoleExpectingY) {
+            // This value is the Y coordinate
+            consoleCursorY = Math.max(0, Math.min(21, value));
+            consoleExpectingY = false;
+        } else if (value === 27) { // Escape character for cursor positioning
+            // Next value will be X coordinate
+            consoleExpectingX = true;
+        } else if (value === 10) { // Newline character
+            // Move cursor to beginning of next line
+            consoleCursorX = 0;
+            consoleCursorY++;
+            if (consoleCursorY >= 22) {
+                consoleCursorY = 21;
+            }
+        } else if (value >= 32 && value <= 126) { // Printable characters
+            // Initialize console buffer if needed
+            if (consoleBuffer.length === 0) {
+                for (let i = 0; i < 22; i++) {
+                    consoleBuffer[i] = new Array(40).fill(' ');
+                }
+            }
+
+            // Write character to current cursor position
+            if (consoleCursorY < 22 && consoleCursorX < 40) {
+                consoleBuffer[consoleCursorY][consoleCursorX] = String.fromCharCode(value);
+
+                // Advance cursor
+                consoleCursorX++;
+                if (consoleCursorX >= 40) {
+                    consoleCursorX = 0;
+                    consoleCursorY++;
+                    if (consoleCursorY >= 22) {
+                        consoleCursorY = 21;
+                    }
+                }
+            }
+
+            // Update the console display
+            updateConsoleDisplay();
+        }
+    }
+}
+
 function resetSimulation() {
     simulationState = "stop";
+    // Reset console state
+    consoleCursorX = 0;
+    consoleCursorY = 0;
+    consoleBuffer = [];
+    consoleExpectingX = false;
+    consoleExpectingY = false;
+    clearConsoleDisplay();
+
     initializeSimulation();
     // Update the UI to reflect the reset state
     current_state.input.forEach((inputState, inputIndex) => {

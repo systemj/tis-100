@@ -597,3 +597,25 @@ function updateOutputUI(object, index) {
         });
     }
 }
+
+function updateConsoleDisplay() {
+    // Update console display from consoleBuffer
+    for (let y = 0; y < Math.min(22, consoleBuffer.length); y++) {
+        const consoleLineElement = document.getElementById(`console-line-${y}`);
+        if (consoleLineElement && consoleBuffer[y]) {
+            // Convert array of characters to string, trimming trailing spaces
+            let lineText = consoleBuffer[y].join('').trimEnd();
+            consoleLineElement.textContent = lineText;
+        }
+    }
+}
+
+function clearConsoleDisplay() {
+    // Clear all console lines
+    for (let i = 0; i < 22; i++) {
+        const consoleLineElement = document.getElementById(`console-line-${i}`);
+        if (consoleLineElement) {
+            consoleLineElement.textContent = '';
+        }
+    }
+}
