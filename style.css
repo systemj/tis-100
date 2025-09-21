@@ -285,6 +285,20 @@ body, * {
 #fast-button {
   bottom: 0px;
   left: 295px;
+  animation: fastButtonPulse 2s ease-in-out infinite;
+}
+
+#fast-button.no-pulse {
+  animation: none;
+}
+
+@keyframes fastButtonPulse {
+  0%, 100% {
+    box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 4px 4px 0 rgba(255, 255, 255, 1.0);
+  }
 }
 
 .fast-arrow-1 {

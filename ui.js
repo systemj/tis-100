@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.full-screen-message-box-shade').addEventListener('click', function() {
         document.getElementById('full-screen-message-box').style.display = 'none';
     });
+
+    /* stop fast button pulse animation on any click */
+    document.addEventListener('click', function() {
+        document.getElementById('fast-button').classList.add('no-pulse');
+    });
 });
 
 function initTitleAndMessage() {

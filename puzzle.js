@@ -1,5 +1,5 @@
 var puzzle = {
-  title: "- TEST PUZZLE -",
+  title: "- PUZZLE: INIT -",
   mainMessage: "> READ A VALUE FROM IN.X AND\n  WRITE THE VALUE TO OUT.CONSOLE",
   inputs: [
     { label: "IN.X", values: [27, 16, 10, 115, 121, 115, 116, 101, 109, 106] },
@@ -50,9 +50,13 @@ var puzzle = {
         id: 4,
         type: "basic",
         program: [
+            "# SET CURSOR POS",
             "MOV 27 DOWN",
+            "# WRITE X POS",
             "MOV 16 DOWN",
+            "# WRITE Y POS",
             "MOV 10 DOWN",
+            "# WRITE ASCII CHARS",
             "MOV 115 DOWN",
             "MOV 121 DOWN",
             "MOV 115 DOWN",
@@ -60,8 +64,7 @@ var puzzle = {
             "MOV 101 DOWN",
             "MOV 109 DOWN",
             "MOV 106 DOWN",
-            "",
-            "",        ]
+        ]
     },
     {
         id: 5,
@@ -94,8 +97,13 @@ var puzzle = {
         id: 8,
         type: "basic",
         program: [
+            "# GET CHAR",
             "MOV UP ACC",
+            "",
+            "# ADD MODIFIER",
             "ADD RIGHT",
+            "",
+            "# WRITE TO CONSOLE",
             "MOV ACC DOWN",
         ]
     },
@@ -114,6 +122,7 @@ var puzzle = {
             "MOV 0 LEFT",
             "MOV 0 LEFT",
             "LOOP2:",
+            "# UPPERCASE OFFSET",
             "MOV -32 LEFT",
             "SUB 1",
             "JGZ LOOP2",
