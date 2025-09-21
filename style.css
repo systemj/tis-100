@@ -159,6 +159,7 @@ body, * {
   margin-bottom: 0px;
   display: flex;
   gap: 0px;
+  white-space: pre-wrap;
 }
 
 .console-cursor {

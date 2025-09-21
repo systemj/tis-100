@@ -625,7 +625,8 @@ function updateConsoleDisplay() {
                     const beforeCursor = lineText.substring(0, consoleCursorX);
                     const atCursor = lineText.charAt(consoleCursorX) || ' ';
                     const afterCursor = lineText.substring(consoleCursorX + 1);
-                    consoleLineElement.innerHTML = beforeCursor + '<span class="console-cursor">' + atCursor + '</span>' + afterCursor;
+                    consoleLineElement.innerHTML = '<span>' + beforeCursor + '</span><span class="console-cursor">' + atCursor + '</span><span>' + afterCursor + '</span>';
+                    console.log(consoleLineElement.innerHTML);
                 } else {
                     consoleLineElement.innerHTML = lineText + '<span class="console-cursor"> </span>';
                 }
