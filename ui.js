@@ -599,13 +599,48 @@ function updateOutputUI(object, index) {
 }
 
 function updateConsoleDisplay() {
+    // Clear all existing cursors
+    for (let i = 0; i < 22; i++) {
+        const consoleLineElement = document.getElementById(`console-line-${i}`);
+        if (consoleLineElement) {
+            consoleLineElement.innerHTML = '';
+        }
+    }
+
     // Update console display from consoleBuffer
     for (let y = 0; y < Math.min(22, consoleBuffer.length); y++) {
         const consoleLineElement = document.getElementById(`console-line-${y}`);
         if (consoleLineElement && consoleBuffer[y]) {
             // Convert array of characters to string, trimming trailing spaces
             let lineText = consoleBuffer[y].join('').trimEnd();
-            consoleLineElement.textContent = lineText;
+
+            // Add cursor if this is the cursor line
+            if (y === consoleCursorY) {
+                // Ensure line is long enough to show cursor
+                while (lineText.length < consoleCursorX) {
+                    lineText += ' ';
+                }
+                // Create HTML with cursor span
+                if (consoleCursorX < lineText.length) {
+                    const beforeCursor = lineText.substring(0, consoleCursorX);
+                    const atCursor = lineText.charAt(consoleCursorX) || ' ';
+                    const afterCursor = lineText.substring(consoleCursorX + 1);
+                    consoleLineElement.innerHTML = beforeCursor + '<span class="console-cursor">' + atCursor + '</span>' + afterCursor;
+                } else {
+                    consoleLineElement.innerHTML = lineText + '<span class="console-cursor"> </span>';
+                }
+            } else {
+                consoleLineElement.textContent = lineText;
+            }
+        }
+    }
+
+    // Handle cursor on empty lines or when buffer is not initialized
+    if (consoleBuffer.length === 0 || !consoleBuffer[consoleCursorY]) {
+        const consoleLineElement = document.getElementById(`console-line-${consoleCursorY}`);
+        if (consoleLineElement) {
+            let lineText = ' '.repeat(consoleCursorX) + '<span class="console-cursor"> </span>';
+            consoleLineElement.innerHTML = lineText;
         }
     }
 }

@@ -50,17 +50,18 @@ var puzzle = {
         id: 4,
         type: "basic",
         program: [
-            "MOV UP DOWN",
+            "MOV 27 DOWN",
+            "MOV 16 DOWN",
+            "MOV 10 DOWN",
+            "MOV 115 DOWN",
+            "MOV 121 DOWN",
+            "MOV 115 DOWN",
+            "MOV 116 DOWN",
+            "MOV 101 DOWN",
+            "MOV 109 DOWN",
+            "MOV 106 DOWN",
             "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        ]
+            "",        ]
     },
     {
         id: 5,
@@ -93,22 +94,30 @@ var puzzle = {
         id: 8,
         type: "basic",
         program: [
-            "MOV UP DOWN",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
+            "MOV UP ACC",
+            "ADD RIGHT",
+            "MOV ACC DOWN",
         ]
     },
     {
         id: 9,
         type: "basic",
-        program: []
+        program: [
+            "START:",
+            "MOV 10 ACC",
+            "LOOP1:",
+            "MOV 0 LEFT",
+            "SUB 1",
+            "JGZ LOOP1",
+            "MOV 7 ACC",
+            "MOV 0 LEFT",
+            "MOV 0 LEFT",
+            "MOV 0 LEFT",
+            "LOOP2:",
+            "MOV -32 LEFT",
+            "SUB 1",
+            "JGZ LOOP2",
+        ]
     },
     {
         id: 10,

@@ -756,6 +756,7 @@ function nextState() {
         updateNodeUI(nodeState, nodeIndex);
         updateStackNodeUI(nodeState, nodeIndex);
         updateOutputUI(nodeState, nodeIndex);
+        updateConsoleDisplay();
     });
 
     // handle breakpoints
@@ -797,6 +798,8 @@ function processConsoleOutput() {
             // This value is the Y coordinate
             consoleCursorY = Math.max(0, Math.min(21, value));
             consoleExpectingY = false;
+            // Update display to show cursor at new position
+            // updateConsoleDisplay();
         } else if (value === 27) { // Escape character for cursor positioning
             // Next value will be X coordinate
             consoleExpectingX = true;
@@ -807,6 +810,8 @@ function processConsoleOutput() {
             if (consoleCursorY >= 22) {
                 consoleCursorY = 21;
             }
+            // Update display to show cursor at new position
+            // updateConsoleDisplay();
         } else if (value >= 32 && value <= 126) { // Printable characters
             // Initialize console buffer if needed
             if (consoleBuffer.length === 0) {
@@ -825,13 +830,14 @@ function processConsoleOutput() {
                     consoleCursorX = 0;
                     consoleCursorY++;
                     if (consoleCursorY >= 22) {
-                        consoleCursorY = 21;
+                        consoleCursorY = 0;
+                        consoleCursorX = 0;
                     }
                 }
             }
 
             // Update the console display
-            updateConsoleDisplay();
+            // updateConsoleDisplay();
         }
     }
 }
@@ -845,6 +851,7 @@ function resetSimulation() {
     consoleExpectingX = false;
     consoleExpectingY = false;
     clearConsoleDisplay();
+    updateConsoleDisplay();
 
     initializeSimulation();
     // Update the UI to reflect the reset state
