@@ -90,6 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function() {
         document.getElementById('fast-button').classList.add('no-pulse');
     });
+
+    /* start the simulation when the page is loaded */
+    if (allSyntaxOK) {
+        simulationState = "run"
+        simulationSpeed = 250; // reset to default speed
+        if (current_state.nodes.length === 0) {
+            initializeSimulation();
+            console.log('simulation initialized');
+        }
+        startAutomaticSimulation();
+    }
+
 });
 
 function initTitleAndMessage() {
