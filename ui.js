@@ -272,7 +272,7 @@ function makeLineEditable(lineElement, nodeId, lineIndex) {
         if (targetLineIndex !== lineIndex) {
             const targetLineElement = document.getElementById(`node-line-${targetLineIndex}-node-${nodeId}`);
             if (targetLineElement) {
-                console.log("editing...", simulationState)
+                // console.log("editing...", simulationState)
                 startEditing(targetLineElement, nodeId, targetLineIndex, 0);
                 return;
             }
@@ -643,7 +643,7 @@ function updateConsoleDisplay() {
                     const atCursor = lineText.charAt(consoleCursorX) || ' ';
                     const afterCursor = lineText.substring(consoleCursorX + 1);
                     consoleLineElement.innerHTML = '<span>' + beforeCursor + '</span><span class="console-cursor">' + atCursor + '</span><span>' + afterCursor + '</span>';
-                    console.log(consoleLineElement.innerHTML);
+                    // console.log(consoleLineElement.innerHTML);
                 } else {
                     consoleLineElement.innerHTML = lineText + '<span class="console-cursor"> </span>';
                 }
