@@ -493,7 +493,7 @@ body, * {
 
 #syntax-error-node-0 {
   left: 480px;
-  top: 57px;
+  top: 27px;
 }
 
 #node-1 {
@@ -503,7 +503,7 @@ body, * {
 
 #syntax-error-node-1 {
   left: 800px;
-  top: 57px;
+  top: 27px;
 }
 
 #node-2 {
@@ -513,7 +513,7 @@ body, * {
 
 #syntax-error-node-2 {
   left: 1120px;
-  top: 57px;
+  top: 27px;
 }
 
 #node-3 {
@@ -523,7 +523,7 @@ body, * {
 
 #syntax-error-node-3 {
   left: 1440px;
-  top: 57px;
+  top: 27px;
 }
 
 /* Node row 2 */
@@ -534,7 +534,7 @@ body, * {
 
 #syntax-error-node-4 {
   left: 480px;
-  top: 357px;
+  top: 327px;
 }
 
 #node-5 {
@@ -544,7 +544,7 @@ body, * {
 
 #syntax-error-node-5 {
   left: 800px;
-  top: 357px;
+  top: 327px;
 }
 
 #node-6 {
@@ -554,7 +554,7 @@ body, * {
 
 #syntax-error-node-6 {
   left: 1120px;
-  top: 357px;
+  top: 327px;
 }
 
 #node-7 {
@@ -564,7 +564,7 @@ body, * {
 
 #syntax-error-node-7 {
   left: 1440px;
-  top: 357px;
+  top: 327px;
 }
 
 /* Node row 3 */
@@ -575,7 +575,7 @@ body, * {
 
 #syntax-error-node-8 {
   left: 480px;
-  top: 657px;
+  top: 627px;
 }
 
 #node-9 {
@@ -585,7 +585,7 @@ body, * {
 
 #syntax-error-node-9 {
   left: 800px;
-  top: 657px;
+  top: 627px;
 }
 
 #node-10 {
@@ -595,7 +595,7 @@ body, * {
 
 #syntax-error-node-10 {
   left: 1120px;
-  top: 657px;
+  top: 627px;
 }
 
 #node-11 {
@@ -605,7 +605,7 @@ body, * {
 
 #syntax-error-node-11 {
   left: 1440px;
-  top: 657px;
+  top: 627px;
 }
 
 
@@ -622,7 +622,7 @@ body, * {
 }
 
 .node-syntax-error {
-  position: absolute;
+  position: fixed;
   width: 210px;
   height: 20px;
   z-index: 100;
