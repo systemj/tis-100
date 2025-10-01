@@ -1,6 +1,6 @@
 var puzzle = {
-  title: "- PUZZLE.0 -",
-  mainMessage: "> READ A VALUE FROM IN.X AND\n  WRITE THE VALUE TO OUT.CONSOLE",
+  title: "- MSG.0 -",
+  mainMessage: "> READ A VALUE FROM IN.X\n  WRITE THE VALUE TO OUT.CONSOLE",
   inputs: [
     { label: "IN.X", values: [27, 16, 10, 115, 121, 115, 116, 101, 109, 106] },
     {},
@@ -19,7 +19,7 @@ var puzzle = {
         id: 0,
         type: "basic",
         program: [
-            "# CHECK INPUT",
+            "# EXAMINE INPUT",
             "",
             "MOV UP ACC",
             "MOV ACC RIGHT",
@@ -74,7 +74,7 @@ var puzzle = {
     {
         id: 5,
         type: "damaged",
-        debugMessage: "NO, SHE WONT UNDERSTAND.  OF COURSE SHE DOESN'T. WHY\nWOULD YOU EXPECT HER TO?",
+        debugMessage: "THE INPUT AP█?ARS TO BE ASCII BUT TH█ MES█$GE IS MASKED WITH S█ME KIND OF SIMPLE CIPH<█. THEY'RE WATCHING EVERYTHING. I DON'T HAVE TIM█ TO DE█=.PT IT NOW. TRUST NO ONE.",
     },
     {
         id: 6,

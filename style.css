@@ -74,6 +74,10 @@ body, * {
   box-shadow: 4px 4px 0 rgba(170, 0, 0, 0.75);
 }
 
+.debug-message-continue-button:active {
+  background-color: rgba(170, 0, 0, 0.2);
+}
+
 .debug-message-box-text {
   position: absolute;
   width: 510px;
@@ -793,6 +797,10 @@ body, * {
 
 .debug-button:hover {
   box-shadow: 4px 4px 0 rgba(170, 0, 0, 0.75);
+}
+
+.debug-button:active {
+  background-color: rgba(170, 0, 0, 0.2);
 }
 
 /* stack memory node */
