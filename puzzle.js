@@ -1,16 +1,16 @@
 var puzzle = {
-  title: "- PUZZLE: INIT -",
+  title: "- PUZZLE.0 -",
   mainMessage: "> READ A VALUE FROM IN.X AND\n  WRITE THE VALUE TO OUT.CONSOLE",
   inputs: [
     { label: "IN.X", values: [27, 16, 10, 115, 121, 115, 116, 101, 109, 106] },
     {},
-    { label: "IN.Y", values: [0]},
+    {},
     {}
   ],
   outputs: [
     {label: "OUT.CONSOLE", values: []},
     {},
-    { label: "OUT.A", values: [1, 2, 3, 4, 5, 6, 7] },
+    { label: "DEV.NULL", values: [] },
     {}
   ],
   nodes: [
@@ -19,16 +19,10 @@ var puzzle = {
         id: 0,
         type: "basic",
         program: [
-            "# TEST",
+            "# CHECK INPUT",
             "",
-            "MOV UP, ACC",
-            "MOV ACC DOWN",
+            "MOV UP ACC",
             "MOV ACC RIGHT",
-            "",
-            "",
-            "",
-            "",
-            ""
         ]
     },
     {
@@ -38,12 +32,23 @@ var puzzle = {
     {
         id: 2,
         type: "basic",
-        program: []
+        program: [
+            "LOOP:",
+            "MOV ACC RIGHT",
+            "ADD 1",
+            "SAV",
+            "SUB 10",
+            "JEZ DUMP",
+            "SWP",
+            "JMP LOOP",
+            "DUMP:",
+            "MOV 1 DOWN",
+            "MOV DOWN NIL"
+        ]
     },
     {
         id: 3,
-        type: "damaged",
-        debugMessage: ""
+        type: "stackmem",
     },
     /* row 2 */
     {
@@ -75,22 +80,29 @@ var puzzle = {
         id: 6,
         type: "basic",
         program: [
+            "MOV UP NIL",
+            "MOV 1 RIGHT",
             "LOOP:",
-            "MOV ACC RIGHT",
-            "ADD 1",
-            "SAV",
-            "SUB 10",
-            "JEZ DUMP",
-            "SWP",
+            "MOV RIGHT ACC",
+            "MOV ACC DOWN",
+            "JEZ DONE",
             "JMP LOOP",
-            "DUMP:",
-            "MOV 1 DOWN",
-            "MOV DOWN NIL"
+            "DONE:",
+            "MOV 1 UP"
         ]
     },
     {
         id: 7,
-        type: "stackmem"
+        type: "basic",
+        program: [
+            "START:",
+            "MOV LEFT NIL",
+            "LOOP:",
+            "MOV UP ACC",
+            "MOV ACC LEFT",
+            "JEZ START",
+            "JMP LOOP"
+        ]
     },
     /* row 3 */
     {
@@ -132,29 +144,26 @@ var puzzle = {
         id: 10,
         type: "basic",
         program: [
-            "MOV UP NIL",
-            "MOV 1 RIGHT",
-            "LOOP:",
-            "MOV RIGHT ACC",
-            "MOV ACC DOWN",
-            "JEZ DONE",
-            "JMP LOOP",
-            "DONE:",
-            "MOV 1 UP"
+            "     ##########",
+            "     ##########",
+            "     ##########",
+            "     ##########",
+            "     ##########",
+            "    MOV  UP DOWN",
+            " ################## ",
+            "  ################",
+            "   ##############",
+            "    ############",
+            "     ##########",
+            "      ########",
+            "       ######",
+            "        ####",
+            "         ##",
         ]
     },
     {
         id: 11,
-        type: "basic",
-        program: [
-            "START:",
-            "MOV LEFT NIL",
-            "LOOP:",
-            "MOV UP ACC",
-            "MOV ACC LEFT",
-            "JEZ START",
-            "JMP LOOP"
-        ]
+        type: "damaged",
     }
   ]
 };

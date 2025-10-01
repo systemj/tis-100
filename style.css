@@ -66,8 +66,12 @@ body, * {
   border: 4px double rgb(170, 0, 0);
   line-height: 40px;
   text-align: center;
-  box-shadow: 4px 4px 0 rgba(170, 0, 0);
+  box-shadow: 4px 4px 0 rgba(170, 0, 0, 0.5);
   cursor: pointer;
+}
+
+.debug-message-continue-button:hover {
+  box-shadow: 4px 4px 0 rgba(170, 0, 0, 0.75);
 }
 
 .debug-message-box-text {
@@ -783,8 +787,12 @@ body, * {
   border: 4px double rgb(170, 0, 0);
   line-height: 40px;
   text-align: center;
-  box-shadow: 4px 4px 0 rgba(170, 0, 0);
+  box-shadow: 4px 4px 0 rgba(170, 0, 0, 0.5);
   cursor: pointer;
+}
+
+.debug-button:hover {
+  box-shadow: 4px 4px 0 rgba(170, 0, 0, 0.75);
 }
 
 /* stack memory node */
