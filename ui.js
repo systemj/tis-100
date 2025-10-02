@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('step-button').addEventListener('click', function() {
         if (!allSyntaxOK) return;
         simulationState = "step"
+        cycleHz = 0; // reset to default Hz
+        updateSimulationMode();
         stopAutomaticSimulation();
         if (current_state.nodes.length === 0) {
             initializeSimulation();
@@ -52,6 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!allSyntaxOK) return;
         simulationState = "run"
         simulationSpeed = 250; // reset to default speed
+        cycleHz = 4; // reset to default Hz
+        updateSimulationMode();
         if (current_state.nodes.length === 0) {
             initializeSimulation();
             console.log('simulation initialized');
@@ -63,6 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!allSyntaxOK) return;
         simulationState = "run"
         simulationSpeed = 20; // faster speed
+        cycleHz = 50; // faster Hz
+        updateSimulationMode();
         if (current_state.nodes.length === 0) {
             initializeSimulation();
             console.log('simulation initialized');
@@ -72,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('stop-button').addEventListener('click', function() {
         simulationState = "stop"
+        updateSimulationMode();
         stopAutomaticSimulation();
         resetSimulation();
         console.log('Stop button clicked');
@@ -79,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* dismiss full screen message box */
     document.querySelector('.debug-message-continue-button').addEventListener('click', function() {
-        document.getElementById('full-screen-message-box').style.display = 'none';
+            document.getElementById('full-screen-message-box').style.display = 'none';
     });
 
     document.querySelector('.full-screen-message-box-shade').addEventListener('click', function() {
@@ -95,6 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (allSyntaxOK) {
         simulationState = "run"
         simulationSpeed = 250; // reset to default speed
+        cycleHz = 4; // reset to default Hz
+        updateSimulationMode();
         if (current_state.nodes.length === 0) {
             initializeSimulation();
             console.log('simulation initialized');
@@ -687,5 +696,36 @@ function clearConsoleDisplay() {
         if (consoleLineElement) {
             consoleLineElement.textContent = '';
         }
+    }
+}
+
+function updateSimulationMode() {
+    const editMode = document.getElementById('sim-mode-edit');
+    const runMode = document.getElementById('sim-mode-run');
+    const hzMode = document.getElementById('sim-mode-hz');
+    const hzValue = document.getElementById('sim-mode-hz-value');
+
+    // Remove all classes first
+    editMode.classList.remove('sim-mode-active');
+    runMode.classList.remove('sim-mode-active');
+    hzMode.classList.remove('sim-mode-active');
+
+    // Update Hz display
+    if (hzValue) {
+        hzValue.textContent = cycleHz + 'HZ';
+    }
+
+    // Apply appropriate classes based on simulation state
+    switch(simulationState) {
+        case 'stop':
+            editMode.classList.add('sim-mode-active');
+            break;
+        case 'step':
+            runMode.classList.add('sim-mode-active');
+            break;
+        case 'run':
+            runMode.classList.add('sim-mode-active');
+            hzMode.classList.add('sim-mode-active');
+            break;
     }
 }

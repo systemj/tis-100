@@ -7,6 +7,7 @@ var consoleBuffer = [];
 var consoleExpectingX = false;
 var consoleExpectingY = false;
 var cycleCount = 0; // Global variable to track total number of cycles
+var cycleHz = 0;
 
 function parseSingleLine(line) {
     let text = line || '';
@@ -788,6 +789,9 @@ function nextState() {
             }
         }
     });
+
+    // Update simulation mode display
+    updateSimulationMode();
 
     // Not updating output UI here, as outputs are passive and only show accumulated values
     // current_state.output.forEach((outputState, outputIndex) => {

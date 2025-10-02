@@ -187,6 +187,45 @@ body, * {
   }
 }
 
+.sim-mode {
+  position: absolute;
+  width: 112px;
+  height: 25px;
+  border-radius: 5px;
+  border: 4px double #eee;
+  background-color: #000;
+  color: #eee;
+  z-index: 100;
+}
+
+.sim-mode-text {
+  position: absolute;
+  top: 5px;
+  text-align: center;
+  width: 100%;
+}
+
+.sim-mode-active {
+  background-color: #eee;
+  border: 4px double #000;
+  color: #000;
+}
+
+#sim-mode-edit {
+  top: 610px;
+  left: 0px;
+}
+
+#sim-mode-run {
+  top: 610px;
+  left: 129px;
+}
+
+#sim-mode-hz {
+  top: 610px;
+  left: 258px;
+}
+
 .manual-button {
   position: absolute;
   width: 70px;
@@ -211,7 +250,7 @@ body, * {
 
 .manual-button-text {
   position: absolute;
-  top: 4px;
+  top: 5px;
   text-align: center;
   width: 100%;
 }
@@ -878,7 +917,7 @@ body, * {
   text-decoration: none;
 }
 
-.githubfab a:hover {
+.github a:hover {
   color: #aaa;
   text-decoration: underline;
 }
