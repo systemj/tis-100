@@ -6,6 +6,7 @@ var basicNodeState = {
     syntax_ok: true,
     label_map: {}, /* maps label names to their corresponding instruction indices */
     program_counter: 0,
+    run_cycles: 0,
     output: {
         up: null,
         down: null,

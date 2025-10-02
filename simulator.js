@@ -6,6 +6,7 @@ var consoleCursorY = 0;
 var consoleBuffer = [];
 var consoleExpectingX = false;
 var consoleExpectingY = false;
+var cycleCount = 0; // Global variable to track total number of cycles
 
 function parseSingleLine(line) {
     let text = line || '';
@@ -367,6 +368,7 @@ function nextBasicNodeState(nodeIndex) {
         if (nextNodeState.program_counter >= nextNodeState.program.length) {
             nextNodeState.program_counter = 0;
         }
+        nextNodeState.run_cycles++;
         return nextNodeState;
     }
 
@@ -543,6 +545,7 @@ function nextBasicNodeState(nodeIndex) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
                     nextNodeState.program_counter = nextNodeState.label_map[label];
+                    nextNodeState.run_cycles++;
                     return nextNodeState; // Don't increment program counter
                 }
             }
@@ -554,6 +557,7 @@ function nextBasicNodeState(nodeIndex) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
                     nextNodeState.program_counter = nextNodeState.label_map[label];
+                    nextNodeState.run_cycles++;
                     return nextNodeState; // Don't increment program counter
                 }
             }
@@ -565,6 +569,7 @@ function nextBasicNodeState(nodeIndex) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
                     nextNodeState.program_counter = nextNodeState.label_map[label];
+                    nextNodeState.run_cycles++;
                     return nextNodeState; // Don't increment program counter
                 }
             }
@@ -576,6 +581,7 @@ function nextBasicNodeState(nodeIndex) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
                     nextNodeState.program_counter = nextNodeState.label_map[label];
+                    nextNodeState.run_cycles++;
                     return nextNodeState; // Don't increment program counter
                 }
             }
@@ -587,6 +593,7 @@ function nextBasicNodeState(nodeIndex) {
                 const label = statement[1];
                 if (nextNodeState.label_map.hasOwnProperty(label)) {
                     nextNodeState.program_counter = nextNodeState.label_map[label];
+                    nextNodeState.run_cycles++;
                     return nextNodeState; // Don't increment program counter
                 }
             }
@@ -601,6 +608,7 @@ function nextBasicNodeState(nodeIndex) {
                 while (newPC < 0) newPC += nextNodeState.program.length;
                 while (newPC >= nextNodeState.program.length) newPC -= nextNodeState.program.length;
                 nextNodeState.program_counter = newPC;
+                nextNodeState.run_cycles++;
                 return nextNodeState; // Don't increment program counter
             }
             break;
@@ -624,6 +632,11 @@ function nextBasicNodeState(nodeIndex) {
         incrementProgramCounter(nextNodeState);
     }
 
+    // Calculate idle percentage
+    if (cycleCount > 0 && cycleCount % 10 === 0) {
+        nextNodeState.idle = Math.floor((cycleCount - nextNodeState.run_cycles) / cycleCount * 100);
+    }
+
     return nextNodeState;
 }
 
@@ -633,6 +646,7 @@ function incrementProgramCounter(nodeState) {
     if (nodeState.program_counter >= nodeState.program.length) {
         nodeState.program_counter = 0;
     }
+    nodeState.run_cycles++;
 }
 
 function nextStackMemoryNodeState(nodeIndex) {
@@ -677,6 +691,9 @@ function nextStackMemoryNodeState(nodeIndex) {
 }
 
 function nextState() {
+    // Increment global cycle count
+    cycleCount++;
+
     next_state = {
         nodes: [],
         input: [],
@@ -852,6 +869,9 @@ function resetSimulation() {
     consoleExpectingY = false;
     clearConsoleDisplay();
     updateConsoleDisplay();
+
+    // Reset global cycle count
+    cycleCount = 0;
 
     initializeSimulation();
     // Update the UI to reflect the reset state
