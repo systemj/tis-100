@@ -12,7 +12,7 @@ The TIS-100 is a fictional computer system from the game TIS-100, and it's progr
 There's probably a lot of bugs, especially where read/write ANY is concerned as it's barely tested.
 
 ## why
-I create this for two reasons:
+I created this for two reasons:
 1. I always wanted to see how the logic of TIS-100 could be implemented
 2. I wanted a non-trivial projet to test-run AI assisted coding
 
@@ -25,7 +25,7 @@ I used Github Copilot almost exclusively for code completions.  It was OK for th
 
 I would frequently compose instructions for Claude code in an empty tab so that I could gather all my thoughts, and I was also surprised that Copilot would offer completions there as well.  Sometimes the suggestions were really great, but I would also snooze it a lot because the suggestions were crossing into actual code or otherwise too far off from what I was going for.  It might also be my specific theme or environment but I often found it confusing to see where my edits stopped and where Copilot's suggestions began without hitting the Escape key constantly or snoozing Copilot altogether.
 
-Claud Code was quite good most of the time, but I did learn early on that I needed to have a detailed CLAUDE.md file for context (although that has fallen behind a bit), and that every request should be very specific with a fairly narrow scope.  I accepted almost all of the edits suggested by Claude Code, but there were a few that I rejected outright, and a few I ended up stashing and not comitting.  Most requests I ended up rejecting initially got resubmitted with more specific instructions or a smaller overall scope.  Smaller requests for individual functions or features usually worked out fine with no follow-up edits from me.
+Claude Code was quite good most of the time, but I did learn early on that I needed to have a detailed CLAUDE.md file for context (although that has fallen behind a bit), and that every request should be very specific with a fairly narrow scope.  I accepted almost all of the edits suggested by Claude Code, but there were a few that I rejected outright, and a few I ended up stashing and not comitting.  Most requests I ended up rejecting initially got resubmitted with more specific instructions or a smaller overall scope.  Smaller requests for individual functions or features usually worked out fine with no follow-up edits from me.
 
 As far as the codebase goes, Claude code wrote 95% of `ui.js` and `simulator.js`. I made some fixups to both, but most of it, especially `ui.js` is Claude (my Javascript skills are in the "just enough to be dangerous" realm).  I initially tried to use Claude to generate the HTML and CSS from some images of TIS-100, but I ultimately ended up discarding that almost entirely and kept only a handful of lines because I had a very specific look in mind; so I wrote almost all of of `index.html` and `style.css` by hand with some occastional uniform edits by Copilot.  I also wrote all of `puzzle.js` and most of `nodes.js` by hand.  I feel like Claude Code worked pretty well if I defined the data structures and asked for specific features.
 
