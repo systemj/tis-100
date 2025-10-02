@@ -389,6 +389,23 @@ function startEditing(lineElement, nodeId, lineIndex, cursorPosition = null) {
                     }
                 }
                 break;
+            case 'Delete':
+                if (input.selectionStart === input.value.length && input.selectionEnd === input.value.length && lineIndex < 14) {
+                    e.preventDefault();
+                    const currentLineText = input.value.trimEnd();
+                    const nextLineElement = document.getElementById(`node-line-${lineIndex + 1}-node-${nodeId}`);
+                    const nextLineText = nextLineElement ? nextLineElement.textContent : '';
+
+                    // Check if we can combine the lines within maxLength
+                    if (currentLineText.length + nextLineText.length <= input.maxLength) {
+                        const cursorPos = currentLineText.length;
+                        // Combine lines and shift all following lines up
+                        finishEditing(true);
+                        combineAndShiftLines(nodeId, lineIndex + 1, currentLineText, nextLineText);
+                        navigateToLine(nodeId, lineIndex, cursorPos);
+                    }
+                }
+                break;
             case 'Escape':
                 e.preventDefault();
                 finishEditing(true);
