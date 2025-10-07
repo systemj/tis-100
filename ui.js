@@ -700,32 +700,18 @@ function clearConsoleDisplay() {
 }
 
 function updateSimulationMode() {
-    const editMode = document.getElementById('sim-mode-edit');
-    const runMode = document.getElementById('sim-mode-run');
-    const hzMode = document.getElementById('sim-mode-hz');
-    const hzValue = document.getElementById('sim-mode-hz-value');
-
-    // Remove all classes first
-    editMode.classList.remove('sim-mode-active');
-    runMode.classList.remove('sim-mode-active');
-    hzMode.classList.remove('sim-mode-active');
+    const hzValue = document.getElementById('sim-mode-hz');
+    const modeValue = document.getElementById('sim-mode');
 
     // Update Hz display
+    if (modeValue) {
+        if (simulationState === 'stop') {
+            modeValue.textContent = 'EDIT';
+        } else {
+            modeValue.textContent = simulationState.toUpperCase();
+        }
+    }
     if (hzValue) {
         hzValue.textContent = cycleHz + 'HZ';
-    }
-
-    // Apply appropriate classes based on simulation state
-    switch(simulationState) {
-        case 'stop':
-            editMode.classList.add('sim-mode-active');
-            break;
-        case 'step':
-            runMode.classList.add('sim-mode-active');
-            break;
-        case 'run':
-            runMode.classList.add('sim-mode-active');
-            hzMode.classList.add('sim-mode-active');
-            break;
     }
 }

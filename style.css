@@ -188,42 +188,34 @@ body, * {
 }
 
 .sim-mode {
-  position: absolute;
-  width: 112px;
-  height: 25px;
-  border-radius: 5px;
-  border: 4px double #eee;
-  background-color: #000;
   color: #eee;
   z-index: 100;
-}
-
-.sim-mode-text {
   position: absolute;
-  top: 5px;
-  text-align: center;
   width: 100%;
 }
 
-.sim-mode-active {
-  background-color: #eee;
-  border: 4px double #000;
-  color: #000;
-}
-
-#sim-mode-edit {
+#sim-mode-label {
   top: 610px;
   left: 0px;
+  width: 60px;
+  text-align: right;
 }
 
-#sim-mode-run {
+#sim-mode-hz-label {
+  top: 630px;
+  left: 0px;
+  width: 60px;
+  text-align: right;
+}
+
+#sim-mode {
   top: 610px;
-  left: 129px;
+  left: 64px;
 }
 
 #sim-mode-hz {
-  top: 610px;
-  left: 258px;
+  top: 630px;
+  left: 64px;
 }
 
 .manual-button {
