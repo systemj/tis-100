@@ -650,6 +650,10 @@ function updateConsoleDisplay() {
         }
     }
 
+    if (simulationState === "stop") {
+        return; // Don't display anything if simulation is stopped
+    }
+
     // Update console display from consoleBuffer
     for (let y = 0; y < Math.min(22, consoleBuffer.length); y++) {
         const consoleLineElement = document.getElementById(`console-line-${y}`);
