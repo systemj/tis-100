@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('stop-button').addEventListener('click', function() {
         simulationState = "stop"
+        cycleCount = 0; // reset cycle count
         updateSimulationMode();
         stopAutomaticSimulation();
         resetSimulation();
