@@ -706,6 +706,7 @@ function clearConsoleDisplay() {
 function updateSimulationMode() {
     const hzValue = document.getElementById('sim-mode-hz');
     const modeValue = document.getElementById('sim-mode');
+    const cyclesValue = document.getElementById('sim-mode-cycles');
 
     // Update Hz display
     if (modeValue) {
@@ -717,5 +718,8 @@ function updateSimulationMode() {
     }
     if (hzValue) {
         hzValue.textContent = cycleHz + 'HZ';
+    }
+    if (cyclesValue) {
+        cyclesValue.textContent = cycleCount;
     }
 }

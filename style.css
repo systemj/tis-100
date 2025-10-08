@@ -187,6 +187,28 @@ body, * {
   }
 }
 
+.sim-status-info-label {
+  position: absolute;
+  top: 620px;
+  left: 0px;
+  width: 370px;
+  height: 30px;
+  background-color: #000;
+  color: #eee;
+  text-align: center;
+}
+
+.sim-status-info {
+  position: absolute;
+  top: 640px;
+  left: 0px;
+  width: 360px;
+  height: 32px;
+  background-color: #000;
+  border: 4px double #eee;
+  padding: 4px;
+}
+
 .sim-mode {
   color: #eee;
   z-index: 100;
@@ -195,27 +217,39 @@ body, * {
 }
 
 #sim-mode-label {
-  top: 610px;
+  top: 4px;
   left: 0px;
-  width: 60px;
+  width: 50px;
   text-align: right;
 }
 
 #sim-mode-hz-label {
-  top: 630px;
-  left: 0px;
-  width: 60px;
+  top: 4px;
+  left: 180px;
+  width: 80px;
+  text-align: right;
+}
+
+#sim-mode-cycles-label {
+  top: 20px;
+  left: 180px;
+  width: 80px;
   text-align: right;
 }
 
 #sim-mode {
-  top: 610px;
-  left: 64px;
+  top: 4px;
+  left: 54px;
 }
 
 #sim-mode-hz {
-  top: 630px;
-  left: 64px;
+  top: 4px;
+  left: 264px;
+}
+
+#sim-mode-cycles {
+  top: 20px;
+  left: 264px;
 }
 
 .manual-button {
